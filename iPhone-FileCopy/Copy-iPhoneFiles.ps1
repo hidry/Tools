@@ -61,6 +61,10 @@ param(
     [switch]$ShowProgress
 )
 
+# UTF-8 Encoding für korrekte Ausgabe von Umlauten
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
 # Statistik-Variablen
 $script:TotalFiles = 0
 $script:CopiedFiles = 0
