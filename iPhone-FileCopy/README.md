@@ -46,7 +46,13 @@ Dieses Skript verwendet die Windows Shell COM-Schnittstelle, um auf ein per USB 
 
 ## Fehlerbehandlung
 
-Das Skript versucht jede Datei **3 Mal** zu kopieren bevor sie als fehlgeschlagen markiert wird. Zwischen den Versuchen wird 2 Sekunden gewartet.
+Das Skript hat eine robuste Fehlerbehandlung:
+
+1. **Größenvalidierung**: Nach jedem Kopiervorgang wird geprüft, ob die Dateigröße übereinstimmt
+2. **Automatische Retry**: Bei Fehlern oder unvollständigen Dateien wird 3 Mal versucht (2 Sekunden Pause)
+3. **Logging**: Alle fehlgeschlagenen Dateien werden protokolliert
+
+Bei unvollständiger Übertragung wird die fehlerhafte Datei automatisch gelöscht und erneut kopiert.
 
 ### Log-Datei
 

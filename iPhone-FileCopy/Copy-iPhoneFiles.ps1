@@ -251,6 +251,17 @@ function Copy-MTPItem {
                 }
 
                 if (Test-Path $destFile) {
+                    # Größenvalidierung: Prüfe ob Datei vollständig kopiert wurde
+                    $localFile = Get-Item $destFile
+                    $localSize = $localFile.Length
+
+                    if ($size -and $localSize -ne $size) {
+                        # Datei unvollständig - löschen und erneut versuchen
+                        Remove-Item $destFile -Force -ErrorAction SilentlyContinue
+                        throw "Größe stimmt nicht überein (erwartet: $size, kopiert: $localSize)"
+                    }
+
+                    # Erfolgreich kopiert und validiert
                     $script:CopiedFiles++
                     if ($ShowProgress) {
                         $sizeStr = if ($size) { " ({0:N2} MB)" -f ($size / 1MB) } else { "" }
