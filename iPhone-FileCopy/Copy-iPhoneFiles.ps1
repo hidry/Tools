@@ -67,6 +67,9 @@ $script:CopiedFiles = 0
 $script:SkippedFiles = 0
 $script:FailedFiles = 0
 $script:TotalBytes = 0
+$script:LogFilePath = ""
+$script:MaxRetries = 3
+$script:RetryWaitSeconds = 2
 
 function Write-Log {
     param(
@@ -85,6 +88,19 @@ function Write-Log {
 
     Write-Host "[$timestamp] " -NoNewline -ForegroundColor Gray
     Write-Host $Message -ForegroundColor $color
+}
+
+function Write-FailedFileLog {
+    param(
+        [string]$FilePath,
+        [string]$ErrorMessage
+    )
+
+    if ($script:LogFilePath) {
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $logEntry = "$timestamp | $FilePath | $ErrorMessage"
+        Add-Content -Path $script:LogFilePath -Value $logEntry -Encoding UTF8
+    }
 }
 
 function Get-ShellFolder {
@@ -206,43 +222,66 @@ function Copy-MTPItem {
             }
         }
 
-        try {
-            # Zielordner als Shell-Objekt
-            $destFolder = $Shell.NameSpace($DestPath)
+        # Retry-Logik: 3 Versuche
+        $copySuccess = $false
+        $lastError = ""
 
-            if (-not $destFolder) {
-                throw "Zielordner konnte nicht geöffnet werden: $DestPath"
-            }
+        for ($attempt = 1; $attempt -le $script:MaxRetries; $attempt++) {
+            try {
+                # Zielordner als Shell-Objekt
+                $destFolder = $Shell.NameSpace($DestPath)
 
-            # Kopieren mit Shell (FOF_SILENT = 4, FOF_NOCONFIRMATION = 16, FOF_NOERRORUI = 1024)
-            # 4 + 16 + 1024 = 1044
-            $destFolder.CopyHere($SourceItem, 1044)
+                if (-not $destFolder) {
+                    throw "Zielordner konnte nicht geöffnet werden: $DestPath"
+                }
 
-            # Kurz warten damit die Kopie abgeschlossen wird
-            Start-Sleep -Milliseconds 100
+                # Kopieren mit Shell (FOF_SILENT = 4, FOF_NOCONFIRMATION = 16, FOF_NOERRORUI = 1024)
+                # 4 + 16 + 1024 = 1044
+                $destFolder.CopyHere($SourceItem, 1044)
 
-            # Warten bis Datei vollständig kopiert ist
-            $timeout = 300 # 5 Minuten max pro Datei
-            $waited = 0
-            while (-not (Test-Path $destFile) -and $waited -lt $timeout) {
-                Start-Sleep -Seconds 1
-                $waited++
-            }
+                # Kurz warten damit die Kopie abgeschlossen wird
+                Start-Sleep -Milliseconds 100
 
-            if (Test-Path $destFile) {
-                $script:CopiedFiles++
-                if ($ShowProgress) {
-                    $sizeStr = if ($size) { " ({0:N2} MB)" -f ($size / 1MB) } else { "" }
-                    Write-Log "Kopiert: $itemName$sizeStr" -Level Success
+                # Warten bis Datei vollständig kopiert ist
+                $timeout = 300 # 5 Minuten max pro Datei
+                $waited = 0
+                while (-not (Test-Path $destFile) -and $waited -lt $timeout) {
+                    Start-Sleep -Seconds 1
+                    $waited++
+                }
+
+                if (Test-Path $destFile) {
+                    $script:CopiedFiles++
+                    if ($ShowProgress) {
+                        $sizeStr = if ($size) { " ({0:N2} MB)" -f ($size / 1MB) } else { "" }
+                        $retryInfo = if ($attempt -gt 1) { " (Versuch $attempt)" } else { "" }
+                        Write-Log "Kopiert: $itemName$sizeStr$retryInfo" -Level Success
+                    }
+                    $copySuccess = $true
+                    break
+                }
+                else {
+                    throw "Datei wurde nicht erstellt (Timeout)"
                 }
             }
-            else {
-                throw "Datei wurde nicht erstellt"
+            catch {
+                $lastError = $_.Exception.Message
+
+                if ($attempt -lt $script:MaxRetries) {
+                    if ($ShowProgress) {
+                        Write-Log "Versuch $attempt fehlgeschlagen für: $itemName - Retry in $($script:RetryWaitSeconds)s..." -Level Warning
+                    }
+                    Start-Sleep -Seconds $script:RetryWaitSeconds
+                }
             }
         }
-        catch {
+
+        # Nach 3 Versuchen fehlgeschlagen
+        if (-not $copySuccess) {
             $script:FailedFiles++
-            Write-Log "Fehler bei: $itemName - $($_.Exception.Message)" -Level Error
+            $relativePath = Join-Path $DestPath $itemName
+            Write-Log "Fehler nach $($script:MaxRetries) Versuchen: $itemName - $lastError" -Level Error
+            Write-FailedFileLog -FilePath $relativePath -ErrorMessage $lastError
         }
     }
 }
@@ -305,6 +344,9 @@ try {
 
     Write-Log "Zielverzeichnis: $DestinationPath" -Level Info
 
+    # Log-Datei für fehlgeschlagene Dateien initialisieren
+    $script:LogFilePath = Join-Path $DestinationPath "failed_files.log"
+
     # Shell COM-Objekt erstellen
     $shell = New-Object -ComObject Shell.Application
 
@@ -352,6 +394,7 @@ try {
 
     if ($script:FailedFiles -gt 0) {
         Write-Log "Fehlgeschlagen: $script:FailedFiles" -Level Error
+        Write-Log "Details siehe: $script:LogFilePath" -Level Warning
     }
 
     if ($script:TotalBytes -gt 0) {

@@ -44,6 +44,21 @@ Dieses Skript verwendet die Windows Shell COM-Schnittstelle, um auf ein per USB 
 | `-SkipExisting` | Überspringt bereits vorhandene Dateien (gleicher Name + Größe) | Aus |
 | `-ShowProgress` | Zeigt detaillierten Fortschritt für jede Datei | Aus |
 
+## Fehlerbehandlung
+
+Das Skript versucht jede Datei **3 Mal** zu kopieren bevor sie als fehlgeschlagen markiert wird. Zwischen den Versuchen wird 2 Sekunden gewartet.
+
+### Log-Datei
+
+Alle fehlgeschlagenen Dateien werden in `failed_files.log` im Zielverzeichnis protokolliert:
+
+```
+2024-01-15 14:32:05 | D:\Backup\DCIM\IMG_1234.MOV | Datei wurde nicht erstellt (Timeout)
+2024-01-15 14:35:12 | D:\Backup\DCIM\IMG_5678.HEIC | Zugriff verweigert
+```
+
+So kannst du später gezielt die fehlgeschlagenen Dateien manuell kopieren.
+
 ## Typische iPhone-Ordnerstruktur
 
 | Ordner | Inhalt |
