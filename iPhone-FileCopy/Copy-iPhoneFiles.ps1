@@ -1,24 +1,24 @@
 <#
 .SYNOPSIS
-    Kopiert Dateien vom iPhone (MTP-Gerät) auf den lokalen PC.
+    Kopiert Dateien vom iPhone (MTP-Geraet) auf den lokalen PC.
 
 .DESCRIPTION
     Dieses Skript verwendet die Windows Shell COM-Schnittstelle, um auf das iPhone
-    zuzugreifen, das über USB verbunden ist. Es kopiert rekursiv alle Dateien
-    oder nur bestimmte Ordner (z.B. DCIM für Fotos) auf den lokalen PC.
+    zuzugreifen, das ueber USB verbunden ist. Es kopiert rekursiv alle Dateien
+    oder nur bestimmte Ordner (z.B. DCIM fuer Fotos) auf den lokalen PC.
 
 .PARAMETER DestinationPath
     Zielverzeichnis auf dem lokalen PC. Standard: .\iPhone-Backup
 
 .PARAMETER SourceFolder
-    Optional: Nur einen bestimmten Ordner kopieren (z.B. "DCIM" für Fotos).
+    Optional: Nur einen bestimmten Ordner kopieren (z.B. "DCIM" fuer Fotos).
     Wenn nicht angegeben, wird der gesamte Inhalt kopiert.
 
 .PARAMETER DeviceName
-    Name des Geräts. Standard: "Apple iPhone"
+    Name des Geraets. Standard: "Apple iPhone"
 
 .PARAMETER SkipExisting
-    Überspringt bereits existierende Dateien (basierend auf Dateiname und Größe).
+    Ueberspringt bereits existierende Dateien (basierend auf Dateiname und Groesse).
 
 .PARAMETER ShowProgress
     Zeigt detaillierten Fortschritt an.
@@ -33,13 +33,13 @@
 
 .EXAMPLE
     .\Copy-iPhoneFiles.ps1 -SkipExisting -ShowProgress
-    Kopiert mit Fortschrittsanzeige und überspringt bereits vorhandene Dateien
+    Kopiert mit Fortschrittsanzeige und ueberspringt bereits vorhandene Dateien
 
 .NOTES
     Autor: Claude Code
     Voraussetzungen:
     - iPhone muss per USB verbunden sein
-    - iPhone muss entsperrt sein und "Diesem Computer vertrauen" bestätigt haben
+    - iPhone muss entsperrt sein und "Diesem Computer vertrauen" bestaetigt haben
     - Windows 10/11
 #>
 
@@ -60,10 +60,6 @@ param(
     [Parameter()]
     [switch]$ShowProgress
 )
-
-# UTF-8 Encoding für korrekte Ausgabe von Umlauten
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-$OutputEncoding = [System.Text.Encoding]::UTF8
 
 # Statistik-Variablen
 $script:TotalFiles = 0
@@ -117,7 +113,7 @@ function Get-ShellFolder {
     $myComputer = $Shell.NameSpace(17)
 
     if (-not $myComputer) {
-        throw "Konnte 'Dieser PC' nicht öffnen"
+        throw "Konnte 'Dieser PC' nicht oeffnen"
     }
 
     return $myComputer
@@ -129,17 +125,17 @@ function Find-MTPDevice {
         [string]$DeviceName
     )
 
-    Write-Log "Suche nach Gerät: $DeviceName..." -Level Info
+    Write-Log "Suche nach Geraet: $DeviceName..." -Level Info
 
     foreach ($item in $MyComputer.Items()) {
         if ($item.Name -like "*$DeviceName*" -or $item.Name -like "*iPhone*") {
-            Write-Log "Gerät gefunden: $($item.Name)" -Level Success
+            Write-Log "Geraet gefunden: $($item.Name)" -Level Success
             return $item
         }
     }
 
-    # Liste alle verfügbaren Geräte auf
-    Write-Log "Verfügbare Geräte unter 'Dieser PC':" -Level Warning
+    # Liste alle verfuegbaren Geraete auf
+    Write-Log "Verfuegbare Geraete unter 'Dieser PC':" -Level Warning
     foreach ($item in $MyComputer.Items()) {
         Write-Log "  - $($item.Name)" -Level Info
     }
@@ -154,7 +150,7 @@ function Get-InternalStorage {
 
     $deviceFolder = $Device.GetFolder
     if (-not $deviceFolder) {
-        throw "Konnte Geräteordner nicht öffnen"
+        throw "Konnte Geraeteordner nicht oeffnen"
     }
 
     foreach ($item in $deviceFolder.Items()) {
@@ -208,19 +204,19 @@ function Copy-MTPItem {
         $script:TotalFiles++
         $destFile = Join-Path $DestPath $itemName
 
-        # Dateigröße ermitteln (Extended Property)
+        # Dateigroesse ermitteln (Extended Property)
         $size = $SourceItem.ExtendedProperty("Size")
         if ($size) {
             $script:TotalBytes += $size
         }
 
-        # Prüfen ob Datei bereits existiert
+        # Pruefen ob Datei bereits existiert
         if ($SkipExisting -and (Test-Path $destFile)) {
             $existingFile = Get-Item $destFile
             if ($size -and $existingFile.Length -eq $size) {
                 $script:SkippedFiles++
                 if ($ShowProgress) {
-                    Write-Log "Übersprungen (existiert): $itemName" -Level Warning
+                    Write-Log "Uebersprungen (existiert): $itemName" -Level Warning
                 }
                 return
             }
@@ -236,7 +232,7 @@ function Copy-MTPItem {
                 $destFolder = $Shell.NameSpace($DestPath)
 
                 if (-not $destFolder) {
-                    throw "Zielordner konnte nicht geöffnet werden: $DestPath"
+                    throw "Zielordner konnte nicht geoeffnet werden: $DestPath"
                 }
 
                 # Kopieren mit Shell (FOF_SILENT = 4, FOF_NOCONFIRMATION = 16, FOF_NOERRORUI = 1024)
@@ -255,14 +251,14 @@ function Copy-MTPItem {
                 }
 
                 if (Test-Path $destFile) {
-                    # Größenvalidierung: Prüfe ob Datei vollständig kopiert wurde
+                    # Groessenvalidierung: Pruefe ob Datei vollstaendig kopiert wurde
                     $localFile = Get-Item $destFile
                     $localSize = $localFile.Length
 
                     if ($size -and $localSize -ne $size) {
-                        # Datei unvollständig - löschen und erneut versuchen
+                        # Datei unvollstaendig - loeschen und erneut versuchen
                         Remove-Item $destFile -Force -ErrorAction SilentlyContinue
-                        throw "Größe stimmt nicht überein (erwartet: $size, kopiert: $localSize)"
+                        throw "Groesse stimmt nicht ueberein (erwartet: $size, kopiert: $localSize)"
                     }
 
                     # Erfolgreich kopiert und validiert
@@ -284,7 +280,7 @@ function Copy-MTPItem {
 
                 if ($attempt -lt $script:MaxRetries) {
                     if ($ShowProgress) {
-                        Write-Log "Versuch $attempt fehlgeschlagen für: $itemName - Retry in $($script:RetryWaitSeconds)s..." -Level Warning
+                        Write-Log "Versuch $attempt fehlgeschlagen fuer: $itemName - Retry in $($script:RetryWaitSeconds)s..." -Level Warning
                     }
                     Start-Sleep -Seconds $script:RetryWaitSeconds
                 }
@@ -311,7 +307,7 @@ function Copy-FromMTP {
 
     $folder = $SourceFolder.GetFolder
     if (-not $folder) {
-        throw "Konnte Quellordner nicht öffnen"
+        throw "Konnte Quellordner nicht oeffnen"
     }
 
     if ($FilterFolder) {
@@ -327,7 +323,7 @@ function Copy-FromMTP {
         }
 
         if (-not $found) {
-            Write-Log "Ordner '$FilterFolder' nicht gefunden. Verfügbare Ordner:" -Level Error
+            Write-Log "Ordner '$FilterFolder' nicht gefunden. Verfuegbare Ordner:" -Level Error
             foreach ($item in $folder.Items()) {
                 Write-Log "  - $($item.Name)" -Level Info
             }
@@ -359,20 +355,20 @@ try {
 
     Write-Log "Zielverzeichnis: $DestinationPath" -Level Info
 
-    # Log-Datei für fehlgeschlagene Dateien initialisieren
+    # Log-Datei fuer fehlgeschlagene Dateien initialisieren
     $script:LogFilePath = Join-Path $DestinationPath "failed_files.log"
 
     # Shell COM-Objekt erstellen
     $shell = New-Object -ComObject Shell.Application
 
-    # Dieser PC öffnen
+    # Dieser PC oeffnen
     $myComputer = Get-ShellFolder -Shell $shell -Path "MyComputer"
 
     # iPhone finden
     $device = Find-MTPDevice -MyComputer $myComputer -DeviceName $DeviceName
 
     if (-not $device) {
-        throw "iPhone nicht gefunden. Bitte stellen Sie sicher, dass:`n  - Das iPhone per USB verbunden ist`n  - Das iPhone entsperrt ist`n  - Sie 'Diesem Computer vertrauen' bestätigt haben"
+        throw "iPhone nicht gefunden. Bitte stellen Sie sicher, dass:`n  - Das iPhone per USB verbunden ist`n  - Das iPhone entsperrt ist`n  - Sie 'Diesem Computer vertrauen' bestaetigt haben"
     }
 
     # Internal Storage finden
@@ -404,7 +400,7 @@ try {
     Write-Log "Erfolgreich kopiert: $script:CopiedFiles" -Level Success
 
     if ($script:SkippedFiles -gt 0) {
-        Write-Log "Übersprungen: $script:SkippedFiles" -Level Warning
+        Write-Log "Uebersprungen: $script:SkippedFiles" -Level Warning
     }
 
     if ($script:FailedFiles -gt 0) {
@@ -413,7 +409,7 @@ try {
     }
 
     if ($script:TotalBytes -gt 0) {
-        Write-Log "Gesamtgröße: $("{0:N2} GB" -f ($script:TotalBytes / 1GB))" -Level Info
+        Write-Log "Gesamtgroesse: $("{0:N2} GB" -f ($script:TotalBytes / 1GB))" -Level Info
     }
 
     Write-Host ""
