@@ -11,6 +11,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
 | [Sync AzureDevops-Repos](./Sync%20AzureDevops-Repos/) | PowerShell-Tool zur automatischen Synchronisation aller Git-Repositories eines Azure DevOps Projekts |
+| [iPhone-FileCopy](./iPhone-FileCopy/) | PowerShell-Tool zum Kopieren von Dateien vom iPhone (MTP) auf den lokalen PC |
 
 ### Dateien
 
@@ -46,6 +47,14 @@ Synchronisiert alle Repositories eines Azure DevOps Projekts lokal. Bestehende R
 
 ```powershell
 ".\Sync AzureDevops-Repos\Sync-Repos.ps1" -Organization "https://server/tfs/collection/" -Project "myProject" -Token "myPAT"
+```
+
+### iPhone-FileCopy
+
+Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstützt selektives Kopieren einzelner Ordner (z.B. nur DCIM für Fotos).
+
+```powershell
+.\iPhone-FileCopy\Copy-iPhoneFiles.ps1 -SourceFolder "DCIM" -DestinationPath "D:\Fotos" -SkipExisting
 ```
 
 ### Anleitungen
