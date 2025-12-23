@@ -12,6 +12,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
 | [Sync AzureDevops-Repos](./Sync%20AzureDevops-Repos/) | PowerShell-Tool zur automatischen Synchronisation aller Git-Repositories eines Azure DevOps Projekts |
+| [iPhone-FileCopy](./iPhone-FileCopy/) | PowerShell-Tool zum Kopieren von Dateien vom iPhone (MTP) auf den lokalen PC |
 
 ### Dateien
 
@@ -57,6 +58,13 @@ Konvertiert iPhone DCIM-Backups für Samsung Galaxy Geräte. Benennt Dateien nac
 
 ```powershell
 .\iPhone-To-Samsung-Photos\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\iPhone\DCIM" -DestinationPath "E:\Samsung" -SimulateOnly
+
+### iPhone-FileCopy
+
+Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstützt selektives Kopieren einzelner Ordner (z.B. nur DCIM für Fotos).
+
+```powershell
+.\iPhone-FileCopy\Copy-iPhoneFiles.ps1 -SourceFolder "DCIM" -DestinationPath "D:\Fotos" -SkipExisting
 ```
 
 ### Anleitungen
