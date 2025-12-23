@@ -67,7 +67,7 @@ choco install ffmpeg
 ### Simulation (keine Änderungen)
 
 ```powershell
-.\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\DCIM" -DestinationPath "E:\Output" -WhatIf
+.\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\DCIM" -DestinationPath "E:\Output" -SimulateOnly
 ```
 
 ## Parameter
@@ -80,7 +80,7 @@ choco install ffmpeg
 | `-ConvertMOV` | Konvertiert MOV zu MP4 | Nein |
 | `-KeepOriginals` | Behält Originaldateien | Nein |
 | `-PreserveLivePhotos` | Verknüpft Live Photo Komponenten | Nein |
-| `-WhatIf` | Simulationsmodus | Nein |
+| `-SimulateOnly` | Simulationsmodus (keine Änderungen) | Nein |
 | `-Verbose` | Ausführliche Ausgabe | Nein |
 
 ## Workflow

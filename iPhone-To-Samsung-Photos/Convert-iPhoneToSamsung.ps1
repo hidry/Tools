@@ -29,16 +29,22 @@
 .PARAMETER PreserveLivePhotos
     Verknuepft Live Photo Video-Komponenten mit den Fotos.
 
+.PARAMETER SimulateOnly
+    Keine Aenderungen durchfuehren, nur simulieren.
+
 .EXAMPLE
     .\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\iPhone-Backup\DCIM" -DestinationPath "E:\Samsung-Import"
 
 .EXAMPLE
     .\Convert-iPhoneToSamsung.ps1 -SourcePath ".\DCIM" -DestinationPath ".\Output" -ConvertHEIC -ConvertMOV
 
+.EXAMPLE
+    .\Convert-iPhoneToSamsung.ps1 -SourcePath ".\DCIM" -DestinationPath ".\Output" -SimulateOnly
+
 .NOTES
     Autor: Claude
-    Version: 1.1
-    Datum: 2024-12-22
+    Version: 1.2
+    Datum: 2024-12-23
 
     Voraussetzungen:
     - PowerShell 5.1 oder hoeher
@@ -69,7 +75,7 @@ param(
     [switch]$PreserveLivePhotos,
 
     [Parameter(HelpMessage = "Keine Aenderungen durchfuehren, nur simulieren")]
-    [switch]$WhatIf
+    [switch]$SimulateOnly
 )
 
 #region Konfiguration
@@ -93,6 +99,10 @@ $script:Config = @{
     FFmpegPath = $null
     ImageMagickPath = $null
 
+    # Konvertierungs-Flags (werden von Parametern initialisiert)
+    DoConvertHEIC = $false
+    DoConvertMOV = $false
+
     # Statistiken
     Stats = @{
         TotalFiles = 0
@@ -104,6 +114,10 @@ $script:Config = @{
         Skipped = 0
     }
 }
+
+# Parameter in Config uebernehmen
+$script:Config.DoConvertHEIC = $ConvertHEIC.IsPresent
+$script:Config.DoConvertMOV = $ConvertMOV.IsPresent
 
 #endregion
 
@@ -173,7 +187,7 @@ function Find-ExternalTools {
     }
 
     # FFmpeg suchen
-    if ($ConvertMOV) {
+    if ($script:Config.DoConvertMOV) {
         $ffmpegLocations = @(
             "ffmpeg.exe",
             "ffmpeg",
@@ -191,12 +205,12 @@ function Find-ExternalTools {
 
         if (-not $script:Config.FFmpegPath) {
             Write-Log "FFmpeg nicht gefunden - MOV-Konvertierung deaktiviert" -Level Warning
-            $script:ConvertMOV = $false
+            $script:Config.DoConvertMOV = $false
         }
     }
 
     # ImageMagick suchen
-    if ($ConvertHEIC) {
+    if ($script:Config.DoConvertHEIC) {
         $magickLocations = @(
             "magick.exe",
             "magick",
@@ -215,7 +229,7 @@ function Find-ExternalTools {
 
         if (-not $script:Config.ImageMagickPath) {
             Write-Log "ImageMagick nicht gefunden - HEIC-Konvertierung deaktiviert" -Level Warning
-            $script:ConvertHEIC = $false
+            $script:Config.DoConvertHEIC = $false
         }
     }
 }
@@ -235,11 +249,22 @@ function Get-MediaDateTime {
     # Methode 1: ExifTool (genaueste Methode)
     if ($script:Config.ExifToolPath) {
         try {
+            # ExifTool aufrufen - kann mehrere Zeilen zurueckgeben
             $exifOutput = & $script:Config.ExifToolPath -DateTimeOriginal -CreateDate -MediaCreateDate -s3 -d "%Y%m%d_%H%M%S" $FilePath 2>$null
-            if ($exifOutput -and $exifOutput -match '^\d{8}_\d{6}$') {
-                $dateTime = $exifOutput.Trim()
-                Write-Log "EXIF-Datum gefunden: $dateTime fuer $(Split-Path $FilePath -Leaf)" -Level Debug
-                return $dateTime
+
+            # Falls Array, jede Zeile pruefen und erste gueltige nehmen
+            if ($exifOutput) {
+                # In Array konvertieren falls noch nicht
+                $lines = @($exifOutput)
+
+                foreach ($line in $lines) {
+                    $trimmed = "$line".Trim()
+                    if ($trimmed -match '^\d{8}_\d{6}$') {
+                        $dateTime = $trimmed
+                        Write-Log "EXIF-Datum gefunden: $dateTime fuer $(Split-Path $FilePath -Leaf)" -Level Debug
+                        return [string]$dateTime
+                    }
+                }
             }
         }
         catch {
@@ -251,23 +276,28 @@ function Get-MediaDateTime {
     $extension = [System.IO.Path]::GetExtension($FilePath).ToLower()
     if ($extension -in @('.jpg', '.jpeg', '.png', '.tiff')) {
         try {
-            Add-Type -AssemblyName System.Drawing
+            Add-Type -AssemblyName System.Drawing -ErrorAction SilentlyContinue
             $image = [System.Drawing.Image]::FromFile($FilePath)
 
             # Property ID 36867 = DateTimeOriginal
-            $propItem = $image.GetPropertyItem(36867)
-            if ($propItem) {
-                $dateString = [System.Text.Encoding]::ASCII.GetString($propItem.Value).Trim([char]0)
-                # Format: "2023:12:15 14:30:22" -> "20231215_143022"
-                if ($dateString -match '(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})') {
-                    $dateTime = "$($Matches[1])$($Matches[2])$($Matches[3])_$($Matches[4])$($Matches[5])$($Matches[6])"
+            try {
+                $propItem = $image.GetPropertyItem(36867)
+                if ($propItem) {
+                    $dateString = [System.Text.Encoding]::ASCII.GetString($propItem.Value).Trim([char]0)
+                    # Format: "2023:12:15 14:30:22" -> "20231215_143022"
+                    if ($dateString -match '(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})') {
+                        $dateTime = "$($Matches[1])$($Matches[2])$($Matches[3])_$($Matches[4])$($Matches[5])$($Matches[6])"
+                    }
                 }
+            }
+            catch {
+                # Property nicht vorhanden - ignorieren
             }
             $image.Dispose()
 
             if ($dateTime) {
                 Write-Log ".NET EXIF-Datum gefunden: $dateTime" -Level Debug
-                return $dateTime
+                return [string]$dateTime
             }
         }
         catch {
@@ -282,11 +312,11 @@ function Get-MediaDateTime {
     # Pruefe auf Datum im Dateinamen (z.B. "Photo 2023-12-15 14-30-22" oder aehnlich)
     if ($fileName -match '(\d{4})[-_]?(\d{2})[-_]?(\d{2})[-_\s]+(\d{2})[-_]?(\d{2})[-_]?(\d{2})') {
         $dateTime = "$($Matches[1])$($Matches[2])$($Matches[3])_$($Matches[4])$($Matches[5])$($Matches[6])"
-        return $dateTime
+        return [string]$dateTime
     }
 
     # Methode 4: Datei-Erstellungsdatum (letzte Option)
-    $fileInfo = Get-Item $FilePath
+    $fileInfo = Get-Item -LiteralPath $FilePath
     $creationTime = $fileInfo.CreationTime
     $lastWriteTime = $fileInfo.LastWriteTime
 
@@ -295,7 +325,7 @@ function Get-MediaDateTime {
     $dateTime = $useDate.ToString("yyyyMMdd_HHmmss")
 
     Write-Log "Verwende Dateidatum: $dateTime fuer $(Split-Path $FilePath -Leaf)" -Level Debug
-    return $dateTime
+    return [string]$dateTime
 }
 
 function Get-SamsungFileName {
@@ -327,12 +357,12 @@ function Get-SamsungFileName {
     # Extension normalisieren
     $ext = $Extension.ToLower()
     if ($ext -eq '.heic' -or $ext -eq '.heif') {
-        if ($script:ConvertHEIC) {
+        if ($script:Config.DoConvertHEIC) {
             $ext = '.jpg'
         }
     }
     elseif ($ext -eq '.mov') {
-        if ($script:ConvertMOV) {
+        if ($script:Config.DoConvertMOV) {
             $ext = '.mp4'
         }
     }
@@ -361,16 +391,16 @@ function Convert-HEICToJPG {
         Write-Log "Konvertiere HEIC: $(Split-Path $SourceFile -Leaf)" -Level Debug
 
         # ImageMagick Konvertierung mit Qualitaetserhaltung
-        $args = @(
-            $SourceFile
+        $magickArgs = @(
+            "`"$SourceFile`""
             "-quality", "95"
             "-auto-orient"
-            $DestinationFile
+            "`"$DestinationFile`""
         )
 
-        $process = Start-Process -FilePath $script:Config.ImageMagickPath -ArgumentList $args -Wait -NoNewWindow -PassThru
+        $process = Start-Process -FilePath $script:Config.ImageMagickPath -ArgumentList $magickArgs -Wait -NoNewWindow -PassThru
 
-        if ($process.ExitCode -eq 0 -and (Test-Path $DestinationFile)) {
+        if ($process.ExitCode -eq 0 -and (Test-Path -LiteralPath $DestinationFile)) {
             # EXIF-Daten kopieren wenn ExifTool verfuegbar
             if ($script:Config.ExifToolPath) {
                 & $script:Config.ExifToolPath -TagsFromFile $SourceFile -all:all -overwrite_original $DestinationFile 2>$null
@@ -408,26 +438,26 @@ function Convert-MOVToMP4 {
         Write-Log "Konvertiere MOV: $(Split-Path $SourceFile -Leaf)" -Level Debug
 
         # FFmpeg Konvertierung - kopiert Streams ohne Reencoding wenn moeglich
-        $args = @(
-            "-i", $SourceFile
-            "-c:v", "copy"           # Video Stream kopieren
-            "-c:a", "aac"            # Audio zu AAC (kompatibel)
-            "-movflags", "+faststart" # Fuer Streaming optimiert
-            "-map_metadata", "0"      # Metadaten kopieren
-            "-y"                      # Ueberschreiben ohne Nachfrage
-            $DestinationFile
+        $ffmpegArgs = @(
+            "-i", "`"$SourceFile`""
+            "-c:v", "copy"
+            "-c:a", "aac"
+            "-movflags", "+faststart"
+            "-map_metadata", "0"
+            "-y"
+            "`"$DestinationFile`""
         )
 
-        $process = Start-Process -FilePath $script:Config.FFmpegPath -ArgumentList $args -Wait -NoNewWindow -PassThru -RedirectStandardError "$env:TEMP\ffmpeg_error.log"
+        $process = Start-Process -FilePath $script:Config.FFmpegPath -ArgumentList $ffmpegArgs -Wait -NoNewWindow -PassThru -RedirectStandardError "$env:TEMP\ffmpeg_error.log"
 
-        if ($process.ExitCode -eq 0 -and (Test-Path $DestinationFile)) {
+        if ($process.ExitCode -eq 0 -and (Test-Path -LiteralPath $DestinationFile)) {
             $script:Config.Stats.ConvertedMOV++
             return $true
         }
         else {
             # Fallback: Re-encode wenn Copy fehlschlaegt
-            $args = @(
-                "-i", $SourceFile
+            $ffmpegArgs = @(
+                "-i", "`"$SourceFile`""
                 "-c:v", "libx264"
                 "-preset", "fast"
                 "-crf", "18"
@@ -436,12 +466,12 @@ function Convert-MOVToMP4 {
                 "-movflags", "+faststart"
                 "-map_metadata", "0"
                 "-y"
-                $DestinationFile
+                "`"$DestinationFile`""
             )
 
-            $process = Start-Process -FilePath $script:Config.FFmpegPath -ArgumentList $args -Wait -NoNewWindow -PassThru
+            $process = Start-Process -FilePath $script:Config.FFmpegPath -ArgumentList $ffmpegArgs -Wait -NoNewWindow -PassThru
 
-            if ($process.ExitCode -eq 0 -and (Test-Path $DestinationFile)) {
+            if ($process.ExitCode -eq 0 -and (Test-Path -LiteralPath $DestinationFile)) {
                 $script:Config.Stats.ConvertedMOV++
                 return $true
             }
@@ -507,10 +537,14 @@ function Process-MediaFile {
         [Parameter(Mandatory)]
         [string]$DestinationFolder,
 
-        [hashtable]$ProcessedDates = @{}
+        [Parameter(Mandatory)]
+        [hashtable]$ProcessedDates,
+
+        [Parameter(Mandatory)]
+        [bool]$IsSimulation
     )
 
-    $fileInfo = Get-Item $SourceFile
+    $fileInfo = Get-Item -LiteralPath $SourceFile
     $extension = $fileInfo.Extension.ToLower()
 
     # Typ bestimmen
@@ -531,23 +565,25 @@ function Process-MediaFile {
         $dateTime = "19700101_000000"
     }
 
+    # Sicherstellen dass dateTime ein String ist
+    $dateTime = [string]$dateTime
+
     # Duplikat-Zaehler fuer gleiches Datum
     $counter = 0
-    $baseKey = $dateTime
-    while ($ProcessedDates.ContainsKey("$dateTime`_$counter")) {
+    while ($ProcessedDates.ContainsKey("${dateTime}_${counter}")) {
         $counter++
     }
-    $ProcessedDates["$dateTime`_$counter"] = $true
+    $ProcessedDates["${dateTime}_${counter}"] = $true
 
     # Ziel-Dateiname generieren
     $targetExtension = $extension
     $needsConversion = $false
 
-    if ($isPhoto -and $extension -in @('.heic', '.heif') -and $script:ConvertHEIC) {
+    if ($isPhoto -and $extension -in @('.heic', '.heif') -and $script:Config.DoConvertHEIC) {
         $targetExtension = '.jpg'
         $needsConversion = $true
     }
-    elseif ($isVideo -and $extension -eq '.mov' -and $script:ConvertMOV) {
+    elseif ($isVideo -and $extension -eq '.mov' -and $script:Config.DoConvertMOV) {
         $targetExtension = '.mp4'
         $needsConversion = $true
     }
@@ -555,8 +591,8 @@ function Process-MediaFile {
     $newFileName = Get-SamsungFileName -DateTime $dateTime -Extension $targetExtension -Counter $counter
     $destinationFile = Join-Path $DestinationFolder $newFileName
 
-    # WhatIf Modus
-    if ($WhatIf) {
+    # Simulation Modus
+    if ($IsSimulation) {
         Write-Log "[SIMULATION] Wuerde verarbeiten: $($fileInfo.Name) -> $newFileName" -Level Info
         return
     }
@@ -568,7 +604,7 @@ function Process-MediaFile {
                 $success = Convert-HEICToJPG -SourceFile $SourceFile -DestinationFile $destinationFile
                 if (-not $success) {
                     # Fallback: Kopiere Original
-                    Copy-Item -Path $SourceFile -Destination $destinationFile -Force
+                    Copy-Item -LiteralPath $SourceFile -Destination $destinationFile -Force
                 }
             }
             elseif ($isVideo -and $extension -eq '.mov') {
@@ -576,19 +612,19 @@ function Process-MediaFile {
                 if (-not $success) {
                     # Fallback: Kopiere Original mit neuer Extension
                     $destinationFile = Join-Path $DestinationFolder (Get-SamsungFileName -DateTime $dateTime -Extension '.mov' -Counter $counter)
-                    Copy-Item -Path $SourceFile -Destination $destinationFile -Force
+                    Copy-Item -LiteralPath $SourceFile -Destination $destinationFile -Force
                 }
             }
         }
         else {
-            Copy-Item -Path $SourceFile -Destination $destinationFile -Force
+            Copy-Item -LiteralPath $SourceFile -Destination $destinationFile -Force
         }
 
         # Dateidatum auf Aufnahmedatum setzen
-        if (Test-Path $destinationFile) {
+        if (Test-Path -LiteralPath $destinationFile) {
             try {
                 $parsedDate = [DateTime]::ParseExact($dateTime, "yyyyMMdd_HHmmss", $null)
-                $destFileInfo = Get-Item $destinationFile
+                $destFileInfo = Get-Item -LiteralPath $destinationFile
                 $destFileInfo.CreationTime = $parsedDate
                 $destFileInfo.LastWriteTime = $parsedDate
             }
@@ -625,18 +661,18 @@ function Start-Conversion {
     Write-Host ""
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host "  iPhone zu Samsung DCIM Konverter" -ForegroundColor Cyan
-    Write-Host "  Version 1.1" -ForegroundColor Cyan
+    Write-Host "  Version 1.2" -ForegroundColor Cyan
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host ""
 
     # Parameter anzeigen
     Write-Log "Quellordner: $SourcePath" -Level Info
     Write-Log "Zielordner: $DestinationPath" -Level Info
-    Write-Log "HEIC konvertieren: $ConvertHEIC" -Level Info
-    Write-Log "MOV konvertieren: $ConvertMOV" -Level Info
+    Write-Log "HEIC konvertieren: $($script:Config.DoConvertHEIC)" -Level Info
+    Write-Log "MOV konvertieren: $($script:Config.DoConvertMOV)" -Level Info
     Write-Log "Originale behalten: $KeepOriginals" -Level Info
 
-    if ($WhatIf) {
+    if ($SimulateOnly) {
         Write-Log "SIMULATIONSMODUS AKTIV - Keine Aenderungen werden durchgefuehrt" -Level Warning
     }
 
@@ -650,8 +686,8 @@ function Start-Conversion {
     # Zielordner erstellen
     $cameraFolder = Join-Path $DestinationPath $script:Config.SamsungCameraFolder
 
-    if (-not $WhatIf) {
-        if (-not (Test-Path $cameraFolder)) {
+    if (-not $SimulateOnly) {
+        if (-not (Test-Path -LiteralPath $cameraFolder)) {
             New-Item -Path $cameraFolder -ItemType Directory -Force | Out-Null
             Write-Log "Zielordner erstellt: $cameraFolder" -Level Info
         }
@@ -661,11 +697,11 @@ function Start-Conversion {
     Write-Log "Scanne Quellordner..." -Level Info
 
     $allExtensions = $script:Config.PhotoExtensions + $script:Config.VideoExtensions
-    $mediaFiles = Get-ChildItem -Path $SourcePath -Recurse -File | Where-Object {
+    $mediaFiles = Get-ChildItem -LiteralPath $SourcePath -Recurse -File | Where-Object {
         $_.Extension.ToLower() -in $allExtensions
     }
 
-    $script:Config.Stats.TotalFiles = $mediaFiles.Count
+    $script:Config.Stats.TotalFiles = @($mediaFiles).Count
     Write-Log "Gefundene Mediendateien: $($script:Config.Stats.TotalFiles)" -Level Info
 
     if ($script:Config.Stats.TotalFiles -eq 0) {
@@ -679,20 +715,21 @@ function Start-Conversion {
     if ($PreserveLivePhotos) {
         Write-Log "Identifiziere Live Photos..." -Level Info
         $livePhotoPairs = Find-LivePhotoComponents -Files $mediaFiles
-        Write-Log "Gefundene Live Photo Paare: $($livePhotoPairs.Count)" -Level Info
+        Write-Log "Gefundene Live Photo Paare: $(@($livePhotoPairs).Count)" -Level Info
     }
 
     # Fortschrittsanzeige
     $processedDates = @{}
     $current = 0
+    $total = $script:Config.Stats.TotalFiles
 
     foreach ($file in $mediaFiles) {
         $current++
-        $percentComplete = [math]::Round(($current / $script:Config.Stats.TotalFiles) * 100, 1)
+        $percentComplete = [math]::Round(($current / $total) * 100, 1)
 
-        Write-Progress -Activity "Verarbeite Mediendateien" -Status "$current von $($script:Config.Stats.TotalFiles) - $($file.Name)" -PercentComplete $percentComplete
+        Write-Progress -Activity "Verarbeite Mediendateien" -Status "$current von $total - $($file.Name)" -PercentComplete $percentComplete
 
-        Process-MediaFile -SourceFile $file.FullName -DestinationFolder $cameraFolder -ProcessedDates $processedDates
+        Process-MediaFile -SourceFile $file.FullName -DestinationFolder $cameraFolder -ProcessedDates $processedDates -IsSimulation $SimulateOnly.IsPresent
     }
 
     Write-Progress -Activity "Verarbeite Mediendateien" -Completed
@@ -707,18 +744,19 @@ function Start-Conversion {
     Write-Host "  Fotos verarbeitet:   $($script:Config.Stats.ProcessedPhotos)" -ForegroundColor Green
     Write-Host "  Videos verarbeitet:  $($script:Config.Stats.ProcessedVideos)" -ForegroundColor Green
 
-    if ($ConvertHEIC) {
+    if ($script:Config.DoConvertHEIC) {
         Write-Host "  HEIC konvertiert:    $($script:Config.Stats.ConvertedHEIC)" -ForegroundColor Yellow
     }
-    if ($ConvertMOV) {
+    if ($script:Config.DoConvertMOV) {
         Write-Host "  MOV konvertiert:     $($script:Config.Stats.ConvertedMOV)" -ForegroundColor Yellow
     }
 
     Write-Host "  Uebersprungen:       $($script:Config.Stats.Skipped)" -ForegroundColor Gray
-    Write-Host "  Fehler:              $($script:Config.Stats.Errors)" -ForegroundColor $(if ($script:Config.Stats.Errors -gt 0) { 'Red' } else { 'Green' })
+    $errorColor = if ($script:Config.Stats.Errors -gt 0) { 'Red' } else { 'Green' }
+    Write-Host "  Fehler:              $($script:Config.Stats.Errors)" -ForegroundColor $errorColor
     Write-Host ""
 
-    if (-not $WhatIf) {
+    if (-not $SimulateOnly) {
         Write-Host "  Ausgabe: $cameraFolder" -ForegroundColor Cyan
         Write-Host ""
         Write-Host "  Kopiere den Inhalt von '$cameraFolder'" -ForegroundColor Yellow
