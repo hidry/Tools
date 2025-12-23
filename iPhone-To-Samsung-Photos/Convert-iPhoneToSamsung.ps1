@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Konvertiert iPhone DCIM-Backup für Samsung Galaxy S23 kompatible Struktur.
+    Konvertiert iPhone DCIM-Backup fuer Samsung Galaxy S23 kompatible Struktur.
 
 .DESCRIPTION
     Dieses Skript bereitet iPhone-Medien so auf, dass sie auf einem Samsung Galaxy S23
@@ -15,19 +15,19 @@
     Pfad zum iPhone DCIM-Backup-Ordner.
 
 .PARAMETER DestinationPath
-    Zielordner für die Samsung-kompatiblen Dateien.
+    Zielordner fuer die Samsung-kompatiblen Dateien.
 
 .PARAMETER ConvertHEIC
-    Konvertiert HEIC-Dateien zu JPG (benötigt ImageMagick oder Windows HEIC-Codec).
+    Konvertiert HEIC-Dateien zu JPG (benoetigt ImageMagick oder Windows HEIC-Codec).
 
 .PARAMETER ConvertMOV
-    Konvertiert MOV-Dateien zu MP4 (benötigt FFmpeg).
+    Konvertiert MOV-Dateien zu MP4 (benoetigt FFmpeg).
 
 .PARAMETER KeepOriginals
-    Behält Originaldateien zusätzlich zu konvertierten Dateien.
+    Behaelt Originaldateien zusaetzlich zu konvertierten Dateien.
 
 .PARAMETER PreserveLivePhotos
-    Verknüpft Live Photo Video-Komponenten mit den Fotos.
+    Verknuepft Live Photo Video-Komponenten mit den Fotos.
 
 .EXAMPLE
     .\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\iPhone-Backup\DCIM" -DestinationPath "E:\Samsung-Import"
@@ -37,14 +37,14 @@
 
 .NOTES
     Autor: Claude
-    Version: 1.0
+    Version: 1.1
     Datum: 2024-12-22
 
     Voraussetzungen:
-    - PowerShell 5.1 oder höher
-    - Für HEIC-Konvertierung: ImageMagick (magick.exe) oder Windows HEIC-Codec
-    - Für MOV-Konvertierung: FFmpeg (ffmpeg.exe)
-    - Für EXIF-Daten: ExifTool (exiftool.exe) - optional aber empfohlen
+    - PowerShell 5.1 oder hoeher
+    - Fuer HEIC-Konvertierung: ImageMagick (magick.exe) oder Windows HEIC-Codec
+    - Fuer MOV-Konvertierung: FFmpeg (ffmpeg.exe)
+    - Fuer EXIF-Daten: ExifTool (exiftool.exe) - optional aber empfohlen
 #>
 
 [CmdletBinding()]
@@ -53,7 +53,7 @@ param(
     [ValidateScript({ Test-Path $_ -PathType Container })]
     [string]$SourcePath,
 
-    [Parameter(Mandatory = $true, HelpMessage = "Zielordner für Samsung-kompatible Dateien")]
+    [Parameter(Mandatory = $true, HelpMessage = "Zielordner fuer Samsung-kompatible Dateien")]
     [string]$DestinationPath,
 
     [Parameter(HelpMessage = "HEIC zu JPG konvertieren")]
@@ -65,13 +65,13 @@ param(
     [Parameter(HelpMessage = "Originaldateien behalten")]
     [switch]$KeepOriginals,
 
-    [Parameter(HelpMessage = "Live Photos verknüpfen")]
+    [Parameter(HelpMessage = "Live Photos verknuepfen")]
     [switch]$PreserveLivePhotos,
 
-    [Parameter(HelpMessage = "Keine Änderungen durchführen, nur simulieren")]
+    [Parameter(HelpMessage = "Keine Aenderungen durchfuehren, nur simulieren")]
     [switch]$WhatIf,
 
-    [Parameter(HelpMessage = "Ausführliche Ausgabe")]
+    [Parameter(HelpMessage = "Ausfuehrliche Ausgabe")]
     [switch]$Verbose
 )
 
@@ -82,12 +82,12 @@ $script:Config = @{
     SamsungCameraFolder = "DCIM\Camera"
     SamsungScreenshotFolder = "DCIM\Screenshots"
 
-    # Samsung Dateinamen-Präfixe
-    PhotoPrefix = ""  # Samsung verwendet kein Präfix, nur Datum_Zeit
+    # Samsung Dateinamen-Praefixe
+    PhotoPrefix = ""  # Samsung verwendet kein Praefix, nur Datum_Zeit
     VideoPrefix = ""
     ScreenshotPrefix = "Screenshot_"
 
-    # Unterstützte Dateitypen
+    # Unterstuetzte Dateitypen
     PhotoExtensions = @('.jpg', '.jpeg', '.png', '.heic', '.heif', '.dng', '.raw')
     VideoExtensions = @('.mov', '.mp4', '.m4v', '.avi', '.3gp')
 
@@ -241,16 +241,16 @@ function Get-MediaDateTime {
             $exifOutput = & $script:Config.ExifToolPath -DateTimeOriginal -CreateDate -MediaCreateDate -s3 -d "%Y%m%d_%H%M%S" $FilePath 2>$null
             if ($exifOutput -and $exifOutput -match '^\d{8}_\d{6}$') {
                 $dateTime = $exifOutput.Trim()
-                Write-Log "EXIF-Datum gefunden: $dateTime für $(Split-Path $FilePath -Leaf)" -Level Debug
+                Write-Log "EXIF-Datum gefunden: $dateTime fuer $(Split-Path $FilePath -Leaf)" -Level Debug
                 return $dateTime
             }
         }
         catch {
-            Write-Log "ExifTool-Fehler für $FilePath : $_" -Level Debug
+            Write-Log "ExifTool-Fehler fuer $FilePath : $_" -Level Debug
         }
     }
 
-    # Methode 2: .NET Image Klasse für Bilder
+    # Methode 2: .NET Image Klasse fuer Bilder
     $extension = [System.IO.Path]::GetExtension($FilePath).ToLower()
     if ($extension -in @('.jpg', '.jpeg', '.png', '.tiff')) {
         try {
@@ -278,11 +278,11 @@ function Get-MediaDateTime {
         }
     }
 
-    # Methode 3: iPhone Dateiname parsen (IMG_1234.JPG enthält leider kein Datum)
+    # Methode 3: iPhone Dateiname parsen (IMG_1234.JPG enthaelt leider kein Datum)
     # Aber einige Backups haben das Datum im Ordnernamen
     $fileName = [System.IO.Path]::GetFileNameWithoutExtension($FilePath)
 
-    # Prüfe auf Datum im Dateinamen (z.B. "Photo 2023-12-15 14-30-22" oder ähnlich)
+    # Pruefe auf Datum im Dateinamen (z.B. "Photo 2023-12-15 14-30-22" oder aehnlich)
     if ($fileName -match '(\d{4})[-_]?(\d{2})[-_]?(\d{2})[-_\s]+(\d{2})[-_]?(\d{2})[-_]?(\d{2})') {
         $dateTime = "$($Matches[1])$($Matches[2])$($Matches[3])_$($Matches[4])$($Matches[5])$($Matches[6])"
         return $dateTime
@@ -293,11 +293,11 @@ function Get-MediaDateTime {
     $creationTime = $fileInfo.CreationTime
     $lastWriteTime = $fileInfo.LastWriteTime
 
-    # Verwende das ältere Datum (wahrscheinlicher das Aufnahmedatum)
+    # Verwende das aeltere Datum (wahrscheinlicher das Aufnahmedatum)
     $useDate = if ($creationTime -lt $lastWriteTime) { $creationTime } else { $lastWriteTime }
     $dateTime = $useDate.ToString("yyyyMMdd_HHmmss")
 
-    Write-Log "Verwende Dateidatum: $dateTime für $(Split-Path $FilePath -Leaf)" -Level Debug
+    Write-Log "Verwende Dateidatum: $dateTime fuer $(Split-Path $FilePath -Leaf)" -Level Debug
     return $dateTime
 }
 
@@ -363,7 +363,7 @@ function Convert-HEICToJPG {
     try {
         Write-Log "Konvertiere HEIC: $(Split-Path $SourceFile -Leaf)" -Level Debug
 
-        # ImageMagick Konvertierung mit Qualitätserhaltung
+        # ImageMagick Konvertierung mit Qualitaetserhaltung
         $args = @(
             $SourceFile
             "-quality", "95"
@@ -374,7 +374,7 @@ function Convert-HEICToJPG {
         $process = Start-Process -FilePath $script:Config.ImageMagickPath -ArgumentList $args -Wait -NoNewWindow -PassThru
 
         if ($process.ExitCode -eq 0 -and (Test-Path $DestinationFile)) {
-            # EXIF-Daten kopieren wenn ExifTool verfügbar
+            # EXIF-Daten kopieren wenn ExifTool verfuegbar
             if ($script:Config.ExifToolPath) {
                 & $script:Config.ExifToolPath -TagsFromFile $SourceFile -all:all -overwrite_original $DestinationFile 2>$null
             }
@@ -410,14 +410,14 @@ function Convert-MOVToMP4 {
     try {
         Write-Log "Konvertiere MOV: $(Split-Path $SourceFile -Leaf)" -Level Debug
 
-        # FFmpeg Konvertierung - kopiert Streams ohne Reencoding wenn möglich
+        # FFmpeg Konvertierung - kopiert Streams ohne Reencoding wenn moeglich
         $args = @(
             "-i", $SourceFile
             "-c:v", "copy"           # Video Stream kopieren
             "-c:a", "aac"            # Audio zu AAC (kompatibel)
-            "-movflags", "+faststart" # Für Streaming optimiert
+            "-movflags", "+faststart" # Fuer Streaming optimiert
             "-map_metadata", "0"      # Metadaten kopieren
-            "-y"                      # Überschreiben ohne Nachfrage
+            "-y"                      # Ueberschreiben ohne Nachfrage
             $DestinationFile
         )
 
@@ -428,7 +428,7 @@ function Convert-MOVToMP4 {
             return $true
         }
         else {
-            # Fallback: Re-encode wenn Copy fehlschlägt
+            # Fallback: Re-encode wenn Copy fehlschlaegt
             $args = @(
                 "-i", $SourceFile
                 "-c:v", "libx264"
@@ -460,7 +460,7 @@ function Convert-MOVToMP4 {
 function Find-LivePhotoComponents {
     <#
     .SYNOPSIS
-        Findet zusammengehörige Live Photo Komponenten (Bild + Video).
+        Findet zusammengehoerige Live Photo Komponenten (Bild + Video).
     #>
     param(
         [Parameter(Mandatory)]
@@ -492,7 +492,7 @@ function Find-LivePhotoComponents {
         }
     }
 
-    # Nur Paare zurückgeben die sowohl Foto als auch Video haben
+    # Nur Paare zurueckgeben die sowohl Foto als auch Video haben
     return $livePhotos.GetEnumerator() | Where-Object {
         $_.Value.Photo -and $_.Value.Video
     } | ForEach-Object { $_.Value }
@@ -521,7 +521,7 @@ function Process-MediaFile {
     $isVideo = $extension -in $script:Config.VideoExtensions
 
     if (-not $isPhoto -and -not $isVideo) {
-        Write-Log "Überspringe unbekannten Dateityp: $($fileInfo.Name)" -Level Debug
+        Write-Log "Ueberspringe unbekannten Dateityp: $($fileInfo.Name)" -Level Debug
         $script:Config.Stats.Skipped++
         return
     }
@@ -530,11 +530,11 @@ function Process-MediaFile {
     $dateTime = Get-MediaDateTime -FilePath $SourceFile
 
     if (-not $dateTime) {
-        Write-Log "Konnte kein Datum ermitteln für: $($fileInfo.Name)" -Level Warning
+        Write-Log "Konnte kein Datum ermitteln fuer: $($fileInfo.Name)" -Level Warning
         $dateTime = "19700101_000000"
     }
 
-    # Duplikat-Zähler für gleiches Datum
+    # Duplikat-Zaehler fuer gleiches Datum
     $counter = 0
     $baseKey = $dateTime
     while ($ProcessedDates.ContainsKey("$dateTime`_$counter")) {
@@ -560,7 +560,7 @@ function Process-MediaFile {
 
     # WhatIf Modus
     if ($WhatIf) {
-        Write-Log "[SIMULATION] Würde verarbeiten: $($fileInfo.Name) -> $newFileName" -Level Info
+        Write-Log "[SIMULATION] Wuerde verarbeiten: $($fileInfo.Name) -> $newFileName" -Level Info
         return
     }
 
@@ -628,7 +628,7 @@ function Start-Conversion {
     Write-Host ""
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host "  iPhone zu Samsung DCIM Konverter" -ForegroundColor Cyan
-    Write-Host "  Version 1.0" -ForegroundColor Cyan
+    Write-Host "  Version 1.1" -ForegroundColor Cyan
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host ""
 
@@ -640,7 +640,7 @@ function Start-Conversion {
     Write-Log "Originale behalten: $KeepOriginals" -Level Info
 
     if ($WhatIf) {
-        Write-Log "SIMULATIONSMODUS AKTIV - Keine Änderungen werden durchgeführt" -Level Warning
+        Write-Log "SIMULATIONSMODUS AKTIV - Keine Aenderungen werden durchgefuehrt" -Level Warning
     }
 
     Write-Host ""
@@ -717,7 +717,7 @@ function Start-Conversion {
         Write-Host "  MOV konvertiert:     $($script:Config.Stats.ConvertedMOV)" -ForegroundColor Yellow
     }
 
-    Write-Host "  Übersprungen:        $($script:Config.Stats.Skipped)" -ForegroundColor Gray
+    Write-Host "  Uebersprungen:       $($script:Config.Stats.Skipped)" -ForegroundColor Gray
     Write-Host "  Fehler:              $($script:Config.Stats.Errors)" -ForegroundColor $(if ($script:Config.Stats.Errors -gt 0) { 'Red' } else { 'Green' })
     Write-Host ""
 
@@ -732,7 +732,7 @@ function Start-Conversion {
     Write-Host "=========================================" -ForegroundColor Cyan
 }
 
-# Skript ausführen
+# Skript ausfuehren
 Start-Conversion
 
 #endregion
