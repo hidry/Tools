@@ -10,6 +10,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 |-------------|--------------|
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
+| [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
 | [Sync AzureDevops-Repos](./Sync%20AzureDevops-Repos/) | PowerShell-Tool zur automatischen Synchronisation aller Git-Repositories eines Azure DevOps Projekts |
 | [iPhone-FileCopy](./iPhone-FileCopy/) | PowerShell-Tool zum Kopieren von Dateien vom iPhone (MTP) auf den lokalen PC |
 
@@ -48,6 +49,15 @@ Synchronisiert alle Repositories eines Azure DevOps Projekts lokal. Bestehende R
 ```powershell
 ".\Sync AzureDevops-Repos\Sync-Repos.ps1" -Organization "https://server/tfs/collection/" -Project "myProject" -Token "myPAT"
 ```
+
+### iPhone-To-Samsung-Photos
+
+Konvertiert iPhone DCIM-Backups für Samsung Galaxy Geräte. Benennt Dateien nach Samsung-Namenskonvention um (YYYYMMDD_HHMMSS), extrahiert EXIF-Daten und erstellt die passende Ordnerstruktur.
+
+**Optionale Voraussetzungen:** ExifTool (für präzise Datumsextraktion), ImageMagick (HEIC-Konvertierung), FFmpeg (MOV-Konvertierung)
+
+```powershell
+.\iPhone-To-Samsung-Photos\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\iPhone\DCIM" -DestinationPath "E:\Samsung" -SimulateOnly
 
 ### iPhone-FileCopy
 
