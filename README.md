@@ -11,14 +11,9 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
+| [Sage100-Mandant](./Sage100-Mandant/) | C#-Code-Snippet zur Erstellung eines Sage 100 Mandantenobjekts mit Session-Authentifizierung |
 | [Sync AzureDevops-Repos](./Sync%20AzureDevops-Repos/) | PowerShell-Tool zur automatischen Synchronisation aller Git-Repositories eines Azure DevOps Projekts |
 | [iPhone-FileCopy](./iPhone-FileCopy/) | PowerShell-Tool zum Kopieren von Dateien vom iPhone (MTP) auf den lokalen PC |
-
-### Dateien
-
-| Datei | Beschreibung |
-|-------|--------------|
-| `Sage 100 Mandantenobjekt erzeugen` | C#-Code-Snippet zur Erstellung eines Sage 100 Mandantenobjekts mit Session-Authentifizierung |
 
 ## Voraussetzungen
 
@@ -70,17 +65,3 @@ Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstü
 ### Anleitungen
 
 Enthält den **PRD-to-Code Workflow** - eine strukturierte Anleitung für die Entwicklung mit Claude Code, die von Product Requirements Documents bis zur fertigen Implementierung führt.
-
-## Sage 100 Code-Snippet
-
-C#-Methode zur Erstellung eines Sage 100 Mandantenobjekts:
-
-```csharp
-public static Sagede.OfficeLine.Engine.Mandant GetClient(
-    string username,
-    string password,
-    string databaseName,
-    short clientId)
-```
-
-Erstellt eine Session mit der Sage OfficeLine Engine und gibt ein Mandantenobjekt zurück.
