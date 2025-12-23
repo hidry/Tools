@@ -69,10 +69,7 @@ param(
     [switch]$PreserveLivePhotos,
 
     [Parameter(HelpMessage = "Keine Aenderungen durchfuehren, nur simulieren")]
-    [switch]$WhatIf,
-
-    [Parameter(HelpMessage = "Ausfuehrliche Ausgabe")]
-    [switch]$Verbose
+    [switch]$WhatIf
 )
 
 #region Konfiguration
