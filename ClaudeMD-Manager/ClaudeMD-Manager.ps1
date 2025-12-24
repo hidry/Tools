@@ -9,6 +9,17 @@ param(
     [switch]$Verbose
 )
 
+
+
+asdfasdfasdf
+
+asdf
+asdfasdf
+
+asdfsadf
+
+
+asdf
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
