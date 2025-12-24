@@ -197,7 +197,7 @@ function Copy-FileToAndroid {
                 Write-Log "Media scanner triggered for Gallery integration" -Level "SUCCESS"
 
                 $script:SuccessCount++
-                Write-Log "✓ Successfully transferred: $fileName" -Level "SUCCESS"
+                Write-Log "[OK] Successfully transferred: $fileName" -Level "SUCCESS"
                 return $true
             }
             elseif ($androidSize -eq -1) {
@@ -224,7 +224,7 @@ function Copy-FileToAndroid {
         SourcePath = $File.FullName
         Reason = "Failed after $MaxRetries attempts"
     }
-    Write-Log "✗ Failed to transfer: $fileName" -Level "ERROR"
+    Write-Log "[FAILED] Failed to transfer: $fileName" -Level "ERROR"
     return $false
 }
 
