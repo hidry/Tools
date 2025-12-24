@@ -1,4 +1,4 @@
-name: PowerShell Syntax Check
+name: PowerShell Validation
 
 on:
   push:
@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  syntax-validation:
-    name: Validate PowerShell Syntax
+  validate:
+    name: Validate PowerShell Scripts
     runs-on: windows-latest
 
     steps:
@@ -96,5 +96,104 @@ jobs:
           } else {
             Write-Host ""
             Write-Host "✅ All PowerShell scripts have valid syntax!" -ForegroundColor Green
+          }
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Write-Host "📦 Installing PSScriptAnalyzer..." -ForegroundColor Cyan
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
+          Write-Host "✅ PSScriptAnalyzer installed" -ForegroundColor Green
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Write-Host ""
+          Write-Host "🔍 PSScriptAnalyzer - Code Quality Check" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host ""
+
+          # Find all PowerShell scripts
+          $scripts = Get-ChildItem -Path . -Filter *.ps1 -Recurse -File
+
+          if ($scripts.Count -eq 0) {
+            Write-Host "⚠️  No PowerShell scripts found" -ForegroundColor Yellow
+            exit 0
+          }
+
+          Write-Host "Analyzing $($scripts.Count) PowerShell script(s)" -ForegroundColor White
+          Write-Host ""
+
+          $totalErrors = 0
+          $totalWarnings = 0
+          $totalInfo = 0
+          $scriptsWithErrors = @()
+
+          foreach ($script in $scripts) {
+            $relativePath = $script.FullName.Replace($PWD.Path + [System.IO.Path]::DirectorySeparatorChar, '')
+            Write-Host "Analyzing: $relativePath" -ForegroundColor Cyan
+
+            $results = Invoke-ScriptAnalyzer -Path $script.FullName -Severity Error,Warning,Information
+
+            if ($results) {
+              $errors = @($results | Where-Object { $_.Severity -eq 'Error' })
+              $warnings = @($results | Where-Object { $_.Severity -eq 'Warning' })
+              $info = @($results | Where-Object { $_.Severity -eq 'Information' })
+
+              if ($errors.Count -gt 0) {
+                Write-Host "  ❌ $($errors.Count) Error(s)" -ForegroundColor Red
+                $scriptsWithErrors += $relativePath
+                foreach ($error in $errors) {
+                  Write-Host "     [ERROR] Line $($error.Line): $($error.RuleName)" -ForegroundColor Red
+                  Write-Host "             $($error.Message)" -ForegroundColor Red
+                }
+              }
+
+              if ($warnings.Count -gt 0) {
+                Write-Host "  ⚠️  $($warnings.Count) Warning(s)" -ForegroundColor Yellow
+                foreach ($warning in $warnings) {
+                  Write-Host "     [WARN] Line $($warning.Line): $($warning.RuleName)" -ForegroundColor Yellow
+                  Write-Host "            $($warning.Message)" -ForegroundColor Gray
+                }
+              }
+
+              if ($info.Count -gt 0) {
+                Write-Host "  ℹ️  $($info.Count) Info(s)" -ForegroundColor Gray
+              }
+
+              $totalErrors += $errors.Count
+              $totalWarnings += $warnings.Count
+              $totalInfo += $info.Count
+
+            } else {
+              Write-Host "  ✅ No issues found" -ForegroundColor Green
+            }
+            Write-Host ""
+          }
+
+          # Summary
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Summary:" -ForegroundColor Cyan
+          Write-Host "  ❌ Errors: $totalErrors" -ForegroundColor $(if ($totalErrors -gt 0) { 'Red' } else { 'Green' })
+          Write-Host "  ⚠️  Warnings: $totalWarnings" -ForegroundColor $(if ($totalWarnings -gt 0) { 'Yellow' } else { 'Gray' })
+          Write-Host "  ℹ️  Info: $totalInfo" -ForegroundColor Gray
+          Write-Host "========================================" -ForegroundColor Cyan
+
+          if ($totalErrors -gt 0) {
+            Write-Host ""
+            Write-Host "❌ PSScriptAnalyzer found errors in:" -ForegroundColor Red
+            foreach ($s in $scriptsWithErrors) {
+              Write-Host "  - $s" -ForegroundColor Red
+            }
+            Write-Host ""
+            Write-Host "Please fix the errors before merging." -ForegroundColor Yellow
+            exit 1
+          } else {
+            Write-Host ""
+            if ($totalWarnings -gt 0) {
+              Write-Host "✅ No errors found, but there are warnings to review." -ForegroundColor Yellow
+            } else {
+              Write-Host "✅ All PowerShell scripts passed analysis!" -ForegroundColor Green
+            }
             exit 0
           }
