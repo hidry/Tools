@@ -18,22 +18,7 @@ The GitHub Actions workflow `powershell-syntax-check.yml` automatically:
 
 ## 🧪 Local Testing
 
-You can test PowerShell scripts locally before committing:
-
-### Option 1: Using the Test Script
-
-```powershell
-# Run the local test script
-.\Test-Syntax.ps1
-```
-
-This script:
-- Scans all PowerShell files in the repository
-- Validates syntax using PowerShell Parser
-- Provides colored output with detailed error messages
-- Exits with code 1 if any errors are found
-
-### Option 2: Manual Testing
+You can test PowerShell scripts locally before committing using the PowerShell Parser:
 
 ```powershell
 # Test a single script
@@ -45,6 +30,26 @@ $errors = $null
 )
 if ($errors) {
     $errors | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+} else {
+    Write-Host "✅ No syntax errors found" -ForegroundColor Green
+}
+```
+
+To test all PowerShell scripts in the repository:
+
+```powershell
+Get-ChildItem -Path . -Filter *.ps1 -Recurse | ForEach-Object {
+    $errors = $null
+    [System.Management.Automation.Language.Parser]::ParseFile(
+        $_.FullName,
+        [ref]$null,
+        [ref]$errors
+    )
+    if ($errors) {
+        Write-Host "❌ $($_.Name): $($errors.Count) error(s)" -ForegroundColor Red
+    } else {
+        Write-Host "✅ $($_.Name)" -ForegroundColor Green
+    }
 }
 ```
 
