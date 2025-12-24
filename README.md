@@ -11,6 +11,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
+| [PowerShell-Android-Sync](./PowerShell-Android-Sync/) | PowerShell-Tool zum Übertragen von Fotos/Videos auf Android-Geräte via ADB mit Timestamp-Erhaltung und Validierung |
 | [Sage100-Mandant](./Sage100-Mandant/) | C#-Code-Snippet zur Erstellung eines Sage 100 Mandantenobjekts mit Session-Authentifizierung |
 | [Sync AzureDevops-Repos](./Sync%20AzureDevops-Repos/) | PowerShell-Tool zur automatischen Synchronisation aller Git-Repositories eines Azure DevOps Projekts |
 | [iPhone-FileCopy](./iPhone-FileCopy/) | PowerShell-Tool zum Kopieren von Dateien vom iPhone (MTP) auf den lokalen PC |
@@ -53,6 +54,17 @@ Konvertiert iPhone DCIM-Backups für Samsung Galaxy Geräte. Benennt Dateien nac
 
 ```powershell
 .\iPhone-To-Samsung-Photos\Convert-iPhoneToSamsung.ps1 -SourcePath "D:\iPhone\DCIM" -DestinationPath "E:\Samsung" -SimulateOnly
+```
+
+### PowerShell-Android-Sync
+
+Überträgt Fotos und Videos von Windows direkt auf Android-Geräte via ADB (Android Debug Bridge). Mit Retry-Mechanismus, Dateivalidierung, Timestamp-Erhaltung und automatischer Galerie-Integration.
+
+**Zusätzliche Voraussetzung:** ADB (Android Debug Bridge) installiert, USB-Debugging am Android-Gerät aktiviert
+
+```powershell
+.\PowerShell-Android-Sync\Sync-AndroidMedia.ps1 -SourcePath "C:\Fotos\Urlaub" -DestinationPath "/sdcard/DCIM/Urlaub"
+```
 
 ### iPhone-FileCopy
 
