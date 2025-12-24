@@ -7,10 +7,10 @@ This repository includes automated validation for all PowerShell scripts using s
 The GitHub Actions workflow `powershell-syntax-check.yml` automatically:
 
 - ✅ **Syntax Validation** - Validates structural syntax of all `.ps1` files (Parser)
-- ✅ **Code Analysis** - Analyzes code quality and detects invalid commands (PSScriptAnalyzer)
+- ✅ **Code Analysis** - Analyzes code quality and best practices (PSScriptAnalyzer)
 - ✅ Runs on every push and pull request
 - ✅ Provides detailed error messages with line numbers
-- ✅ Prevents merging of invalid scripts
+- ✅ Prevents merging of syntactically invalid or poor-quality scripts
 
 **Workflow triggers:**
 - Push to any branch (when `.ps1` files are modified)
@@ -89,19 +89,54 @@ Structural syntax checking:
 - ✅ Malformed function declarations
 
 ### Step 2: Code Analysis (PSScriptAnalyzer)
-Code quality and semantic validation:
-- ✅ **Invalid commands** (e.g., `asdfasdfasdf`, undefined cmdlets)
-- ✅ **Incorrect usage** of cmdlets and functions
-- ✅ **Best practices** violations
-- ✅ **Code style** issues
+Code quality and best practices validation:
+- ✅ **Best practices** violations (e.g., using aliases, unapproved verbs)
+- ✅ **Code style** issues (formatting, naming conventions)
+- ✅ **Incorrect usage** of well-known cmdlets (wrong parameters, deprecated usage)
 - ✅ **Potential bugs** and anti-patterns
-- ✅ **Performance** issues
+- ✅ **Performance** issues (inefficient patterns)
+- ✅ **Security** risks (injection vulnerabilities, credential exposure)
 
 **What is NOT validated:**
+- ❌ **Undefined commands** (e.g., `asdfasdfasdf` - could be a function defined elsewhere)
 - ❌ Script execution or runtime errors
 - ❌ Logic correctness
 - ❌ External dependencies availability
 - ❌ Environment-specific issues
+
+**Note:** PSScriptAnalyzer is a static analysis tool. It validates code quality and best practices, but cannot detect if a command exists at runtime. Use proper testing (e.g., Pester) for functional validation.
+
+## ❓ Why doesn't PSScriptAnalyzer catch `asdfasdfasdf`?
+
+PSScriptAnalyzer performs **static code analysis**, not runtime validation. Here's why:
+
+```powershell
+# This is syntactically valid PowerShell
+asdfasdfasdf
+```
+
+**Why it's not flagged:**
+- ✅ Syntactically correct - could be a function call
+- ✅ Could be defined later in the script
+- ✅ Could come from an imported module
+- ✅ Could be a dynamically created function
+
+**To detect undefined commands, you would need:**
+- Execute the script (risky and slow)
+- Import all modules (heavy and environment-dependent)
+- Use unit tests with Pester (recommended approach)
+
+**Example of what PSScriptAnalyzer DOES catch:**
+```powershell
+# ❌ Using alias instead of full cmdlet
+ls | where Name -eq "test"  # Warns: Use Get-ChildItem, Where-Object
+
+# ❌ Unapproved verb
+function Validate-Input { }  # Error: Use Test-Input or Confirm-Input
+
+# ❌ Security issue
+Invoke-Expression $userInput  # Warning: Potential code injection
+```
 
 ## 🔧 Requirements
 
