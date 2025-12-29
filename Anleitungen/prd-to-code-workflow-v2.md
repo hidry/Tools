@@ -15,9 +15,13 @@
 npm install -g claude-code-templates@latest
 claude-code-templates --command=project-management/todo --yes
 
-# Rename für Klarheit (empfohlen)
-mv .claude/commands/todo.md .claude/commands/generate-stories.md
-mv .claude/commands/todo.md .claude/commands/generate-tasks.md
+# Optional: Weitere Templates für Stories und Tasks
+# (Falls verfügbar - ansonsten /todo für beides nutzen)
+# claude-code-templates --command=project-management/user-stories --yes
+# claude-code-templates --command=project-management/tasks --yes
+
+# Hinweis: Im Workflow wird /todo für Story/Task-Generierung genutzt
+# Der Name ist OK, da TodoWrite ein separates Tool (kein Command) ist
 ```
 
 ### 2. Claude Settings konfigurieren
@@ -26,9 +30,19 @@ mv .claude/commands/todo.md .claude/commands/generate-tasks.md
 // .claude/settings.json
 {
   "model": "opusplan",  // Opus für Planning, auto-switch zu Sonnet für Execution
-  "planMode": true      // Optional: Plan Mode als Default
+  "planMode": true,     // Optional: Plan Mode als Default
+  "extendedThinking": {
+    "enabled": true,
+    "budgetTokens": 8192  // 8k für Phase 1 & 3 (nicht interaktiv änderbar!)
+  }
 }
 ```
+
+**Wichtig zu Extended Thinking:**
+- Budget wird in settings.json gesetzt und gilt für die gesamte Session
+- Tab-Taste togglet Extended Thinking nur AN/AUS, ändert nicht das Budget
+- Für verschiedene Budgets: Settings vor Session anpassen oder mit CLI-Flag starten
+- Empfohlen: 8192 Tokens (8k) als Balance zwischen Qualität und Kosten
 
 ### 3. Project Rules erstellen
 
@@ -71,18 +85,20 @@ mkdir -p .claude/rules
 
 | Phase | Modell | TodoWrite | Context | Dauer |
 |-------|--------|-----------|---------|-------|
-| **0: Setup** | Haiku | ✅ | Fresh | 2-5 min |
+| **0: Setup** (Optional) | OpusPlan | ✅ | Fresh | 2-5 min |
 | **1: PRD** | OpusPlan + Thinking (8k) | ✅ | Fresh | 15-30 min |
-| **2: User Stories** | Sonnet | ✅ | Compact | 10-20 min |
-| **3: Tasks & Validation** | OpusPlan + Thinking (16k) | ✅ | Compact | 15-25 min |
-| **4: Sprint Plan** | Sonnet | ✅ | Compact | 5-10 min |
+| **2: User Stories** | Sonnet (via OpusPlan) | ✅ | Compact | 10-20 min |
+| **3: Tasks & Validation** | OpusPlan + Thinking (8k) | ✅ | Compact | 15-25 min |
+| **4: Sprint Plan** | Sonnet (via OpusPlan) | ✅ | Compact | 5-10 min |
 | **5: Implementation** | OpusPlan | ✅ per Sprint | Keep! | 1-3h per Sprint |
 
 ---
 
-## Phase 0: Setup & Validierung (Haiku)
+## Phase 0: Setup & Validierung (Optional)
 
 **Ziel**: Schnelle Umgebungs-Checks und Branch-Setup
+
+**Hinweis**: Diese Phase ist optional. Für erfahrene User: Direkt zu Phase 1 springen.
 
 ```bash
 git checkout -b feature/oauth-ms-accounts
@@ -92,11 +108,9 @@ claude
 ### In Claude:
 
 ```text
-/model haiku
+Führe Setup-Validierung durch und tracke den Fortschritt:
 
-Führe Setup-Validierung durch:
-
-TodoWrite:
+Erstelle eine Todo-Liste (du nutzt intern das TodoWrite-Tool) und arbeite folgende Punkte ab:
 - Git Branch erstellt (feature/oauth-ms-accounts)
 - Dependencies checken (.NET SDK, npm)
 - Codebase-Struktur analysieren (Controllers, Services, Tests)
@@ -104,6 +118,11 @@ TodoWrite:
 
 Gib kurzen Setup-Report aus.
 ```
+
+**Hinweis zu TodoWrite:**
+- TodoWrite ist ein internes Tool, das Claude automatisch nutzt
+- Du als User siehst die Todo-Liste und den Fortschritt in Echtzeit
+- Du musst TodoWrite nicht manuell aufrufen
 
 **Expected TodoWrite Output:**
 ```javascript
@@ -115,10 +134,12 @@ Gib kurzen Setup-Report aus.
 ]
 ```
 
-**Git Commit:**
+**Optional: Git Commit für Setup**
 ```bash
-git add claude-progress.txt
-git commit -m "chore: setup OAuth MS Accounts feature branch"
+# Optional - nur wenn du Setup-Änderungen tracken möchtest
+git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
+
+# Hinweis: claude-progress.txt wird erst in Phase 1 erstellt!
 ```
 
 ---
@@ -130,10 +151,13 @@ git commit -m "chore: setup OAuth MS Accounts feature branch"
 ### 1. Modell & Thinking konfigurieren
 
 ```text
-Tab  (Extended Thinking aktivieren, 8k Budget empfohlen)
+Tab  (Extended Thinking aktivieren - Budget 8k bereits in settings.json gesetzt)
 ```
 
-Modell ist bereits auf `opusplan` (aus settings.json)
+**Hinweis:**
+- Modell ist bereits auf `opusplan` (aus settings.json)
+- Extended Thinking Budget (8k) wurde in settings.json konfiguriert
+- Tab-Taste aktiviert nur Extended Thinking, ändert nicht das Budget
 
 ### 2. Plan Mode aktivieren
 
@@ -144,12 +168,14 @@ Alt + M  (zweimal drücken, bis "Plan" angezeigt wird)
 ### 3. TodoWrite für Phase 1 initialisieren
 
 ```text
-Erstelle Todo-Liste für PRD-Phase:
+Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
 - PRD mit /create-prd generieren
 - PRD Review durchführen
 - Feedback einarbeiten und iterieren
 - PRD finalisieren
 - Phase 1 committen
+
+(Claude wird automatisch TodoWrite nutzen, um den Fortschritt zu tracken)
 ```
 
 ### 4. PRD generieren
@@ -241,13 +267,15 @@ Alt + M  (wenn du für nächste Phase keinen Plan Mode brauchst)
 ### 2. TodoWrite für Phase 2
 
 ```text
-Erstelle Todo-Liste für User Stories Phase:
+Erstelle eine Todo-Liste für die User Stories Phase und arbeite diese Schritte ab:
 - PRD.md analysieren
 - User Stories im INVEST-Format generieren
 - Stories validieren (INVEST-Check)
 - user-stories.md speichern
 - claude-progress.txt aktualisieren
 - Phase 2 committen
+
+(Claude nutzt intern TodoWrite für Progress-Tracking)
 ```
 
 ### 3. User Stories generieren
@@ -255,7 +283,7 @@ Erstelle Todo-Liste für User Stories Phase:
 ```text
 /generate-stories "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
 
-TodoWrite Tracking nutzen für:
+Tracke den Fortschritt mit einer Todo-Liste für:
 - PRD analysieren
 - Stories schreiben
 - INVEST validieren
@@ -305,16 +333,18 @@ git commit -m "docs: add user stories for OAuth feature (8 stories, 56 SP, INVES
 /compact "Behalte User Stories, Story Points, Dependencies, PRD-Kernfeatures"
 ```
 
-### 2. Extended Thinking erhöhen
+### 2. Extended Thinking nutzen
 
 ```text
-Tab  (Budget auf 16k erhöhen für komplexe Validierung)
+Tab  (Extended Thinking aktivieren - nutzt 8k Budget aus settings.json)
 ```
+
+**Hinweis:** Extended Thinking ist bereits mit 8k konfiguriert, ausreichend für die Validierung
 
 ### 3. TodoWrite für Phase 3
 
 ```text
-Erstelle Todo-Liste für Tasks & Validierung:
+Erstelle eine Todo-Liste für Tasks & Validierung und arbeite diese Schritte systematisch ab:
 - User Stories analysieren
 - Development Tasks ableiten
 - Dependencies validieren (keine Zirkularabhängigkeiten)
@@ -326,6 +356,8 @@ Erstelle Todo-Liste für Tasks & Validierung:
 - Feedback in tasks.md einarbeiten
 - claude-progress.txt aktualisieren
 - Phase 3 committen
+
+(TodoWrite trackt automatisch den Fortschritt durch alle Validierungsschritte)
 ```
 
 ### 4. Tasks generieren
@@ -333,7 +365,7 @@ Erstelle Todo-Liste für Tasks & Validierung:
 ```text
 /generate-tasks "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning.
 
-TodoWrite nutzen für jeden Validierungsschritt!
+Tracke jeden Validierungsschritt mit einer Todo-Liste!
 
 Format pro Task:
 - Task-ID: T-XXX
@@ -359,7 +391,7 @@ Ausgabe: tasks.md"
 ```text
 Validiere user-stories.md + tasks.md systematisch:
 
-TodoWrite für jeden Check:
+Erstelle eine Todo-Liste und arbeite jeden Check ab:
 
 ✓ Dependencies: Keine Zirkularabhängigkeiten?
   - Erstelle Dependency Graph
@@ -438,7 +470,7 @@ git commit -m "docs: add development tasks (23 tasks, validated, dependency-free
 ### 2. TodoWrite für Phase 4
 
 ```text
-Erstelle Todo-Liste für Sprint Planning:
+Erstelle eine Todo-Liste für Sprint Planning und arbeite diese Schritte ab:
 - Tasks nach Priority sortieren
 - Dependency-Graph erstellen
 - Sprints gruppieren (Top-5 Must-Have Tasks zuerst)
@@ -447,6 +479,8 @@ Erstelle Todo-Liste für Sprint Planning:
 - sprint-plan.md erstellen
 - claude-progress.txt aktualisieren
 - Phase 4 committen
+
+(Claude trackt den Fortschritt automatisch mit TodoWrite)
 ```
 
 ### 3. Sprint-Plan erstellen
@@ -454,7 +488,7 @@ Erstelle Todo-Liste für Sprint Planning:
 ```text
 Gruppiere alle Tasks nach Sprints und erstelle sprint-plan.md:
 
-TodoWrite für jeden Sprint-Gruppierungsschritt nutzen!
+Tracke jeden Sprint-Gruppierungsschritt mit einer Todo-Liste!
 
 Regeln:
 - MoSCoW-Priorisierung (Must-Have zuerst)
@@ -549,7 +583,7 @@ Alt + M  (Plan Mode aktivieren)
 #### 2. TodoWrite für Sprint 1
 
 ```text
-Erstelle Todo-Liste für Sprint 1 Implementierung:
+Erstelle eine Todo-Liste für Sprint 1 Implementierung und arbeite diese Schritte ab:
 - sprint-plan.md Sprint 1 Tasks analysieren
 - Implementierungsplan erstellen (welche Files, welche Änderungen)
 - Plan reviewen lassen (User)
@@ -562,6 +596,8 @@ Erstelle Todo-Liste für Sprint 1 Implementierung:
 - Tests ausführen & validieren
 - Sprint 1 committen
 - claude-progress.txt aktualisieren
+
+(TodoWrite trackt automatisch jeden Task-Fortschritt)
 ```
 
 #### 3. Implementierungsplan erstellen (Plan Mode)
@@ -569,7 +605,7 @@ Erstelle Todo-Liste für Sprint 1 Implementierung:
 ```text
 Analysiere sprint-plan.md Sprint 1 und erstelle detaillierten Implementierungsplan:
 
-TodoWrite für Planungs-Schritte nutzen!
+Tracke die Planungs-Schritte mit einer Todo-Liste!
 
 Für jeden Task (T-001 bis T-005):
 - Welche Files neu erstellen? (z.B. Controllers/OAuthController.cs)
@@ -599,7 +635,7 @@ Alt + M  (Plan Mode verlassen)
 ```text
 Implementiere Sprint 1 basierend auf Plan-File:
 
-TodoWrite für jeden Task (T-001 bis T-005) einzeln!
+Erstelle eine Todo-Liste für jeden Task (T-001 bis T-005) und arbeite sie einzeln ab!
 
 Qualitätskriterien (aus .claude/rules/):
 • Clean Code, SOLID Principles
@@ -713,13 +749,15 @@ Milestone: Manual OAuth login functional"
 ### Nach allen Sprints: Final Review
 
 ```text
-TodoWrite für Final Review:
+Erstelle eine Todo-Liste für Final Review und arbeite alle Punkte ab:
 - Alle Sprint-Milestones erreicht?
 - End-to-End Test durchführen
 - Security Audit
 - Performance Check
 - Dokumentation aktualisieren (README.md)
 - Final Commit & Push
+
+(Claude nutzt TodoWrite für das finale Tracking)
 ```
 
 **Final Commit:**
@@ -759,7 +797,53 @@ Status: Ready for PR
 
 ## 🔧 Hooks (Optional but Recommended)
 
-### Auto-Formatierung nach Code-Änderungen
+**Hooks** ermöglichen deterministische Automation (z.B. Auto-Format, Pre-Commit-Checks).
+
+### Setup (Einmalig)
+
+**1. Node.js Projekt initialisieren:**
+```bash
+# Im Projekt-Root
+cd /path/to/your/project
+npm init -y
+```
+
+**2. Claude Agent SDK installieren:**
+```bash
+npm install --save-dev @anthropic-ai/agent-sdk typescript @types/node
+```
+
+**3. TypeScript konfigurieren:**
+```bash
+npx tsc --init
+```
+
+**4. Hooks-Verzeichnis erstellen:**
+```bash
+mkdir -p .claude/hooks
+```
+
+**5. Settings konfigurieren:**
+```json
+// .claude/settings.json
+{
+  "model": "opusplan",
+  "extendedThinking": {
+    "enabled": true,
+    "budgetTokens": 8192
+  },
+  "hooks": {
+    "postToolUse": ".claude/hooks/post-tool-use.ts",
+    "preToolUse": ".claude/hooks/pre-tool-use.ts"
+  }
+}
+```
+
+---
+
+### Hook-Beispiele
+
+#### Auto-Formatierung nach Code-Änderungen
 
 ```typescript
 // .claude/hooks/post-tool-use.ts
@@ -809,73 +893,122 @@ export async function preToolUse(tool, params, context) {
 
 ---
 
-## 🤖 Subagents (Optional but Recommended)
+## 🤖 Subagents & Skills (Optional but Recommended)
 
-### PRD Reviewer
+**Wichtig**: Es gibt zwei Arten spezialisierter Agents:
+
+1. **Subagents (via Task Tool)**: Inline, keine Files, für einmalige Tasks
+2. **Skills**: File-basiert, wiederverwendbar, für wiederkehrende Workflows
+
+### Option 1: Inline Subagents (via Task Tool)
+
+Für einmalige, spezialisierte Reviews ohne File-Overhead:
+
+**Usage in Phase 1:**
+```text
+Spawne einen Subagent mit folgendem Prompt:
+
+"Du bist ein PRD-Review-Spezialist. Analysiere PRD.md auf:
+- Verständlichkeit und Vollständigkeit
+- Lücken in Requirements
+- Widersprüche
+- Unklare Akzeptanzkriterien
+- Technische Machbarkeit
+- Security Considerations
+
+Gib einen strukturierten Review-Report mit:
+- Summary (Pass/Needs Work/Fail)
+- Findings (Critical/High/Medium/Low)
+- Konkrete Recommendations
+
+Tools: Read, Grep"
+```
+
+**Vorteil**: Kein Setup, sofort nutzbar
+
+**Nachteil**: Nicht wiederverwendbar zwischen Sessions
+
+---
+
+### Option 2: Skills (File-basiert, wiederverwendbar)
+
+Für wiederkehrende Tasks, die du öfter brauchst:
+
+```bash
+# Setup
+mkdir -p .claude/skills/prd-reviewer
+```
 
 ```markdown
-<!-- .claude/agents/prd-reviewer/AGENT.md -->
-# PRD Reviewer Agent
+<!-- .claude/skills/prd-reviewer/SKILL.md -->
+# PRD Reviewer Skill
 
 ## Purpose
-Review Product Requirements Documents for completeness, clarity, and technical feasibility.
+Review Product Requirements Documents for quality and completeness.
 
-## Tools
-- Read, Grep, Glob
+## When to Use
+- After /create-prd command
+- Before moving to User Stories phase
+- When PRD needs validation
 
 ## Process
-1. Read PRD.md
-2. Check structure (Problem, Solution, Requirements, Acceptance Criteria)
+1. Read PRD.md with Read tool
+2. Check structure: Problem, Solution, Requirements, Acceptance Criteria
 3. Identify gaps, ambiguities, contradictions
 4. Validate technical feasibility
 5. Security considerations present?
-6. Return structured review report with severity ratings
+6. Generate structured review report
 
 ## Output Format
 ### Summary
 - Overall Rating: [Pass/Needs Work/Fail]
+- Reviewed: [Date]
 
 ### Findings
-1. [Critical] Missing authentication security requirements
-2. [High] Ambiguous acceptance criteria for US-003
-3. [Medium] Performance targets not specified
+1. [Severity] Description
+   - Location: Line X
+   - Impact: ...
+   - Recommendation: ...
 
-### Recommendations
-1. Add OAuth security best practices section
-2. Clarify "user-friendly" in AC-003 with specific UX metrics
-3. Define performance SLAs (response time, throughput)
+### Action Items
+- [ ] Fix Critical issues
+- [ ] Address High priority items
+- [ ] Consider Medium suggestions
+
+## Tools
+- Read (for PRD.md)
+- Grep (for keyword searches)
+```
+
+```json
+{
+  "name": "prd-reviewer",
+  "description": "Reviews PRD documents for quality and completeness",
+  "version": "1.0.0"
+}
 ```
 
 **Usage:**
 ```text
-Spawne prd-reviewer Subagent mit PRD.md
+# In Claude
+/skills prd-reviewer
+
+# Oder inline
+Nutze das prd-reviewer Skill um PRD.md zu reviewen
 ```
 
-### Test Writer
+**Vorteil**: Wiederverwendbar, versionierbar, team-shareable
 
-```markdown
-<!-- .claude/agents/test-writer/AGENT.md -->
-# Test Writer Agent
+**Nachteil**: Setup-Overhead
 
-## Purpose
-Generate comprehensive unit and integration tests for C#/.NET code.
+---
 
-## Tools
-- Read, Write, Edit, Bash
+### Empfehlung für PRD-to-Code Workflow
 
-## Process
-1. Read implementation files
-2. Identify public APIs, edge cases, error paths
-3. Generate xUnit tests with AAA pattern
-4. Aim for >80% coverage
-5. Run tests and fix failures
-6. Return coverage report
+**Phase 1 (PRD Review)**: Inline Subagent (einmalig, schnell)
+**Phase 5 (Code Review)**: Skill erstellen falls wiederholt gebraucht
 
-## Output Format
-- Tests written: [count]
-- Coverage: [percentage]
-- Tests passing: [count/total]
-```
+**Alternative**: Einfach Claude direkt fragen statt Subagents/Skills zu nutzen
 
 ---
 
@@ -898,7 +1031,9 @@ claude-code-templates --command=project-management/todo --yes
 
 ---
 
-### Phase 0 – Setup (Haiku, 2-5 min)
+### Phase 0 – Setup (Optional, 2-5 min)
+
+**Hinweis**: Optional - für erfahrene User direkt zu Phase 1
 
 ```bash
 git checkout -b feature/oauth-ms-accounts
@@ -906,15 +1041,13 @@ claude
 ```
 
 ```text
-/model haiku
-
-TodoWrite Setup:
+Erstelle Todo-Liste für Setup:
 - Branch ✓
 - Dependencies ✓
 - Codebase-Struktur ✓
 - Claude Settings ✓
 
-→ Commit: "chore: setup feature branch"
+→ Optional Commit: "chore: setup feature branch"
 ```
 
 ---
