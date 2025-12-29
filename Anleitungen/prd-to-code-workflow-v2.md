@@ -8,8 +8,16 @@
 ### 1. Commands & Templates installieren
 
 ```bash
-# PRD Command
-# Quelle: https://www.buildwithclaude.com/command/create-prd
+# PRD Command installieren
+# Option 1: Via buildwithclaude.com (empfohlen)
+# 1. Besuche https://www.buildwithclaude.com/command/create-prd
+# 2. Klicke "Add to Claude Code" oder kopiere den Command-Inhalt
+# 3. Command wird zu ~/.claude/commands/ oder .claude/commands/ hinzugefügt
+
+# Option 2: Prüfen ob bereits installiert
+ls ~/.claude/commands/create-prd.md 2>/dev/null || \
+ls .claude/commands/create-prd.md 2>/dev/null || \
+echo "⚠️  /create-prd nicht gefunden - bitte über buildwithclaude.com installieren"
 
 # Story/Task Generator Templates
 npm install -g claude-code-templates@latest
@@ -26,23 +34,45 @@ claude-code-templates --command=project-management/todo --yes
 
 ### 2. Claude Settings konfigurieren
 
+**Location**:
+- **Projekt-spezifisch**: `<projekt-root>/.claude/settings.json` (empfohlen für Team-Projekte)
+- **Global**: `~/.claude/settings.json` (für alle Projekte)
+- Projekt-Settings überschreiben Global-Settings
+
+```bash
+# Projekt-Settings erstellen (empfohlen)
+mkdir -p .claude
+cat > .claude/settings.json <<'EOF'
+{
+  "model": "opusplan",
+  "planMode": false,
+  "extendedThinking": {
+    "enabled": false,
+    "budgetTokens": 8192
+  }
+}
+EOF
+```
+
 ```json
-// .claude/settings.json
+// .claude/settings.json - Finale Konfiguration
 {
   "model": "opusplan",  // Opus für Planning, auto-switch zu Sonnet für Execution
-  "planMode": true,     // Optional: Plan Mode als Default
+  "planMode": false,     // Optional: true = Plan Mode als Default (nicht empfohlen)
   "extendedThinking": {
-    "enabled": true,
+    "enabled": false,    // false = Tab aktiviert Extended Thinking / true = immer aktiv
     "budgetTokens": 8192  // 8k für Phase 1 & 3 (nicht interaktiv änderbar!)
   }
 }
 ```
 
 **Wichtig zu Extended Thinking:**
-- Budget wird in settings.json gesetzt und gilt für die gesamte Session
-- Tab-Taste togglet Extended Thinking nur AN/AUS, ändert nicht das Budget
-- Für verschiedene Budgets: Settings vor Session anpassen oder mit CLI-Flag starten
-- Empfohlen: 8192 Tokens (8k) als Balance zwischen Qualität und Kosten
+- `"enabled": false` → **Tab aktiviert** Extended Thinking (empfohlen!)
+- `"enabled": true` → Extended Thinking **immer aktiv** (nicht empfohlen, hohe Kosten)
+- Budget (8192 Tokens) wird in settings.json gesetzt und gilt für die gesamte Session
+- Tab-Taste togglet Extended Thinking nur AN/AUS, ändert **nicht** das Budget
+- Status-Check: Claude Code UI zeigt ob Extended Thinking aktiv ist
+- Für verschiedene Budgets: Settings vor Session anpassen
 
 ### 3. Project Rules erstellen
 
@@ -162,7 +192,12 @@ Tab  (Extended Thinking aktivieren - Budget 8k bereits in settings.json gesetzt)
 ### 2. Plan Mode aktivieren
 
 ```text
-Alt + M  (zweimal drücken, bis "Plan" angezeigt wird)
+Plan Mode aktivieren (zweimal drücken, bis "Plan" in UI angezeigt wird):
+- Windows/Linux: Alt + M (zweimal)
+- macOS: Option + M (zweimal)
+- Alternative (alle Plattformen): Command-Palette → "Toggle Plan Mode"
+  - Windows/Linux: Ctrl + Shift + P
+  - macOS: Cmd + Shift + P
 ```
 
 ### 3. TodoWrite für Phase 1 initialisieren
@@ -189,13 +224,22 @@ Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
 ### 5. PRD Review durchführen
 
 ```text
-/review @PRD.md: Führe ein detailliertes Review des PRD durch. Prüfe auf:
+Führe ein detailliertes Review von PRD.md durch. Lies das Dokument und prüfe auf:
+
 - Verständlichkeit und Klarheit
 - Lücken in Anforderungen
 - Widersprüchliche Requirements
 - Unklare Akzeptanzkriterien
 - Technische Machbarkeit
 - Security Considerations
+
+Erstelle einen strukturierten Review-Report:
+- Summary (Pass/Needs Work/Fail)
+- Findings (Critical/High/Medium/Low)
+  - Issue-Beschreibung
+  - Location in PRD
+  - Impact
+- Recommendations (konkret, priorisiert)
 
 Schlage konkrete, priorisierte Verbesserungen vor.
 ```
@@ -281,7 +325,7 @@ Erstelle eine Todo-Liste für die User Stories Phase und arbeite diese Schritte 
 ### 3. User Stories generieren
 
 ```text
-/generate-stories "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
+/todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
 
 Tracke den Fortschritt mit einer Todo-Liste für:
 - PRD analysieren
@@ -363,7 +407,7 @@ Erstelle eine Todo-Liste für Tasks & Validierung und arbeite diese Schritte sys
 ### 4. Tasks generieren
 
 ```text
-/generate-tasks "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning.
+/todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning.
 
 Tracke jeden Validierungsschritt mit einer Todo-Liste!
 
@@ -577,7 +621,10 @@ KEIN /clear oder /compact zwischen Sprints!
 #### 1. Plan Mode für Sprint aktivieren
 
 ```text
-Alt + M  (Plan Mode aktivieren)
+Plan Mode aktivieren:
+- Windows/Linux: Alt + M
+- macOS: Option + M
+- Alternative: Command-Palette (Ctrl/Cmd + Shift + P) → "Toggle Plan Mode"
 ```
 
 #### 2. TodoWrite für Sprint 1
@@ -625,10 +672,17 @@ Erstelle detaillierten Plan in Plan-File.
 #### 5. Plan Mode verlassen → Execution startet
 
 ```text
-Alt + M  (Plan Mode verlassen)
+Plan Mode verlassen:
+- Windows/Linux: Alt + M
+- macOS: Option + M
+- UI zeigt "Plan" nicht mehr → Normal Mode aktiv
 ```
 
-**→ OpusPlan wechselt automatisch zu Sonnet für Execution!**
+**→ OpusPlan-Behavior:**
+- **Plan Mode aktiv**: Nutzt Claude Opus (starkes Reasoning)
+- **Plan Mode verlassen**: Wechselt automatisch zu Claude Sonnet (effiziente Execution)
+- **Status prüfen**: Claude Code UI zeigt aktuelles Modell (z.B. "Claude Opus 4" oder "Claude Sonnet 3.5")
+- **Manuell wechseln**: `/model opus` oder `/model sonnet` (überschreibt OpusPlan temporär)
 
 #### 6. Implementation (Auto-Sonnet via OpusPlan)
 
@@ -1086,7 +1140,7 @@ TodoWrite Phase 2:
 - INVEST validieren
 - Speichern & committen
 
-/generate-stories "INVEST-Format, aus PRD.md → user-stories.md"
+/todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format → user-stories.md"
 
 → Commit: "docs: add user stories (X stories, Y SP, INVEST)"
 ```
@@ -1108,7 +1162,7 @@ TodoWrite Phase 3:
 - Fixes einarbeiten
 - Committen
 
-/generate-tasks "Tasks aus user-stories.md → tasks.md"
+/todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
 
 Validierung: Dependencies, Duplikate, Budget, Coverage, INVEST
 
@@ -1117,7 +1171,7 @@ Validierung: Dependencies, Duplikate, Budget, Coverage, INVEST
 
 ---
 
-### Phase 4 – Sprint Plan (Sonnet, 5-10 min)
+### Phase 4 – Sprint Plan (Sonnet (via OpusPlan), 5-10 min)
 
 ```text
 /compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
@@ -1274,7 +1328,195 @@ gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 | **Automation** | Keine Hooks | ✅ Hooks (Format, Lint, Protect) |
 | **Specialization** | Keine Subagents | ✅ Subagents (Review, Tests) |
 | **Setup Phase** | Keine | ✅ Phase 0 (Haiku, schnell) |
-| **Command Naming** | `/todo` (verwirrend) | ✅ `/generate-stories` (klar) |
+| **Command Naming** | `/todo` (verwirrend) | ✅ `/todo` mit klarem Context (geklärt) |
+
+---
+
+## 🛠️ Troubleshooting
+
+### Command not found: `/create-prd`
+**Problem**: `/create-prd` existiert nicht
+
+**Lösung**:
+```bash
+# Check ob installiert
+ls ~/.claude/commands/create-prd.md || ls .claude/commands/create-prd.md
+
+# Falls nicht: Installation
+# Besuche https://www.buildwithclaude.com/command/create-prd
+# Klicke "Add to Claude Code"
+```
+
+---
+
+### Extended Thinking funktioniert nicht
+**Problem**: Tab-Taste macht nichts
+
+**Lösung**:
+1. Check settings.json: `"enabled": false` (nicht true!)
+2. Tab-Taste drücken zum Aktivieren
+3. Status in Claude Code UI prüfen (sollte "Extended Thinking" zeigen)
+4. Falls immer noch nicht: Neustart von Claude Code
+
+**Toggle-Verhalten:**
+- `enabled: false` → Tab aktiviert / Tab wieder deaktiviert ✅ Empfohlen
+- `enabled: true` → Immer aktiv, Tab macht nichts
+
+---
+
+### Plan Mode lässt sich nicht aktivieren
+**Problem**: Alt/Option + M funktioniert nicht
+
+**Lösung**:
+- **Windows/Linux**: Alt + M zweimal drücken
+- **macOS**: Option + M zweimal drücken (nicht Cmd!)
+- **Alternative (alle)**:
+  - Ctrl/Cmd + Shift + P → Command-Palette
+  - Suche "Toggle Plan Mode"
+  - Enter
+- **Check**: UI sollte "Plan" anzeigen wenn aktiv
+- **Terminal-Issue**: Manche Terminals blockieren Alt-Shortcuts → nutze Command-Palette
+
+---
+
+### OpusPlan nutzt immer Sonnet, nie Opus
+**Problem**: Sehe nur "Claude Sonnet" in UI, nie "Claude Opus"
+
+**Lösung**:
+1. **Plan Mode aktivieren**: Alt/Option + M (zweimal!)
+2. **UI checken**: Sollte "Plan" UND "Claude Opus" zeigen
+3. **Opus wird nur in Plan Mode genutzt!**
+4. Falls immer noch Sonnet:
+   - Check settings.json: `"model": "opusplan"`
+   - Manuell: `/model opusplan` eingeben
+   - Restart Claude Code
+
+**Erwartetes Verhalten:**
+- Plan Mode ON → Claude Opus 4
+- Plan Mode OFF → Claude Sonnet 3.5
+
+---
+
+### Session abgestürzt - wie weitermachen?
+**Problem**: Claude Code abgestürzt mitten in Phase X
+
+**Lösung**:
+```bash
+# 1. Letzten Stand identifizieren
+git log --oneline | head -5
+cat claude-progress.txt  # Falls vorhanden
+
+# 2. Neue Session starten
+claude
+
+# 3. Context wiederherstellen
+cat PRD.md
+cat user-stories.md
+cat tasks.md
+cat sprint-plan.md
+
+# 4. Claude informieren
+"Ich arbeite am PRD-to-Code Workflow für [Feature].
+
+Letzer Stand laut Git:
+[commit message]
+
+Letzter Stand laut claude-progress.txt:
+- Phase 1: ✅ PRD
+- Phase 2: ✅ User Stories
+- Phase 3: 🔄 Tasks erstellt, Validierung offen
+
+Nächster Schritt: Validierung in Phase 3 abschließen"
+```
+
+---
+
+### Hooks funktionieren nicht
+**Problem**: Code wird nicht formatiert, Pre-Commit-Checks laufen nicht
+
+**Lösung**:
+```bash
+# 1. Node.js installiert?
+node --version  # Sollte v18+ sein
+
+# 2. Agent SDK installiert?
+npm list @anthropic-ai/agent-sdk
+
+# 3. TypeScript kompiliert?
+npx tsc --noEmit  # Check für Errors
+
+# 4. Settings korrekt?
+cat .claude/settings.json | grep hooks
+
+# 5. Hook-Files existieren?
+ls .claude/hooks/post-tool-use.ts
+ls .claude/hooks/pre-tool-use.ts
+
+# 6. Claude Code Logs checken
+# Im Claude Code Terminal sollten Hook-Errors sichtbar sein
+```
+
+**Häufiger Fehler:**
+```json
+// ❌ Falsch
+"hooks": {
+  "postToolUse": "post-tool-use.ts"  // Pfad fehlt!
+}
+
+// ✅ Korrekt
+"hooks": {
+  "postToolUse": ".claude/hooks/post-tool-use.ts"
+}
+```
+
+---
+
+### `/todo` Command generiert falsche Ausgabe
+**Problem**: `/todo` erstellt nicht das erwartete Format
+
+**Lösung**:
+- `/todo` ist **generisch** - Prompt-Qualität entscheidet über Ausgabe
+- **Gib detailliertes Format im Prompt vor:**
+  ```text
+  /todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
+
+  Format pro Story:
+  - ID: US-XXX
+  - Title: ...
+  - Description: Als [Role]...
+
+  Ausgabe: user-stories.md"
+  ```
+- **Falls verfügbar**: Nutze spezialisierte Commands wie `/generate-stories` falls installiert
+
+---
+
+### `/compact` macht Context kaputt
+**Problem**: Nach `/compact` fehlen wichtige Infos
+
+**Lösung**:
+- `/compact` mit **klaren Anweisungen** nutzen:
+  ```text
+  /compact "Behalte PRD-Kernfeatures, wichtigste Requirements, Security Considerations, User Stories Summary, technische Constraints"
+  ```
+- **Wichtiges explizit benennen** was behalten werden soll
+- **Falls zu viel verloren**: `/clear` und neu starten
+- **Alternative**: Komplett ohne `/compact` arbeiten (Claude hat großen Context)
+
+---
+
+### Zeitangaben passen nicht
+**Problem**: Phase 1 dauert 60 min statt 15-30 min
+
+**Antwort**: Das ist **normal!**
+- Zeitangaben in Tabelle sind **Minimum** für einfache Features
+- **Realistische Zeiten** mit Reviews/Iterationen:
+  - Phase 1: 40-70 min (PRD + 2-3 Review-Runden)
+  - Phase 2: 15-30 min
+  - Phase 3: 25-40 min (mit Validierungs-Fixes)
+  - Phase 4: 5-10 min
+  - Phase 5: 2-5h pro Sprint (realistisch)
+- **Komplexität variiert** stark je nach Feature
 
 ---
 
