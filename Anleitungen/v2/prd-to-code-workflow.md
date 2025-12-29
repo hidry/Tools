@@ -80,6 +80,11 @@ EOF
 mkdir -p .claude/rules
 ```
 
+**Beispiele (passe für deinen Tech-Stack an):**
+
+<details>
+<summary>C#/.NET Projekt</summary>
+
 ```markdown
 <!-- .claude/rules/coding-standards.md -->
 # C#/.NET Coding Standards
@@ -108,19 +113,94 @@ mkdir -p .claude/rules
 - README.md für jedes Modul
 - Inline Comments nur für komplexe Logik
 ```
+</details>
+
+<details>
+<summary>Python Projekt</summary>
+
+```markdown
+<!-- .claude/rules/coding-standards.md -->
+# Python Coding Standards
+
+- PEP 8 Style Guide
+- Type Hints für alle Public Functions
+- Dataclasses für Data Models
+- Context Managers für Resource Handling
+```
+
+```markdown
+<!-- .claude/rules/testing.md -->
+# Testing Standards
+
+- Minimum 80% Code Coverage
+- pytest Framework
+- Arrange-Act-Assert Pattern
+- Mock external dependencies (pytest-mock)
+```
+
+```markdown
+<!-- .claude/rules/documentation.md -->
+# Documentation Standards
+
+- Docstrings (Google Style) für public APIs
+- README.md für jedes Modul
+- Type annotations statt Comments
+```
+</details>
+
+<details>
+<summary>TypeScript/Node.js Projekt</summary>
+
+```markdown
+<!-- .claude/rules/coding-standards.md -->
+# TypeScript Coding Standards
+
+- ESLint + Prettier
+- Strict TypeScript Mode
+- Functional Programming Patterns
+- Async/Await (keine Callbacks)
+```
+
+```markdown
+<!-- .claude/rules/testing.md -->
+# Testing Standards
+
+- Minimum 80% Code Coverage
+- Jest Framework
+- Arrange-Act-Assert Pattern
+- Mock dependencies (jest.mock)
+```
+
+```markdown
+<!-- .claude/rules/documentation.md -->
+# Documentation Standards
+
+- JSDoc für public APIs
+- README.md pro Package
+- TypeScript Types statt Comments
+```
+</details>
 
 ---
 
 ## 📋 Workflow-Übersicht
 
-| Phase | Modell | TodoWrite | Context | Dauer |
-|-------|--------|-----------|---------|-------|
+| Phase | Modell | TodoWrite | Context | Dauer (Minimum)* |
+|-------|--------|-----------|---------|------------------|
 | **0: Setup** (Optional) | OpusPlan | ✅ | Fresh | 2-5 min |
-| **1: PRD** | OpusPlan + Thinking (8k) | ✅ | Fresh | 15-30 min |
+| **1: PRD** | OpusPlan + Thinking (8k) | ✅ | Fresh | 15-30 min* |
 | **2: User Stories** | Sonnet (via OpusPlan) | ✅ | Compact | 10-20 min |
-| **3: Tasks & Validation** | OpusPlan + Thinking (8k) | ✅ | Compact | 15-25 min |
+| **3: Tasks & Validation** | OpusPlan + Thinking (8k) | ✅ | Compact | 15-25 min* |
 | **4: Sprint Plan** | Sonnet (via OpusPlan) | ✅ | Compact | 5-10 min |
-| **5: Implementation** | OpusPlan | ✅ per Sprint | Keep! | 1-3h per Sprint |
+| **5: Implementation** | OpusPlan | ✅ per Sprint | Keep! | 1-3h per Sprint* |
+
+**\*Zeitangaben-Hinweis:**
+- Angaben sind **Minimum** für einfache Features ohne Iterationen
+- **Realistische Zeiten** mit Reviews/Feedback-Schleifen:
+  - Phase 1: **40-70 min** (PRD + 2-3 Review-Runden)
+  - Phase 3: **25-40 min** (mit Validierungs-Fixes)
+  - Phase 5: **2-5h pro Sprint** (realistisch für Implementierung + Tests)
+- Komplexität variiert stark je nach Feature
 
 ---
 
@@ -178,29 +258,36 @@ git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
 
 **Ziel**: Qualitativ hochwertiges PRD mit Review-Schleife
 
-### 1. Modell & Thinking konfigurieren
+**Warum Plan Mode in Phase 1?**
+- Tiefe Analyse für PRD-Qualität erforderlich
+- Opus-Modell (via OpusPlan) für komplexes Reasoning
+- Extended Thinking für durchdachte Architektur-Entscheidungen
+
+### 1. Extended Thinking + Plan Mode aktivieren
+
+**Schritt-für-Schritt:**
 
 ```text
-Tab  (Extended Thinking aktivieren - Budget 8k bereits in settings.json gesetzt)
+1. Tab drücken (Extended Thinking aktivieren)
+   → Budget: 8k (bereits in settings.json konfiguriert)
+
+2. Plan Mode aktivieren:
+   - Windows/Linux: Alt + M
+   - macOS: Option + M
+   - Alternative: Command-Palette (Ctrl/Cmd + Shift + P) → "Toggle Plan Mode"
+
+3. Status prüfen:
+   - UI zeigt "Plan" → Plan Mode aktiv ✅
+   - UI zeigt "Extended Thinking" → Extended Thinking aktiv ✅
 ```
 
-**Hinweis:**
+**Hinweise:**
 - Modell ist bereits auf `opusplan` (aus settings.json)
-- Extended Thinking Budget (8k) wurde in settings.json konfiguriert
-- Tab-Taste aktiviert nur Extended Thinking, ändert nicht das Budget
+- Extended Thinking Budget (8k) wurde in settings.json gesetzt
+- Tab-Taste togglet Extended Thinking AN/AUS, ändert **nicht** das Budget
+- Alt/Option + M togglet Plan Mode AN/AUS
 
-### 2. Plan Mode aktivieren
-
-```text
-Plan Mode aktivieren (zweimal drücken, bis "Plan" in UI angezeigt wird):
-- Windows/Linux: Alt + M (zweimal)
-- macOS: Option + M (zweimal)
-- Alternative (alle Plattformen): Command-Palette → "Toggle Plan Mode"
-  - Windows/Linux: Ctrl + Shift + P
-  - macOS: Cmd + Shift + P
-```
-
-### 3. TodoWrite für Phase 1 initialisieren
+### 2. TodoWrite für Phase 1 initialisieren
 
 ```text
 Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
@@ -213,7 +300,7 @@ Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
 (Claude wird automatisch TodoWrite nutzen, um den Fortschritt zu tracken)
 ```
 
-### 4. PRD generieren
+### 3. PRD generieren
 
 ```text
 /create-prd "Implementiere oAuth für Microsoft-Konten für User inkl. Refresh etc. Ziel ist es, dass User sich mit Claude Desktop mittels Remote-MCP mit den MCP-Endpunkten der API verbinden können."
@@ -221,7 +308,7 @@ Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
 
 **→ TodoWrite Update:** `"PRD generieren" → completed`
 
-### 5. PRD Review durchführen
+### 4. PRD Review durchführen
 
 ```text
 Führe ein detailliertes Review von PRD.md durch. Lies das Dokument und prüfe auf:
@@ -246,20 +333,26 @@ Schlage konkrete, priorisierte Verbesserungen vor.
 
 **→ TodoWrite Update:** `"PRD Review" → in_progress` → nach Completion: `completed`
 
-### 6. Feedback einarbeiten
+### 5. Feedback einarbeiten
 
 ```text
 Arbeite folgende Punkte aus dem Review in PRD.md ein:
-[Review-Feedback hier einfügen]
+
+⚠️ PLATZHALTER: [Review-Feedback aus Schritt 4 hier einfügen]
+
+Beispiel:
+- [HIGH] Zeile 45: OAuth Scopes unvollständig → ergänze 'offline_access' und 'User.Read'
+- [MEDIUM] Zeile 78: Refresh Token Rotation nicht dokumentiert → Security-Section erweitern
+- [LOW] Zeile 120: Akzeptanzkriterium "funktioniert" zu vage → konkretisieren
 ```
 
 **→ TodoWrite Update:** `"Feedback einarbeiten" → in_progress`
 
-**Bei Bedarf Schritt 5-6 wiederholen, bis PRD stabil**
+**Bei Bedarf Schritt 4-5 wiederholen, bis PRD stabil**
 
 **→ TodoWrite Update:** `"Feedback einarbeiten" → completed`
 
-### 7. PRD finalisieren
+### 6. PRD finalisieren
 
 **→ TodoWrite Update:** `"PRD finalisieren" → in_progress`
 
@@ -290,7 +383,7 @@ git commit -m "docs: add OAuth MS Accounts PRD (reviewed, security validated)"
 
 **→ TodoWrite Update:** `"Phase 1 committen" → completed`
 
-### 8. Plan Mode verlassen (optional)
+### 7. Plan Mode verlassen (optional)
 
 ```text
 Alt + M  (wenn du für nächste Phase keinen Plan Mode brauchst)
@@ -373,7 +466,7 @@ git commit -m "docs: add user stories for OAuth feature (8 stories, 56 SP, INVES
 
 ---
 
-## Phase 3: Tasks & Validierung (OpusPlan + Extended Thinking 16k)
+## Phase 3: Tasks & Validierung (OpusPlan + Extended Thinking 8k)
 
 **Ziel**: Detaillierte Dev-Tasks mit Qualitätssicherung
 
@@ -478,7 +571,13 @@ Gib strukturierten Validierungsbericht aus:
 
 ```text
 Arbeite Findings aus Validierungsbericht in tasks.md ein:
-[Findings hier einfügen]
+
+⚠️ PLATZHALTER: [Findings aus Schritt 5 hier einfügen]
+
+Beispiel:
+- [HIGH] T-005 hat zirkuläre Dependency zu T-003 → Reihenfolge korrigieren
+- [MEDIUM] Story Points Summe: Tasks = 58 SP vs Stories = 56 SP → 2 SP zu viel, T-012 reduzieren
+- [LOW] T-007 und T-009 haben identische Beschreibung → zusammenführen oder präzisieren
 ```
 
 **Bei größeren Anpassungen: Validierung wiederholen (Schritt 5)**
@@ -631,6 +730,11 @@ KEIN /clear oder /compact zwischen Sprints!
 ---
 
 ### Sprint 1: Core OAuth Flow
+
+**Warum Plan Mode in Phase 5?**
+- Architektur-Planung vor Code-Schreiben
+- Opus für detaillierte Implementierungspläne
+- Code-Konsistenz über alle Sprint-Tasks
 
 #### 1. Plan Mode für Sprint aktivieren
 
@@ -803,18 +907,46 @@ Milestone: Manual OAuth login functional"
 
 ### Sprint 2-4: Analog zu Sprint 1
 
-**Für jeden weiteren Sprint:**
-1. TodoWrite initialisieren (Tasks aus sprint-plan.md)
-2. Plan Mode → Implementierungsplan
-3. User Review
-4. Execution (Auto-Sonnet)
-5. TodoWrite updates pro Task
-6. Code Review
-7. Tests
-8. Commit
-9. claude-progress.txt aktualisieren (du schreibst das automatisch)
+**Für jeden weiteren Sprint wiederholen:**
 
-**WICHTIG**: Context NICHT clearen zwischen Sprints!
+#### Übersicht (Details siehe Sprint 1 oben)
+
+1. **TodoWrite initialisieren**
+   - Tasks aus sprint-plan.md für aktuellen Sprint
+   - Alle Sprint-Schritte in Todo-Liste aufnehmen
+
+2. **Plan Mode aktivieren** (Alt/Option + M)
+   - Implementierungsplan erstellen
+   - Siehe → [Sprint 1, Schritt 3](#3-implementierungsplan-erstellen-plan-mode)
+
+3. **User Review**
+   - Plan reviewen lassen
+   - Feedback einarbeiten
+
+4. **Plan Mode verlassen** → Execution startet (Auto-Sonnet)
+
+5. **Implementation**
+   - Tasks einzeln abarbeiten
+   - TodoWrite nach jedem Task updaten (completed)
+   - Siehe → [Sprint 1, Schritt 6](#6-implementation-auto-sonnet-via-opusplan)
+
+6. **Code Review**
+   - SOLID, Security, Test Coverage prüfen
+   - Siehe → [Sprint 1, Schritt 7](#7-code-review-optional-subagent)
+
+7. **Tests ausführen**
+   - Alle Tests grün?
+   - Coverage >80%?
+
+8. **Sprint Commit**
+   - Conventional Commit Message
+   - Siehe → [Sprint 1, Schritt 9](#9-sprint-1-commit)
+
+9. **claude-progress.txt aktualisieren** (automatisch durch Claude)
+
+**⚠️ WICHTIG**: Context NICHT clearen zwischen Sprints!
+→ Code-Patterns & Architektur-Decisions bleiben erhalten
+→ Konsistenz über alle Sprints
 
 ---
 
@@ -890,6 +1022,22 @@ npm install --save-dev @anthropic-ai/agent-sdk typescript @types/node
 npx tsc --init
 ```
 
+**Minimal-Konfiguration für Hooks:**
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "resolveJsonModule": true
+  },
+  "include": [".claude/hooks/**/*"]
+}
+```
+
 **4. Hooks-Verzeichnis erstellen:**
 ```bash
 mkdir -p .claude/hooks
@@ -897,11 +1045,11 @@ mkdir -p .claude/hooks
 
 **5. Settings konfigurieren:**
 ```json
-// .claude/settings.json
+// .claude/settings.json (erweitert mit Hooks)
 {
   "model": "opusplan",
   "extendedThinking": {
-    "enabled": true,
+    "enabled": false,    // false = Tab aktiviert Extended Thinking
     "budgetTokens": 8192
   },
   "hooks": {
@@ -1053,6 +1201,7 @@ Review Product Requirements Documents for quality and completeness.
 ```
 
 ```json
+// .claude/skills/prd-reviewer/skill.json
 {
   "name": "prd-reviewer",
   "description": "Reviews PRD documents for quality and completeness",
