@@ -263,7 +263,9 @@ Arbeite folgende Punkte aus dem Review in PRD.md ein:
 
 **→ TodoWrite Update:** `"PRD finalisieren" → in_progress`
 
-Erstelle `claude-progress.txt`:
+**Wichtig**: Du (Claude) erstellst diese Datei jetzt automatisch - der User macht das nicht manuell!
+
+**Erstelle `claude-progress.txt` mit folgendem Inhalt:**
 
 ```markdown
 # PRD-to-Code Progress: OAuth MS Accounts
@@ -316,7 +318,7 @@ Erstelle eine Todo-Liste für die User Stories Phase und arbeite diese Schritte 
 - User Stories im INVEST-Format generieren
 - Stories validieren (INVEST-Check)
 - user-stories.md speichern
-- claude-progress.txt aktualisieren
+- claude-progress.txt aktualisieren (du schreibst das automatisch)
 - Phase 2 committen
 
 (Claude nutzt intern TodoWrite für Progress-Tracking)
@@ -348,6 +350,10 @@ Ausgabe: user-stories.md"
 **TodoWrite läuft automatisch während Generierung**
 
 ### 4. claude-progress.txt aktualisieren
+
+**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+
+**Schreibe folgenden Inhalt in claude-progress.txt:**
 
 ```markdown
 ## Phase 2: User Stories ✅ COMPLETED
@@ -398,7 +404,7 @@ Erstelle eine Todo-Liste für Tasks & Validierung und arbeite diese Schritte sys
 - INVEST-Kriterien final checken
 - Validierungsbericht erstellen
 - Feedback in tasks.md einarbeiten
-- claude-progress.txt aktualisieren
+- claude-progress.txt aktualisieren (du schreibst das automatisch)
 - Phase 3 committen
 
 (TodoWrite trackt automatisch den Fortschritt durch alle Validierungsschritte)
@@ -479,6 +485,10 @@ Arbeite Findings aus Validierungsbericht in tasks.md ein:
 
 ### 7. claude-progress.txt aktualisieren
 
+**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+
+**Schreibe folgenden Inhalt in claude-progress.txt:**
+
 ```markdown
 ## Phase 3: Tasks & Validation ✅ COMPLETED
 - tasks.md erstellt (23 Tasks)
@@ -521,7 +531,7 @@ Erstelle eine Todo-Liste für Sprint Planning und arbeite diese Schritte ab:
 - Story Points pro Sprint balancieren (13-21 SP)
 - Sprint-Milestones definieren
 - sprint-plan.md erstellen
-- claude-progress.txt aktualisieren
+- claude-progress.txt aktualisieren (du schreibst das automatisch)
 - Phase 4 committen
 
 (Claude trackt den Fortschritt automatisch mit TodoWrite)
@@ -579,6 +589,10 @@ Ausgabe: sprint-plan.md
 ```
 
 ### 4. claude-progress.txt aktualisieren
+
+**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+
+**Schreibe folgenden Inhalt in claude-progress.txt:**
 
 ```markdown
 ## Phase 4: Sprint Plan ✅ COMPLETED
@@ -642,7 +656,7 @@ Erstelle eine Todo-Liste für Sprint 1 Implementierung und arbeite diese Schritt
 - Code Review durchführen
 - Tests ausführen & validieren
 - Sprint 1 committen
-- claude-progress.txt aktualisieren
+- claude-progress.txt aktualisieren (du schreibst das automatisch)
 
 (TodoWrite trackt automatisch jeden Task-Fortschritt)
 ```
@@ -764,6 +778,10 @@ Milestone: Manual OAuth login functional"
 
 #### 10. claude-progress.txt aktualisieren
 
+**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+
+**Schreibe folgenden Inhalt in claude-progress.txt:**
+
 ```markdown
 ## Phase 5: Implementation 🔄 IN PROGRESS
 
@@ -794,7 +812,7 @@ Milestone: Manual OAuth login functional"
 6. Code Review
 7. Tests
 8. Commit
-9. claude-progress.txt aktualisieren
+9. claude-progress.txt aktualisieren (du schreibst das automatisch)
 
 **WICHTIG**: Context NICHT clearen zwischen Sprints!
 
