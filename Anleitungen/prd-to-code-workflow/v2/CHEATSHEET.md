@@ -21,28 +21,13 @@ claude-code-templates --command=project-management/todo --yes
 
 ---
 
-## Phase 0 – Setup (Optional, 2-5 min)
+## Phase 1 – PRD (OpusPlan + Thinking 8k, 15-30 min)
 
-**Hinweis**: Optional - für erfahrene User direkt zu Phase 1
-
-**User-Eingaben:**
+**Setup:**
 ```bash
 git checkout -b feature/oauth-ms-accounts
 claude
 ```
-
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Setup (Branch, Dependencies, Codebase-Struktur, Claude Settings)
-- Nutzt TodoWrite für Progress-Tracking
-
-**Optional Commit:**
-```
-chore: setup feature branch
-```
-
----
-
-## Phase 1 – PRD (OpusPlan + Thinking 8k, 15-30 min)
 
 **User-Eingaben:**
 ```text
@@ -212,12 +197,8 @@ gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ Phase 0: Setup (Haiku, TodoWrite)                   │
-│ → Branch, Dependencies, Settings                    │
-└─────────────────┬───────────────────────────────────┘
-                  │
-┌─────────────────▼───────────────────────────────────┐
 │ Phase 1: PRD (OpusPlan+Think8k, Plan Mode)          │
+│ → Git Setup: Branch erstellen                       │
 │ → TodoWrite: Generate → Review → Iterate → Commit   │
 │ → claude-progress.txt initialisieren                │
 └─────────────────┬───────────────────────────────────┘
@@ -275,7 +256,6 @@ gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 | **Standards** | In Prompts wiederholt | ✅ .claude/rules/ (DRY) |
 | **Automation** | Keine Hooks | ✅ Hooks (Format, Lint, Protect) |
 | **Specialization** | Keine Subagents | ✅ Subagents (Review, Tests) |
-| **Setup Phase** | Keine | ✅ Phase 0 (Haiku, schnell) |
 | **Command Naming** | `/todo` (verwirrend) | ✅ `/todo` mit klarem Context (geklärt) |
 
 ---
