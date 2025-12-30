@@ -131,7 +131,8 @@ docs: add sprint plan (X sprints, Y SP)
 
 **User-Eingaben:**
 ```text
-Alt + M                          # Plan Mode → Implementierungsplan
+Alt + M                          # Plan Mode
+Implementiere Sprint 1 aus sprint-plan.md
 ```
 _(Nach User Review auf den Plan)_
 ```text
