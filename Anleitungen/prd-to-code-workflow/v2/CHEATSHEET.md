@@ -81,16 +81,24 @@ docs: add user stories (X stories, Y SP, INVEST)
 /compact "Behalte User Stories, Story Points, Dependencies"
 Tab                              # Extended Thinking (8k)
 /todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
+
+Validiere tasks.md auf:
+✓ Dependencies: Keine Zirkularabhängigkeiten?
+✓ Duplikate: Keine doppelten Tasks?
+✓ Budget: Gesamtschätzung realistisch?
+✓ Coverage: Alle Stories abgedeckt?
+✓ INVEST: Tasks klar und testbar?
+
+Gib strukturierten Validierungsbericht aus.
 ```
 
 **Workflow:**
-1. Claude analysiert User Stories und generiert Tasks
-2. Claude führt 5 Validierungen durch (Dependencies, Duplikate, Budget, Coverage, INVEST)
-3. Claude erstellt Validierungsbericht
-4. User reviewt Bericht
-5. Bei Issues: User gibt Anweisung → Claude arbeitet Fixes ein
-6. Optional: Zweite Validierungsrunde bei größeren Anpassungen
-7. User: "Committe die Tasks"
+1. Claude generiert Tasks aus User Stories
+2. Claude führt Validierung durch und erstellt Bericht
+3. User reviewt Validierungsbericht
+4. Bei Issues: User gibt Anweisung → Claude arbeitet Fixes ein
+5. Optional: Validierung wiederholen bei größeren Anpassungen
+6. User: "Committe die Tasks"
 
 **Commit-Message:**
 ```
