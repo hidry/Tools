@@ -15,6 +15,7 @@ mkdir -p .claude/rules
 # Create coding-standards.md, testing.md, documentation.md
 
 # Commands
+# /create-prd installieren: https://www.buildwithclaude.com/command/create-prd
 npm install -g claude-code-templates@latest
 claude-code-templates --command=project-management/todo --yes
 ```
@@ -32,7 +33,7 @@ claude
 **User-Eingaben:**
 ```text
 Tab                              # Extended Thinking (8k)
-Alt + M                          # Plan Mode
+Alt + M                          # Plan Mode (zweimal drücken bis "Plan" angezeigt wird)
 /create-prd "[Beschreibung]"
 
 /review @PRD.md: Führe ein Review des PRD durch. Prüfe auf Verständlichkeit, Lücken, widersprüchliche Anforderungen und unklare Akzeptanzkriterien. Schlage konkrete Änderungen vor.
@@ -177,8 +178,8 @@ docs: add sprint plan (X sprints, Y SP)
 
 **User-Eingaben:**
 ```text
-Alt + M                          # Plan Mode
-Implementiere Sprint 1 aus sprint-plan.md
+Alt + M                          # Plan Mode (zweimal drücken bis "Plan" angezeigt wird)
+Implementiere ALLE Tasks aus Sprint 1 basierend auf sprint-plan.md
 
 Schreibe produktiven, produktionsreifen Code:
 • Standard: Clean Code, SOLID Principles
