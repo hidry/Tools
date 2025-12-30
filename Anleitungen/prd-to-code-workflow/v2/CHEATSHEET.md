@@ -135,7 +135,22 @@ docs: add tasks (X tasks, validated)
 **User-Eingaben:**
 ```text
 /compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
-Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
+
+Gruppiere alle Tasks nach Sprints und erstelle sprint-plan.md:
+
+Sprint 1 (Top-5 Tasks):
+- T-XXX: [Task] (SP: 3)
+- T-XXX: [Task] (SP: 2)
+
+Sprint 2:
+- [weitere Tasks]
+
+Sprint 3 (optional):
+- [weitere Tasks]
+
+MoSCoW-Priorisierung (Must-Have zuerst).
+Gesamtbudget: ~13-21 Story Points pro Sprint.
+Output: sprint-plan.md
 ```
 
 **Workflow:**
