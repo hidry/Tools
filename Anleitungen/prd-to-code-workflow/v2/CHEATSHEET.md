@@ -141,7 +141,7 @@ Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
 **Für jeden Sprint:**
 
 ```text
-KEIN /clear oder /compact! (Context behalten!)
+KEIN /clear oder /compact zwischen Sprints! (Sprint-Context behalten!)
 
 Erstelle Todo-Liste für Sprint X:
 - Implementierungsplan (Plan Mode)
