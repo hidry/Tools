@@ -8,21 +8,23 @@ Sammlung von Workflow-Dokumentationen und Best Practices für die Entwicklung mi
 
 ```
 Anleitungen/
-├── v1/                          # Original Workflow (Legacy)
-│   └── prd-to-code-workflow.md
-└── v2/                          # Aktueller Workflow mit Best Practices 2025
-    ├── prd-to-code-workflow.md
-    └── CHEATSHEET.md
+├── README.md
+└── prd-to-code-workflow/        # PRD-to-Code Workflow (alle Versionen)
+    ├── v1/                      # Original Workflow (Legacy)
+    │   └── prd-to-code-workflow.md
+    └── v2/                      # Aktueller Workflow mit Best Practices 2025
+        ├── prd-to-code-workflow.md
+        └── CHEATSHEET.md
 ```
 
 ---
 
-## v2/ - PRD-to-Code Workflow v2.0 (Empfohlen)
+## PRD-to-Code Workflow v2.0 (Empfohlen)
 
 **Aktuellste Version mit Anthropic Best Practices (2025)**
 
-- **Workflow**: [v2/prd-to-code-workflow.md](./v2/prd-to-code-workflow.md)
-- **Cheat-Sheet**: [v2/CHEATSHEET.md](./v2/CHEATSHEET.md)
+- **Workflow**: [prd-to-code-workflow/v2/prd-to-code-workflow.md](./prd-to-code-workflow/v2/prd-to-code-workflow.md)
+- **Cheat-Sheet**: [prd-to-code-workflow/v2/CHEATSHEET.md](./prd-to-code-workflow/v2/CHEATSHEET.md)
 
 ### Phasen des Workflows
 
@@ -69,11 +71,11 @@ Anleitungen/
 
 ---
 
-## v1/ - Original Workflow (Legacy)
+## PRD-to-Code Workflow v1.0 (Legacy)
 
 **Original Version ohne Best Practices**
 
-- **Workflow**: [v1/prd-to-code-workflow.md](./v1/prd-to-code-workflow.md)
+- **Workflow**: [prd-to-code-workflow/v1/prd-to-code-workflow.md](./prd-to-code-workflow/v1/prd-to-code-workflow.md)
 
 ### Einschränkungen vs. v2.0
 
@@ -84,7 +86,7 @@ Anleitungen/
 - ❌ Keine Hooks oder Automation
 - ❌ Weniger strukturierte Git-Workflows
 
-**Empfehlung**: Nutze **v2/** für neue Projekte.
+**Empfehlung**: Nutze **v2** für neue Projekte.
 
 ---
 
