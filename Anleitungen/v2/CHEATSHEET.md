@@ -37,6 +37,8 @@ Erstelle Todo-Liste für Setup:
 - Codebase-Struktur ✓
 - Claude Settings ✓
 
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
+
 → Optional Commit: "chore: setup feature branch"
 ```
 
@@ -48,15 +50,17 @@ Erstelle Todo-Liste für Setup:
 Tab  (Thinking 8k)
 Alt + M  (Plan Mode)
 
-TodoWrite Phase 1:
+Erstelle Todo-Liste für Phase 1:
 - PRD generieren
 - Review
 - Feedback einarbeiten
 - Committen
 
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
+
 /create-prd "[Beschreibung]"
 
-/review @PRD.md: [Review-Kriterien]
+Führe PRD Review durch (Schritt 4 im Main Workflow)
 
 → Iterieren bis stable
 
@@ -70,11 +74,13 @@ TodoWrite Phase 1:
 ```text
 /compact "Behalte PRD-Kernfeatures, Requirements, Security"
 
-TodoWrite Phase 2:
+Erstelle Todo-Liste für Phase 2:
 - PRD analysieren
 - Stories generieren
 - INVEST validieren
 - Speichern & committen
+
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
 
 /todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format → user-stories.md"
 
@@ -83,20 +89,22 @@ TodoWrite Phase 2:
 
 ---
 
-## Phase 3 – Tasks & Validierung (OpusPlan + Thinking 16k, 15-25 min)
+## Phase 3 – Tasks & Validierung (OpusPlan + Thinking 8k, 15-25 min)
 
 ```text
 /compact "Behalte User Stories, Story Points, Dependencies"
 
-Tab  (Thinking 16k)
+Tab  (Thinking 8k)
 
-TodoWrite Phase 3:
+Erstelle Todo-Liste für Phase 3:
 - Stories analysieren
 - Tasks generieren
 - 5 Validierungen (Dependencies, Duplikate, Budget, Coverage, INVEST)
 - Bericht erstellen
 - Fixes einarbeiten
 - Committen
+
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
 
 /todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
 
@@ -112,12 +120,14 @@ Validierung: Dependencies, Duplikate, Budget, Coverage, INVEST
 ```text
 /compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
 
-TodoWrite Phase 4:
+Erstelle Todo-Liste für Phase 4:
 - Tasks sortieren (MoSCoW)
 - Dependency-Graph
 - Sprints gruppieren (13-21 SP)
 - Milestones definieren
 - Committen
+
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
 
 Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
 
@@ -133,7 +143,7 @@ Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
 ```text
 KEIN /clear oder /compact! (Context behalten!)
 
-TodoWrite Sprint X:
+Erstelle Todo-Liste für Sprint X:
 - Implementierungsplan (Plan Mode)
 - T-XXX Tasks implementieren
 - Code Review
@@ -141,12 +151,14 @@ TodoWrite Sprint X:
 - Committen
 - Progress aktualisieren
 
+(Claude nutzt automatisch TodoWrite für Progress-Tracking)
+
 Alt + M  (Plan Mode)
 → Implementierungsplan erstellen
 → User Review
 → Alt + M  (Execution startet, auto-Sonnet)
 
-→ TodoWrite pro Task updaten
+→ Claude updated TodoWrite pro Task automatisch
 
 → Commit: "feat(module): implement Sprint X - [Milestone]"
 ```
@@ -216,7 +228,7 @@ gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 └─────────────────┬───────────────────────────────────┘
                   │ /compact (keep Stories)
 ┌─────────────────▼───────────────────────────────────┐
-│ Phase 3: Tasks (OpusPlan+Think16k)                  │
+│ Phase 3: Tasks (OpusPlan+Think8k)                   │
 │ → TodoWrite: Generate → 5x Validate → Fix → Commit  │
 └─────────────────┬───────────────────────────────────┘
                   │ /compact (keep Tasks)
@@ -256,7 +268,7 @@ gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 | **Model Config** | Manuelles `/model` switching | ✅ OpusPlan (auto-switching) |
 | **Context Mgmt** | `/clear` → Kontextverlust | ✅ `/compact` mit Kontext-Erhalt |
 | **Progress Tracking** | Keine TodoWrite | ✅ TodoWrite in allen Phasen |
-| **Extended Thinking** | Global aktiviert | ✅ Gezielt (8k/16k je Phase) |
+| **Extended Thinking** | Global aktiviert | ✅ Gezielt (8k je Phase 1 & 3) |
 | **Plan Mode** | Nur Phase 1 | ✅ Phase 1 + 5 (per Sprint) |
 | **Git Workflow** | Vage "nach großen Blocks" | ✅ Granular, Conventional Commits |
 | **Multi-Session** | Kein Tracking | ✅ claude-progress.txt |
