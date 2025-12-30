@@ -34,13 +34,16 @@ claude
 Tab                              # Extended Thinking (8k)
 Alt + M                          # Plan Mode
 /create-prd "[Beschreibung]"
+/review @PRD.md                  # Review durchführen
 ```
 
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Phase 1 (PRD generieren, Review, Feedback einarbeiten, Committen)
-- Nutzt TodoWrite für Progress-Tracking
-- Führt PRD Review durch (Schritt 4 im Main Workflow)
-- Iteriert bis stable
+**Workflow:**
+1. Claude generiert PRD (nutzt TodoWrite für Tracking)
+2. Claude führt Review durch, schlägt Verbesserungen vor
+3. User gibt Feedback
+4. Claude arbeitet Änderungen ein
+5. Bei Bedarf `/review @PRD.md` wiederholen bis stabil
+6. User: "Committe das PRD"
 
 **Commit-Message:**
 ```
@@ -57,9 +60,12 @@ docs: add PRD (reviewed, validated)
 /todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format → user-stories.md"
 ```
 
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Phase 2 (PRD analysieren, Stories generieren, INVEST validieren, Speichern & committen)
-- Nutzt TodoWrite für Progress-Tracking
+**Workflow:**
+1. Claude analysiert PRD und generiert User Stories
+2. Claude validiert gegen INVEST-Kriterien
+3. Claude speichert user-stories.md
+4. User reviewt Stories, gibt Feedback bei Bedarf
+5. User: "Committe die User Stories"
 
 **Commit-Message:**
 ```
@@ -77,11 +83,14 @@ Tab                              # Extended Thinking (8k)
 /todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
 ```
 
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Phase 3 (Stories analysieren, Tasks generieren, 5 Validierungen, Bericht erstellen, Fixes einarbeiten, Committen)
-- Nutzt TodoWrite für Progress-Tracking
-- Führt 5 Validierungen durch (Dependencies, Duplikate, Budget, Coverage, INVEST)
-- Erstellt Validierungsbericht und arbeitet Fixes ein
+**Workflow:**
+1. Claude analysiert User Stories und generiert Tasks
+2. Claude führt 5 Validierungen durch (Dependencies, Duplikate, Budget, Coverage, INVEST)
+3. Claude erstellt Validierungsbericht
+4. User reviewt Bericht
+5. Bei Issues: User gibt Anweisung → Claude arbeitet Fixes ein
+6. Optional: Zweite Validierungsrunde bei größeren Anpassungen
+7. User: "Committe die Tasks"
 
 **Commit-Message:**
 ```
@@ -95,20 +104,17 @@ docs: add tasks (X tasks, validated)
 **User-Eingaben:**
 ```text
 /compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
-```
-
-**User gibt Claude Anweisung (kein Command):**
-```text
 Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
 ```
 
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Phase 4 (Tasks sortieren, Dependency-Graph, Sprints gruppieren, Milestones definieren, Committen)
-- Sortiert Tasks nach MoSCoW
-- Erstellt Dependency-Graph
-- Gruppiert in Sprints (13-21 SP)
-- Definiert Milestones
-- Nutzt TodoWrite für Progress-Tracking
+**Workflow:**
+1. Claude sortiert Tasks nach MoSCoW-Priorisierung
+2. Claude erstellt Dependency-Graph
+3. Claude gruppiert in Sprints (13-21 SP pro Sprint)
+4. Claude definiert Milestones
+5. Claude speichert sprint-plan.md
+6. User reviewt Sprint-Plan, gibt Feedback bei Bedarf
+7. User: "Committe den Sprint-Plan"
 
 **Commit-Message:**
 ```
@@ -132,15 +138,15 @@ _(Nach User Review auf den Plan)_
 Alt + M                          # Start Execution (auto-Sonnet)
 ```
 
-**Claude führt automatisch aus:**
-- Erstellt Todo-Liste für Sprint X (Implementierungsplan, T-XXX Tasks implementieren, Code Review, Tests, Committen, Progress aktualisieren)
-- Erstellt Implementierungsplan (in Plan Mode)
-- Wartet auf User Review
-- Implementiert T-XXX Tasks (nach 2. Alt + M)
-- Führt Code Review durch
-- Erstellt Tests (>80% Coverage)
-- Updated TodoWrite pro Task
-- Updated claude-progress.txt
+**Workflow:**
+1. Claude erstellt Implementierungsplan in Plan Mode
+2. User reviewt Plan, gibt Feedback/Approval
+3. User startet Execution mit Alt + M
+4. Claude implementiert Tasks aus Sprint (nutzt TodoWrite pro Task)
+5. Claude führt Code Review durch
+6. Claude erstellt Tests (>80% Coverage)
+7. Claude updated claude-progress.txt
+8. User: "Committe Sprint X"
 
 **Commit-Message:**
 ```
