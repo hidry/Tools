@@ -34,7 +34,8 @@ claude
 Tab                              # Extended Thinking (8k)
 Alt + M                          # Plan Mode
 /create-prd "[Beschreibung]"
-/review @PRD.md                  # Review durchführen
+
+/review @PRD.md: Führe ein Review des PRD durch. Prüfe auf Verständlichkeit, Lücken, widersprüchliche Anforderungen und unklare Akzeptanzkriterien. Schlage konkrete Änderungen vor.
 ```
 
 **Workflow:**
