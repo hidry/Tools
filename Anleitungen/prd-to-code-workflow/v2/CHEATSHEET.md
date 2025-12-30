@@ -57,7 +57,17 @@ docs: add PRD (reviewed, validated)
 **User-Eingaben:**
 ```text
 /compact "Behalte PRD-Kernfeatures, Requirements, Security"
-/todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format → user-stories.md"
+/todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
+
+Format:
+- ID: US-XXX
+- Title: [Kurzbeschreibung]
+- Description: Als [Role] möchte ich [Feature] damit [Business Value]
+- Acceptance Criteria: (3+ konkrete Bedingungen)
+- Story Points: [Schätzung]
+- Priority: [MoSCoW]
+
+Ausgabe: user-stories.md"
 ```
 
 **Workflow:**
@@ -80,14 +90,26 @@ docs: add user stories (X stories, Y SP, INVEST)
 ```text
 /compact "Behalte User Stories, Story Points, Dependencies"
 Tab                              # Extended Thinking (8k)
-/todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
+/todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning.
 
-Validiere tasks.md auf:
+Format:
+- Task-ID: T-XXX
+- Titel: [Kurzbeschreibung]
+- User Story Link: US-XXX
+- Beschreibung: [Technische Schritte]
+- Acceptance Criteria: (Code, Tests >80%, Review, Merged)
+- Story Points: [1-5]
+- Dependencies: [Task-IDs]
+- Priority: [Must/Should/Could]
+
+Ausgabe: tasks.md"
+
+Validiere user-stories.md + tasks.md auf:
 ✓ Dependencies: Keine Zirkularabhängigkeiten?
-✓ Duplikate: Keine doppelten Tasks?
+✓ Duplikate: Keine doppelten Stories/Tasks?
 ✓ Budget: Gesamtschätzung realistisch?
-✓ Coverage: Alle Stories abgedeckt?
-✓ INVEST: Tasks klar und testbar?
+✓ Coverage: Alle PRD-Features abgedeckt?
+✓ INVEST: Stories erfüllen INVEST-Kriterien?
 
 Gib strukturierten Validierungsbericht aus.
 ```
@@ -141,6 +163,11 @@ docs: add sprint plan (X sprints, Y SP)
 ```text
 Alt + M                          # Plan Mode
 Implementiere Sprint 1 aus sprint-plan.md
+
+Schreibe produktiven, produktionsreifen Code:
+• Standard: Clean Code, SOLID Principles
+• Tests: Mindestens 80% Coverage
+• Dokumentation: Inline Comments für komplexe Logik
 ```
 _(Nach User Review auf den Plan)_
 ```text
