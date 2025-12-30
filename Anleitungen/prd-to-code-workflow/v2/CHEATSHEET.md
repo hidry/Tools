@@ -25,150 +25,150 @@ claude-code-templates --command=project-management/todo --yes
 
 **Hinweis**: Optional - für erfahrene User direkt zu Phase 1
 
+**User-Eingaben:**
 ```bash
 git checkout -b feature/oauth-ms-accounts
 claude
 ```
 
-```text
-Erstelle Todo-Liste für Setup:
-- Branch ✓
-- Dependencies ✓
-- Codebase-Struktur ✓
-- Claude Settings ✓
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Setup (Branch, Dependencies, Codebase-Struktur, Claude Settings)
+- Nutzt TodoWrite für Progress-Tracking
 
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
-→ Optional Commit: "chore: setup feature branch"
+**Optional Commit:**
+```
+chore: setup feature branch
 ```
 
 ---
 
 ## Phase 1 – PRD (OpusPlan + Thinking 8k, 15-30 min)
 
+**User-Eingaben:**
 ```text
-Tab  (Thinking 8k)
-Alt + M  (Plan Mode)
-
-Erstelle Todo-Liste für Phase 1:
-- PRD generieren
-- Review
-- Feedback einarbeiten
-- Committen
-
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
+Tab                              # Extended Thinking (8k)
+Alt + M                          # Plan Mode
 /create-prd "[Beschreibung]"
+```
 
-Führe PRD Review durch (Schritt 4 im Main Workflow)
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Phase 1 (PRD generieren, Review, Feedback einarbeiten, Committen)
+- Nutzt TodoWrite für Progress-Tracking
+- Führt PRD Review durch (Schritt 4 im Main Workflow)
+- Iteriert bis stable
 
-→ Iterieren bis stable
-
-→ Commit: "docs: add PRD (reviewed, validated)"
+**Commit-Message:**
+```
+docs: add PRD (reviewed, validated)
 ```
 
 ---
 
 ## Phase 2 – User Stories (Sonnet, 10-20 min)
 
+**User-Eingaben:**
 ```text
 /compact "Behalte PRD-Kernfeatures, Requirements, Security"
-
-Erstelle Todo-Liste für Phase 2:
-- PRD analysieren
-- Stories generieren
-- INVEST validieren
-- Speichern & committen
-
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
 /todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format → user-stories.md"
+```
 
-→ Commit: "docs: add user stories (X stories, Y SP, INVEST)"
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Phase 2 (PRD analysieren, Stories generieren, INVEST validieren, Speichern & committen)
+- Nutzt TodoWrite für Progress-Tracking
+
+**Commit-Message:**
+```
+docs: add user stories (X stories, Y SP, INVEST)
 ```
 
 ---
 
 ## Phase 3 – Tasks & Validierung (OpusPlan + Thinking 8k, 15-25 min)
 
+**User-Eingaben:**
 ```text
 /compact "Behalte User Stories, Story Points, Dependencies"
-
-Tab  (Thinking 8k)
-
-Erstelle Todo-Liste für Phase 3:
-- Stories analysieren
-- Tasks generieren
-- 5 Validierungen (Dependencies, Duplikate, Budget, Coverage, INVEST)
-- Bericht erstellen
-- Fixes einarbeiten
-- Committen
-
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
+Tab                              # Extended Thinking (8k)
 /todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning → tasks.md"
+```
 
-Validierung: Dependencies, Duplikate, Budget, Coverage, INVEST
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Phase 3 (Stories analysieren, Tasks generieren, 5 Validierungen, Bericht erstellen, Fixes einarbeiten, Committen)
+- Nutzt TodoWrite für Progress-Tracking
+- Führt 5 Validierungen durch (Dependencies, Duplikate, Budget, Coverage, INVEST)
+- Erstellt Validierungsbericht und arbeitet Fixes ein
 
-→ Commit: "docs: add tasks (X tasks, validated)"
+**Commit-Message:**
+```
+docs: add tasks (X tasks, validated)
 ```
 
 ---
 
 ## Phase 4 – Sprint Plan (Sonnet (via OpusPlan), 5-10 min)
 
+**User-Eingaben:**
 ```text
 /compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
+```
 
-Erstelle Todo-Liste für Phase 4:
-- Tasks sortieren (MoSCoW)
-- Dependency-Graph
-- Sprints gruppieren (13-21 SP)
-- Milestones definieren
-- Committen
-
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
+**User gibt Claude Anweisung (kein Command):**
+```text
 Erstelle sprint-plan.md: Sprints mit MoSCoW, Dependencies, Budget
+```
 
-→ Commit: "docs: add sprint plan (X sprints, Y SP)"
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Phase 4 (Tasks sortieren, Dependency-Graph, Sprints gruppieren, Milestones definieren, Committen)
+- Sortiert Tasks nach MoSCoW
+- Erstellt Dependency-Graph
+- Gruppiert in Sprints (13-21 SP)
+- Definiert Milestones
+- Nutzt TodoWrite für Progress-Tracking
+
+**Commit-Message:**
+```
+docs: add sprint plan (X sprints, Y SP)
 ```
 
 ---
 
 ## Phase 5 – Implementation (OpusPlan, 1-3h per Sprint)
 
+⚠️ **WICHTIG:** KEIN `/clear` oder `/compact` zwischen Sprints! (Sprint-Context behalten!)
+
 **Für jeden Sprint:**
 
+**User-Eingaben:**
 ```text
-KEIN /clear oder /compact zwischen Sprints! (Sprint-Context behalten!)
-
-Erstelle Todo-Liste für Sprint X:
-- Implementierungsplan (Plan Mode)
-- T-XXX Tasks implementieren
-- Code Review
-- Tests (>80%)
-- Committen
-- Progress aktualisieren
-
-(Claude nutzt automatisch TodoWrite für Progress-Tracking)
-
-Alt + M  (Plan Mode)
-→ Implementierungsplan erstellen
-→ User Review
-→ Alt + M  (Execution startet, auto-Sonnet)
-
-→ Claude updated TodoWrite pro Task automatisch
-
-→ Commit: "feat(module): implement Sprint X - [Milestone]"
+Alt + M                          # Plan Mode → Implementierungsplan
 ```
+_(Nach User Review auf den Plan)_
+```text
+Alt + M                          # Start Execution (auto-Sonnet)
+```
+
+**Claude führt automatisch aus:**
+- Erstellt Todo-Liste für Sprint X (Implementierungsplan, T-XXX Tasks implementieren, Code Review, Tests, Committen, Progress aktualisieren)
+- Erstellt Implementierungsplan (in Plan Mode)
+- Wartet auf User Review
+- Implementiert T-XXX Tasks (nach 2. Alt + M)
+- Führt Code Review durch
+- Erstellt Tests (>80% Coverage)
+- Updated TodoWrite pro Task
+- Updated claude-progress.txt
+
+**Commit-Message:**
+```
+feat(module): implement Sprint X - [Milestone]
+```
+
+---
 
 **Final:**
 
+**User-Eingaben:**
 ```bash
 git push -u origin feature/oauth-ms-accounts
-
-# PR erstellen
 gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 ```
 
