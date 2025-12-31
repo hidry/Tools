@@ -249,8 +249,6 @@ claude
 /create-prd "Implementiere oAuth für Microsoft-Konten für User inkl. Refresh etc. Ziel ist es, dass User sich mit Claude Desktop mittels Remote-MCP mit den MCP-Endpunkten der API verbinden können."
 ```
 
-**→ TodoWrite Update:** `"PRD generieren" → completed`
-
 ### 4. PRD Review durchführen
 
 ```text
@@ -260,7 +258,6 @@ claude
 **Claude erstellt automatisch:**
 - Strukturierten Review-Report mit Findings
 - Konkrete, priorisierte Verbesserungsvorschläge
-- TodoWrite Update: `"PRD Review" → completed`
 
 ### 5. Feedback einarbeiten
 
@@ -277,36 +274,22 @@ Arbeite die Verbesserungen aus dem Review in PRD.md ein
 ```
 Bis PRD stabil ist.
 
-### 6. PRD finalisieren
+### 6. PRD committen
 
-**→ TodoWrite Update:** `"PRD finalisieren" → in_progress`
-
-**Wichtig**: Du (Claude) erstellst diese Datei jetzt automatisch - der User macht das nicht manuell!
-
-**Erstelle `claude-progress.txt` mit folgendem Inhalt:**
-
-```markdown
-# PRD-to-Code Progress: OAuth MS Accounts
-
-## Phase 1: PRD ✅ COMPLETED
-- PRD.md erstellt und reviewt (2 Review-Iterationen)
-- Security Considerations ergänzt
-- Akzeptanzkriterien präzisiert
-- Commit: [wird ergänzt]
-
-## Phase 2: User Stories ⏸️ PENDING
-## Phase 3: Tasks & Validation ⏸️ PENDING
-## Phase 4: Sprint Plan ⏸️ PENDING
-## Phase 5: Implementation ⏸️ PENDING
+**User gibt Anweisung:**
+```text
+Committe das PRD
 ```
 
-**Git Commit:**
+**Claude:**
+- Erstellt/updated claude-progress.txt automatisch
+- Committe PRD.md und claude-progress.txt
+
+**Commit-Message:**
 ```bash
 git add PRD.md claude-progress.txt
-git commit -m "docs: add OAuth MS Accounts PRD (reviewed, security validated)"
+git commit -m "docs: add OAuth MS Accounts PRD (reviewed, validated)"
 ```
-
-**→ TodoWrite Update:** `"Phase 1 committen" → completed`
 
 ### 7. Plan Mode verlassen (optional)
 
