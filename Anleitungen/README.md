@@ -14,7 +14,8 @@ Anleitungen/
     │   └── prd-to-code-workflow.md
     └── v2/                      # Aktueller Workflow mit Best Practices 2025
         ├── prd-to-code-workflow.md
-        └── CHEATSHEET.md
+        ├── CHEATSHEET.md
+        └── bug-fix-guidelines.md
 ```
 
 ---
@@ -68,6 +69,44 @@ Anleitungen/
 - **Produktionsreif**: Validierte Workflows für professionelle Softwareentwicklung
 - **Granulare Git-Integration**: Conventional Commits nach jeder Phase
 - **Cheat-Sheet**: Schnellreferenz für erfahrene User (separate Datei)
+
+---
+
+## Bug Fix Guidelines v2.0
+
+**Lightweight Process für Bug-Bearbeitung**
+
+- **Guidelines**: [prd-to-code-workflow/v2/bug-fix-guidelines.md](./prd-to-code-workflow/v2/bug-fix-guidelines.md)
+
+### Wann nutzen?
+
+- ✅ **Bug Fixes**: 1-30 Story Points
+- ✅ **Hotfixes**: Production-Critical Issues
+- ✅ **Performance Issues**: Isolierte Performance-Probleme
+- ✅ **Security Vulnerabilities**: Einzelne Sicherheitslücken
+
+### 4 Prozesse nach Bug-Größe
+
+| Prozess | Größe | Dauer | Phasen | Use Case |
+|---------|-------|-------|--------|----------|
+| **Direkt-Fix** | <5 SP | 1-2h | 1 | Typos, kleine Validierungsfehler |
+| **Strukturierter Fix** | 5-15 SP | 0.5-2 Tage | 1 (Plan Mode) | Race Conditions, API Issues |
+| **Komplexer Bug** | 15-30 SP | 3-5 Tage | 3 | Architektur-Issues, Data Corruption |
+| **Hotfix** | Beliebig | <4h | 1 (Fast-Track) | Production down, Security Breach |
+
+### Key Features
+
+- 🎯 **Entscheidungsbaum**: Automatische Prozess-Auswahl basierend auf Bug-Größe
+- 🚨 **Hotfix-Prozess**: Fast-Track für Production-Critical Issues
+- 🔍 **Root Cause Analysis**: Strukturierte Analyse bei komplexen Bugs
+- ✅ **Test-Strategie**: Fokus auf Regression Tests
+- 📝 **Minimal Documentation**: Nur bei komplexen Bugs (15-30 SP)
+
+### Abgrenzung zum PRD-to-Code Workflow
+
+**Nutze Bug Fix Guidelines für**: Bugs (1-30 SP), Hotfixes, einzelne Defects
+
+**Nutze PRD-to-Code Workflow für**: Features (40-120 SP), neue Funktionalität, Produktneuentwicklungen
 
 ---
 
