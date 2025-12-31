@@ -320,74 +320,41 @@ Alt + M  (wenn du für nächste Phase keinen Plan Mode brauchst)
 
 **Ziel**: INVEST-konforme User Stories
 
-### 1. Context komprimieren
+### User-Eingaben
 
 ```text
-/compact "Behalte PRD-Kernfeatures, wichtigste Requirements, Security Considerations, technische Constraints"
-```
+/compact "Behalte PRD-Kernfeatures, Requirements, Security"
 
-**Wichtig**: NICHT `/clear` → PRD-Kontext bleibt erhalten!
-
-### 2. TodoWrite für Phase 2
-
-```text
-Erstelle eine Todo-Liste für die User Stories Phase und arbeite diese Schritte ab:
-- PRD.md analysieren
-- User Stories im INVEST-Format generieren
-- Stories validieren (INVEST-Check)
-- user-stories.md speichern
-- claude-progress.txt aktualisieren (du schreibst das automatisch)
-- Phase 2 committen
-
-(Claude nutzt intern TodoWrite für Progress-Tracking)
-```
-
-### 3. User Stories generieren
-
-```text
 /todo "Erstelle aus PRD.md detaillierte User Stories im INVEST-Format.
 
-Tracke den Fortschritt mit einer Todo-Liste für:
-- PRD analysieren
-- Stories schreiben
-- INVEST validieren
-- Dokument speichern
-
-Format pro Story:
+Format:
 - ID: US-XXX
 - Title: [Kurzbeschreibung]
 - Description: Als [Role] möchte ich [Feature] damit [Business Value]
-- Acceptance Criteria: (mindestens 3 konkrete, testbare Bedingungen)
-- Story Points: [Schätzung nach Fibonacci]
-- Priority: [MoSCoW: Must/Should/Could/Won't]
-- Dependencies: [US-IDs falls abhängig]
+- Acceptance Criteria: (3+ konkrete Bedingungen)
+- Story Points: [Schätzung]
+- Priority: [MoSCoW]
 
 Ausgabe: user-stories.md"
 ```
 
-**TodoWrite läuft automatisch während Generierung**
+### Workflow
 
-### 4. claude-progress.txt aktualisieren
+1. Claude analysiert PRD und generiert User Stories
+2. Claude validiert gegen INVEST-Kriterien
+3. Claude speichert user-stories.md
+4. Claude updated claude-progress.txt automatisch
+5. User reviewt Stories, gibt Feedback bei Bedarf
+6. User: "Committe die User Stories"
 
-**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+### Commit-Message
 
-**Schreibe folgenden Inhalt in claude-progress.txt:**
-
-```markdown
-## Phase 2: User Stories ✅ COMPLETED
-- user-stories.md erstellt (8 Stories, INVEST-konform)
-- Story Points: 56 SP gesamt
-- Priority: 5 Must, 2 Should, 1 Could
-- Commit: [wird ergänzt]
-```
-
-**Git Commit:**
 ```bash
 git add user-stories.md claude-progress.txt
-git commit -m "docs: add user stories for OAuth feature (8 stories, 56 SP, INVEST)"
+git commit -m "docs: add user stories (X stories, Y SP, INVEST)"
 ```
 
-**→ TodoWrite Update:** `"Phase 2 committen" → completed`
+**Hinweis:** Claude nutzt automatisch TodoWrite für Progress-Tracking. Du siehst den Fortschritt in Echtzeit.
 
 ---
 
@@ -395,143 +362,54 @@ git commit -m "docs: add user stories for OAuth feature (8 stories, 56 SP, INVES
 
 **Ziel**: Detaillierte Dev-Tasks mit Qualitätssicherung
 
-### 1. Context komprimieren
+### User-Eingaben
 
 ```text
-/compact "Behalte User Stories, Story Points, Dependencies, PRD-Kernfeatures"
-```
+/compact "Behalte User Stories, Story Points, Dependencies"
+Tab                              # Extended Thinking (8k)
 
-### 2. Extended Thinking nutzen
-
-```text
-Tab  (Extended Thinking aktivieren - nutzt 8k Budget aus settings.json)
-```
-
-**Hinweis:** Extended Thinking ist bereits mit 8k konfiguriert, ausreichend für die Validierung
-
-### 3. TodoWrite für Phase 3
-
-```text
-Erstelle eine Todo-Liste für Tasks & Validierung und arbeite diese Schritte systematisch ab:
-- User Stories analysieren
-- Development Tasks ableiten
-- Dependencies validieren (keine Zirkularabhängigkeiten)
-- Duplikate prüfen
-- Story Points validieren (Gesamt-Budget realistisch?)
-- PRD-Coverage prüfen (alle Features abgedeckt?)
-- INVEST-Kriterien final checken
-- Validierungsbericht erstellen
-- Feedback in tasks.md einarbeiten
-- claude-progress.txt aktualisieren (du schreibst das automatisch)
-- Phase 3 committen
-
-(TodoWrite trackt automatisch den Fortschritt durch alle Validierungsschritte)
-```
-
-### 4. Tasks generieren
-
-```text
 /todo "Erstelle aus user-stories.md konkrete Development Tasks für Sprint Planning.
 
-Tracke jeden Validierungsschritt mit einer Todo-Liste!
-
-Format pro Task:
+Format:
 - Task-ID: T-XXX
 - Titel: [Kurzbeschreibung]
 - User Story Link: US-XXX
-- Beschreibung: [Technische Schritte, Code-Locations]
-- Acceptance Criteria:
-  ✓ Code implementiert
-  ✓ Unit Tests >80% Coverage
-  ✓ Integration Tests
-  ✓ Code Review passed
-  ✓ Merged to main
-- Story Points: [1-5 nach Fibonacci]
-- Dependencies: [T-IDs, chronologisch]
+- Beschreibung: [Technische Schritte]
+- Acceptance Criteria: (Code, Tests >80%, Review, Merged)
+- Story Points: [1-5]
+- Dependencies: [Task-IDs]
 - Priority: [Must/Should/Could]
-- Estimated Files: [Controller, Service, Tests, etc.]
 
 Ausgabe: tasks.md"
-```
 
-### 5. Validierung durchführen
-
-```text
-Validiere user-stories.md + tasks.md systematisch:
-
-Erstelle eine Todo-Liste und arbeite jeden Check ab:
-
+Validiere user-stories.md + tasks.md auf:
 ✓ Dependencies: Keine Zirkularabhängigkeiten?
-  - Erstelle Dependency Graph
-  - Prüfe auf Zyklen
-  - Identifiziere kritischen Pfad
-
 ✓ Duplikate: Keine doppelten Stories/Tasks?
-  - Vergleiche Titles
-  - Prüfe Descriptions auf Overlap
-
-✓ Schätzung: Gesamtbudget realistisch?
-  - User Stories: 56 SP
-  - Tasks: Summe = 56 SP?
-  - Velocity Check (13-21 SP pro Sprint üblich)
-
+✓ Budget: Gesamtschätzung realistisch?
 ✓ Coverage: Alle PRD-Features abgedeckt?
-  - PRD Requirements Liste
-  - Mapping zu Stories
-  - Mapping zu Tasks
-  - Gap Analysis
+✓ INVEST: Stories erfüllen INVEST-Kriterien?
 
-✓ INVEST: Stories erfüllen Kriterien?
-  - Independent, Negotiable, Valuable, Estimable, Small, Testable
-
-Gib strukturierten Validierungsbericht aus:
-- Summary (Pass/Fail pro Kategorie)
-- Findings (Issues mit Severity)
-- Recommendations (konkrete Fixes)
+Gib strukturierten Validierungsbericht aus.
 ```
 
-**TodoWrite läuft für alle 5 Checks**
+### Workflow
 
-### 6. Validierungsbericht Review & Fixes
+1. Claude generiert Tasks aus User Stories
+2. Claude führt 5 Validierungen durch und erstellt Bericht
+3. User reviewt Validierungsbericht
+4. Bei Issues: User gibt Anweisung → Claude arbeitet Fixes ein
+5. Optional: Validierung wiederholen bei größeren Anpassungen
+6. Claude updated claude-progress.txt automatisch
+7. User: "Committe die Tasks"
 
-```text
-Arbeite Findings aus Validierungsbericht in tasks.md ein:
+### Commit-Message
 
-⚠️ PLATZHALTER: [Findings aus Schritt 5 hier einfügen]
-
-Beispiel:
-- [HIGH] T-005 hat zirkuläre Dependency zu T-003 → Reihenfolge korrigieren
-- [MEDIUM] Story Points Summe: Tasks = 58 SP vs Stories = 56 SP → 2 SP zu viel, T-012 reduzieren
-- [LOW] T-007 und T-009 haben identische Beschreibung → zusammenführen oder präzisieren
-```
-
-**Bei größeren Anpassungen: Validierung wiederholen (Schritt 5)**
-
-### 7. claude-progress.txt aktualisieren
-
-**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
-
-**Schreibe folgenden Inhalt in claude-progress.txt:**
-
-```markdown
-## Phase 3: Tasks & Validation ✅ COMPLETED
-- tasks.md erstellt (23 Tasks)
-- Validierung: ✅ Alle Checks passed
-  - Dependencies: Keine Zyklen, kritischer Pfad identifiziert
-  - Duplikate: Keine
-  - Story Points: 56 SP (= User Stories ✓)
-  - Coverage: 100% PRD Features mapped
-  - INVEST: Alle Stories konform
-- Commit: [wird ergänzt]
-```
-
-**Git Commit:**
 ```bash
-git add tasks.md claude-progress.txt
-git commit -m "docs: add development tasks (23 tasks, validated, dependency-free)"
+git add tasks.md user-stories.md claude-progress.txt
+git commit -m "docs: add tasks (X tasks, validated)"
 ```
 
-**→ TodoWrite Update:** `"Phase 3 committen" → completed`
+**Hinweis:** Claude nutzt automatisch TodoWrite für Progress-Tracking durch alle Validierungsschritte.
 
 ---
 
@@ -539,104 +417,45 @@ git commit -m "docs: add development tasks (23 tasks, validated, dependency-free
 
 **Ziel**: Machbare Sprints mit MoSCoW-Priorisierung
 
-### 1. Context komprimieren
+### User-Eingaben
 
 ```text
-/compact "Behalte Tasks, Dependencies, Story Points, Priorities (MoSCoW)"
-```
+/compact "Behalte Tasks, Dependencies, Story Points, MoSCoW"
 
-### 2. TodoWrite für Phase 4
-
-```text
-Erstelle eine Todo-Liste für Sprint Planning und arbeite diese Schritte ab:
-- Tasks nach Priority sortieren
-- Dependency-Graph erstellen
-- Sprints gruppieren (Top-5 Must-Have Tasks zuerst)
-- Story Points pro Sprint balancieren (13-21 SP)
-- Sprint-Milestones definieren
-- sprint-plan.md erstellen
-- claude-progress.txt aktualisieren (du schreibst das automatisch)
-- Phase 4 committen
-
-(Claude trackt den Fortschritt automatisch mit TodoWrite)
-```
-
-### 3. Sprint-Plan erstellen
-
-```text
 Gruppiere alle Tasks nach Sprints und erstelle sprint-plan.md:
 
-Tracke jeden Sprint-Gruppierungsschritt mit einer Todo-Liste!
+Sprint 1 (Top-5 Tasks):
+- T-XXX: [Task] (SP: 3)
+- T-XXX: [Task] (SP: 2)
 
-Regeln:
-- MoSCoW-Priorisierung (Must-Have zuerst)
-- Dependencies berücksichtigen (chronologisch)
-- Story Points Budget: 13-21 SP pro Sprint
-- Sprints: 3-5 Sprints (abhängig von Gesamtbudget)
+Sprint 2:
+- [weitere Tasks]
 
-Format:
+Sprint 3 (optional):
+- [weitere Tasks]
 
-# Sprint Plan: OAuth MS Accounts
-
-## Sprint 1: Core OAuth Flow (Must-Have)
-**Goal**: Funktionierende OAuth-Authentifizierung
-
-Tasks:
-- T-001: OAuth Controller Skeleton (SP: 3, Dependencies: -)
-- T-002: Microsoft Identity Integration (SP: 5, Dependencies: T-001)
-- T-003: Token Storage Service (SP: 3, Dependencies: T-002)
-- T-004: Basic Unit Tests (SP: 2, Dependencies: T-001,T-002,T-003)
-- T-005: Integration Test Setup (SP: 3, Dependencies: T-004)
-
-**Total SP**: 16
-**Milestone**: Manuelle OAuth-Anmeldung funktioniert
-
-## Sprint 2: Token Management (Must-Have)
-[weitere Tasks...]
-
-**Total SP**: 18
-**Milestone**: Refresh Tokens funktionieren
-
-## Sprint 3: MCP Integration (Should-Have)
-[weitere Tasks...]
-
-**Total SP**: 15
-**Milestone**: Remote MCP Connection funktioniert
-
-## Sprint 4: Security & Hardening (Should-Have)
-[weitere Tasks...]
-
-**Total SP**: 7
-**Milestone**: Production-ready
-
-Ausgabe: sprint-plan.md
+MoSCoW-Priorisierung (Must-Have zuerst).
+Gesamtbudget: ~13-21 Story Points pro Sprint.
+Output: sprint-plan.md
 ```
 
-### 4. claude-progress.txt aktualisieren
+### Workflow
 
-**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
+1. Claude sortiert Tasks nach MoSCoW-Priorisierung
+2. Claude erstellt Dependency-Graph
+3. Claude gruppiert in Sprints (13-21 SP pro Sprint)
+4. Claude definiert Milestones
+5. Claude speichert sprint-plan.md
+6. Claude updated claude-progress.txt automatisch
+7. User reviewt Sprint-Plan, gibt Feedback bei Bedarf
+8. User: "Committe den Sprint-Plan"
 
-**Schreibe folgenden Inhalt in claude-progress.txt:**
+### Commit-Message
 
-```markdown
-## Phase 4: Sprint Plan ✅ COMPLETED
-- sprint-plan.md erstellt
-- 4 Sprints definiert (56 SP total)
-  - Sprint 1: 16 SP (Core Flow)
-  - Sprint 2: 18 SP (Token Mgmt)
-  - Sprint 3: 15 SP (MCP)
-  - Sprint 4: 7 SP (Security)
-- Dependencies berücksichtigt, kritischer Pfad optimiert
-- Commit: [wird ergänzt]
-```
-
-**Git Commit:**
 ```bash
 git add sprint-plan.md claude-progress.txt
-git commit -m "docs: add sprint plan (4 sprints, 56 SP, dependency-optimized)"
+git commit -m "docs: add sprint plan (X sprints, Y SP)"
 ```
-
-**→ TodoWrite Update:** `"Phase 4 committen" → completed`
 
 ---
 
@@ -654,272 +473,84 @@ KEIN /clear oder /compact zwischen Sprints!
 
 ---
 
-### Sprint 1: Core OAuth Flow
+### Für jeden Sprint (z.B. Sprint 1)
 
-**Warum Plan Mode in Phase 5?**
+**Warum Plan Mode?**
 - Architektur-Planung vor Code-Schreiben
 - Opus für detaillierte Implementierungspläne
 - Code-Konsistenz über alle Sprint-Tasks
 
-#### 1. Plan Mode für Sprint aktivieren
+#### User-Eingaben
 
 ```text
-Plan Mode aktivieren:
-- Windows/Linux: Alt + M
-- macOS: Option + M
-- Alternative: Command-Palette (Ctrl/Cmd + Shift + P) → "Toggle Plan Mode"
+Alt + M                          # Plan Mode (zweimal drücken bis "Plan" angezeigt wird)
+
+Implementiere ALLE Tasks aus Sprint 1 basierend auf sprint-plan.md
+
+Schreibe produktiven, produktionsreifen Code:
+• Standard: Clean Code, SOLID Principles
+• Tests: Mindestens 80% Coverage
+• Dokumentation: Inline Comments für komplexe Logik
 ```
 
-#### 2. TodoWrite für Sprint 1
+_(Nach User Review auf den Plan)_
 
 ```text
-Erstelle eine Todo-Liste für Sprint 1 Implementierung und arbeite diese Schritte ab:
-- sprint-plan.md Sprint 1 Tasks analysieren
-- Implementierungsplan erstellen (welche Files, welche Änderungen)
-- Plan reviewen lassen (User)
-- T-001: OAuth Controller implementieren
-- T-002: Microsoft Identity Integration implementieren
-- T-003: Token Storage Service implementieren
-- T-004: Unit Tests schreiben (>80% Coverage)
-- T-005: Integration Tests schreiben
-- Code Review durchführen
-- Tests ausführen & validieren
-- Sprint 1 committen
-- claude-progress.txt aktualisieren (du schreibst das automatisch)
-
-(TodoWrite trackt automatisch jeden Task-Fortschritt)
+Alt + M                          # Start Execution (auto-Sonnet)
 ```
 
-#### 3. Implementierungsplan erstellen (Plan Mode)
+#### Workflow
 
-```text
-Analysiere sprint-plan.md Sprint 1 und erstelle detaillierten Implementierungsplan:
+1. Claude erstellt Implementierungsplan in Plan Mode
+   - Analysiert Sprint Tasks (T-001 bis T-XXX)
+   - Plant Files (neu/editieren), Dependencies, Interfaces
+   - Definiert Architektur-Pattern (z.B. Clean Architecture, DI)
 
-Tracke die Planungs-Schritte mit einer Todo-Liste!
+2. User reviewt Plan, gibt Feedback/Approval
 
-Für jeden Task (T-001 bis T-005):
-- Welche Files neu erstellen? (z.B. Controllers/OAuthController.cs)
-- Welche Files editieren? (z.B. Startup.cs, appsettings.json)
-- Welche Dependencies hinzufügen? (NuGet: Microsoft.Identity.Web)
-- Welche Interfaces/Services erstellen?
-- Welche Tests schreiben?
-- Architektur-Pattern: Clean Architecture, Dependency Injection
+3. User startet Execution mit Alt + M
+   - OpusPlan wechselt automatisch zu Sonnet (effizient für Coding)
 
-Erstelle detaillierten Plan in Plan-File.
-```
+4. Claude implementiert Tasks aus Sprint
+   - Nutzt TodoWrite pro Task (T-001 → in_progress → completed)
+   - Wendet Qualitätskriterien an (aus .claude/rules/)
+   - Security-Checks bei sensitivem Code
 
-#### 4. Plan Review & User Approval
+5. Claude führt Code Review durch
+   - SOLID Principles, Security, Test Coverage, Error Handling
 
-**→ User reviewt Plan, gibt Go oder Feedback**
+6. Claude erstellt Tests (>80% Coverage)
+   - Unit Tests, Integration Tests
 
-#### 5. Plan Mode verlassen → Execution startet
+7. Claude updated claude-progress.txt automatisch
 
-```text
-Plan Mode verlassen:
-- Windows/Linux: Alt + M
-- macOS: Option + M
-- UI zeigt "Plan" nicht mehr → Normal Mode aktiv
-```
+8. User: "Committe Sprint 1"
 
-**→ OpusPlan-Behavior:**
-- **Plan Mode aktiv**: Nutzt Claude Opus (starkes Reasoning)
-- **Plan Mode verlassen**: Wechselt automatisch zu Claude Sonnet (effiziente Execution)
-- **Status prüfen**: Claude Code UI zeigt aktuelles Modell (z.B. "Claude Opus 4" oder "Claude Sonnet 3.5")
-- **Manuell wechseln**: `/model opus` oder `/model sonnet` (überschreibt OpusPlan temporär)
-
-#### 6. Implementation (Auto-Sonnet via OpusPlan)
-
-```text
-Implementiere Sprint 1 basierend auf Plan-File:
-
-Erstelle eine Todo-Liste für jeden Task (T-001 bis T-005) und arbeite sie einzeln ab!
-
-Qualitätskriterien (aus .claude/rules/):
-• Clean Code, SOLID Principles
-• Dependency Injection
-• Async/Await best practices
-• XML Comments für public APIs
-• Inline Comments nur für komplexe Logik
-• Tests: >80% Coverage, xUnit, AAA-Pattern
-
-Wichtig:
-- Nach jedem Task TodoWrite updaten (completed)
-- Security-Checks für OAuth (PKCE, State-Parameter, HTTPS-only)
-```
-
-**TodoWrite Updates während Implementierung:**
-```javascript
-// T-001 fertig:
-{ content: "T-001: OAuth Controller", status: "completed", ... }
-
-// T-002 in progress:
-{ content: "T-002: Microsoft Identity Integration", status: "in_progress", ... }
-
-// etc.
-```
-
-#### 7. Code Review (Optional: Subagent)
-
-```text
-Führe Code-Review für Sprint 1 durch:
-
-Prüfe:
-✓ SOLID Principles eingehalten?
-✓ Security Best Practices (OAuth)?
-✓ Test Coverage >80%?
-✓ Async/Await korrekt?
-✓ Error Handling vollständig?
-✓ XML Comments vorhanden?
-
-[Optional: Spawne code-reviewer Subagent für automatisiertes Review]
-```
-
-**→ TodoWrite:** `"Code Review" → completed`
-
-#### 8. Tests ausführen
+#### Commit-Message
 
 ```bash
-dotnet test --collect:"XPlat Code Coverage"
+git add src/ tests/ claude-progress.txt
+git commit -m "feat(oauth): implement Sprint X - [Milestone]"
 ```
 
-**Validierung:**
-- Alle Tests grün ✅
-- Coverage >80% ✅
-
-**→ TodoWrite:** `"Tests validieren" → completed`
-
-#### 9. Sprint 1 Commit
-
-```bash
-git add src/ tests/
-git commit -m "feat(oauth): implement Sprint 1 - Core OAuth Flow
-
-- T-001: OAuth Controller with Microsoft Identity endpoints
-- T-002: Microsoft.Identity.Web integration with PKCE
-- T-003: Token Storage Service (IDistributedCache)
-- T-004: Unit Tests (87% coverage)
-- T-005: Integration Tests (E2E OAuth flow)
-
-Milestone: Manual OAuth login functional"
-```
-
-**→ TodoWrite:** `"Sprint 1 committen" → completed`
-
-#### 10. claude-progress.txt aktualisieren
-
-**Wichtig**: Du (Claude) aktualisierst diese Datei automatisch - der User macht das nicht manuell!
-
-**Schreibe folgenden Inhalt in claude-progress.txt:**
-
-```markdown
-## Phase 5: Implementation 🔄 IN PROGRESS
-
-### Sprint 1: Core OAuth Flow ✅ COMPLETED
-- T-001 ✅ OAuth Controller (Controllers/OAuthController.cs)
-- T-002 ✅ Microsoft Identity Integration (Startup.cs, appsettings.json)
-- T-003 ✅ Token Storage Service (Services/TokenStorageService.cs)
-- T-004 ✅ Unit Tests (87% coverage)
-- T-005 ✅ Integration Tests (OAuth E2E)
-- Commit: feat(oauth): implement Sprint 1 [abc1234]
-- Milestone: ✅ Manual OAuth login functional
-
-### Sprint 2: Token Management ⏸️ PENDING
-### Sprint 3: MCP Integration ⏸️ PENDING
-### Sprint 4: Security & Hardening ⏸️ PENDING
-```
+**Hinweis:** Claude updated claude-progress.txt automatisch und nutzt TodoWrite für jeden Task.
 
 ---
 
-### Sprint 2-4: Analog zu Sprint 1
+### Weitere Sprints (Sprint 2-N)
 
-**Für jeden weiteren Sprint wiederholen:**
-
-#### Übersicht (Details siehe Sprint 1 oben)
-
-1. **TodoWrite initialisieren**
-   - Tasks aus sprint-plan.md für aktuellen Sprint
-   - Alle Sprint-Schritte in Todo-Liste aufnehmen
-
-2. **Plan Mode aktivieren** (Alt/Option + M)
-   - Implementierungsplan erstellen
-   - Siehe → [Sprint 1, Schritt 3](#3-implementierungsplan-erstellen-plan-mode)
-
-3. **User Review**
-   - Plan reviewen lassen
-   - Feedback einarbeiten
-
-4. **Plan Mode verlassen** → Execution startet (Auto-Sonnet)
-
-5. **Implementation**
-   - Tasks einzeln abarbeiten
-   - TodoWrite nach jedem Task updaten (completed)
-   - Siehe → [Sprint 1, Schritt 6](#6-implementation-auto-sonnet-via-opusplan)
-
-6. **Code Review**
-   - SOLID, Security, Test Coverage prüfen
-   - Siehe → [Sprint 1, Schritt 7](#7-code-review-optional-subagent)
-
-7. **Tests ausführen**
-   - Alle Tests grün?
-   - Coverage >80%?
-
-8. **Sprint Commit**
-   - Conventional Commit Message
-   - Siehe → [Sprint 1, Schritt 9](#9-sprint-1-commit)
-
-9. **claude-progress.txt aktualisieren** (automatisch durch Claude)
-
-**⚠️ WICHTIG**: Context NICHT clearen zwischen Sprints!
-→ Code-Patterns & Architektur-Decisions bleiben erhalten
-→ Konsistenz über alle Sprints
+**Für jeden weiteren Sprint:**
+- Wiederhol den gleichen Prozess (User-Eingaben → Workflow → Commit)
+- **WICHTIG:** KEIN `/clear` oder `/compact` zwischen Sprints!
+- Context bleibt erhalten für Code-Konsistenz
 
 ---
 
-### Nach allen Sprints: Final Review
+### Nach allen Sprints: Final
 
-```text
-Erstelle eine Todo-Liste für Final Review und arbeite alle Punkte ab:
-- Alle Sprint-Milestones erreicht?
-- End-to-End Test durchführen
-- Security Audit
-- Performance Check
-- Dokumentation aktualisieren (README.md)
-- Final Commit & Push
-
-(Claude nutzt TodoWrite für das finale Tracking)
-```
-
-**Final Commit:**
 ```bash
-git add .
-git commit -m "feat(oauth): complete OAuth MS Accounts implementation
-
-All 4 sprints completed:
-- Sprint 1: Core OAuth Flow ✅
-- Sprint 2: Token Management ✅
-- Sprint 3: MCP Integration ✅
-- Sprint 4: Security & Hardening ✅
-
-Total: 23 Tasks, 56 SP, 87% Test Coverage
-Milestone: Production-ready OAuth for Remote MCP"
-
 git push -u origin feature/oauth-ms-accounts
-```
-
-**claude-progress.txt Final:**
-```markdown
-## Phase 5: Implementation ✅ COMPLETED
-
-All Sprints: ✅ COMPLETED
-- Total: 23 Tasks, 56 SP
-- Test Coverage: 87%
-- Security Audit: ✅ Passed
-- Performance: ✅ <200ms OAuth flow
-- Documentation: ✅ Updated
-
-Final Commit: feat(oauth): complete implementation [xyz9876]
-Branch: feature/oauth-ms-accounts
-Status: Ready for PR
+gh pr create --title "OAuth MS Accounts" --body "$(cat sprint-plan.md)"
 ```
 
 ---
