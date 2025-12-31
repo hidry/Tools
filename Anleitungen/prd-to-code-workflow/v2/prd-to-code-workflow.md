@@ -187,7 +187,6 @@ mkdir -p .claude/rules
 
 | Phase | Modell | TodoWrite | Context | Dauer (Minimum)* |
 |-------|--------|-----------|---------|------------------|
-| **0: Setup** (Optional) | OpusPlan | ✅ | Fresh | 2-5 min |
 | **1: PRD** | OpusPlan + Thinking (8k) | ✅ | Fresh | 15-30 min* |
 | **2: User Stories** | Sonnet (via OpusPlan) | ✅ | Compact | 10-20 min |
 | **3: Tasks & Validation** | OpusPlan + Thinking (8k) | ✅ | Compact | 15-25 min* |
@@ -204,56 +203,6 @@ mkdir -p .claude/rules
 
 ---
 
-## Phase 0: Setup & Validierung (Optional)
-
-**Ziel**: Schnelle Umgebungs-Checks und Branch-Setup
-
-**Hinweis**: Diese Phase ist optional. Für erfahrene User: Direkt zu Phase 1 springen.
-
-```bash
-git checkout -b feature/oauth-ms-accounts
-claude
-```
-
-### In Claude:
-
-```text
-Führe Setup-Validierung durch und tracke den Fortschritt:
-
-Erstelle eine Todo-Liste (du nutzt intern das TodoWrite-Tool) und arbeite folgende Punkte ab:
-- Git Branch erstellt (feature/oauth-ms-accounts)
-- Dependencies checken (.NET SDK, npm)
-- Codebase-Struktur analysieren (Controllers, Services, Tests)
-- Claude Settings validieren (.claude/settings.json)
-
-Gib kurzen Setup-Report aus.
-```
-
-**Hinweis zu TodoWrite:**
-- TodoWrite ist ein internes Tool, das Claude automatisch nutzt
-- Du als User siehst die Todo-Liste und den Fortschritt in Echtzeit
-- Du musst TodoWrite nicht manuell aufrufen
-
-**Expected TodoWrite Output:**
-```javascript
-[
-  { content: "Git Branch erstellt", status: "completed", activeForm: "Branch erstellen..." },
-  { content: "Dependencies prüfen", status: "completed", activeForm: "Dependencies prüfen..." },
-  { content: "Codebase-Struktur analysieren", status: "completed", activeForm: "Struktur analysieren..." },
-  { content: "Claude Settings validieren", status: "completed", activeForm: "Settings validieren..." }
-]
-```
-
-**Optional: Git Commit für Setup**
-```bash
-# Optional - nur wenn du Setup-Änderungen tracken möchtest
-git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
-
-# Hinweis: claude-progress.txt wird erst in Phase 1 erstellt!
-```
-
----
-
 ## Phase 1: PRD erstellen und reviewen (OpusPlan + Extended Thinking)
 
 **Ziel**: Qualitativ hochwertiges PRD mit Review-Schleife
@@ -263,7 +212,14 @@ git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
 - Opus-Modell (via OpusPlan) für komplexes Reasoning
 - Extended Thinking für durchdachte Architektur-Entscheidungen
 
-### 1. Extended Thinking + Plan Mode aktivieren
+### 1. Git-Setup
+
+```bash
+git checkout -b feature/oauth-ms-accounts
+claude
+```
+
+### 2. Extended Thinking + Plan Mode aktivieren
 
 **Schritt-für-Schritt:**
 
@@ -272,8 +228,8 @@ git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
    → Budget: 8k (bereits in settings.json konfiguriert)
 
 2. Plan Mode aktivieren:
-   - Windows/Linux: Alt + M
-   - macOS: Option + M
+   - Windows/Linux: Alt + M (zweimal drücken bis "Plan" angezeigt wird)
+   - macOS: Option + M (zweimal drücken bis "Plan" angezeigt wird)
    - Alternative: Command-Palette (Ctrl/Cmd + Shift + P) → "Toggle Plan Mode"
 
 3. Status prüfen:
@@ -285,20 +241,7 @@ git commit --allow-empty -m "chore: setup OAuth MS Accounts feature branch"
 - Modell ist bereits auf `opusplan` (aus settings.json)
 - Extended Thinking Budget (8k) wurde in settings.json gesetzt
 - Tab-Taste togglet Extended Thinking AN/AUS, ändert **nicht** das Budget
-- Alt/Option + M togglet Plan Mode AN/AUS
-
-### 2. TodoWrite für Phase 1 initialisieren
-
-```text
-Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
-- PRD mit /create-prd generieren
-- PRD Review durchführen
-- Feedback einarbeiten und iterieren
-- PRD finalisieren
-- Phase 1 committen
-
-(Claude wird automatisch TodoWrite nutzen, um den Fortschritt zu tracken)
-```
+- Alt/Option + M togglet Plan Mode AN/AUS (zweimal drücken für Aktivierung)
 
 ### 3. PRD generieren
 
@@ -311,46 +254,28 @@ Erstelle eine Todo-Liste für die PRD-Phase und arbeite diese Schritte ab:
 ### 4. PRD Review durchführen
 
 ```text
-Führe ein detailliertes Review von PRD.md durch. Lies das Dokument und prüfe auf:
-
-- Verständlichkeit und Klarheit
-- Lücken in Anforderungen
-- Widersprüchliche Requirements
-- Unklare Akzeptanzkriterien
-- Technische Machbarkeit
-- Security Considerations
-
-Erstelle einen strukturierten Review-Report:
-- Summary (Pass/Needs Work/Fail)
-- Findings (Critical/High/Medium/Low)
-  - Issue-Beschreibung
-  - Location in PRD
-  - Impact
-- Recommendations (konkret, priorisiert)
-
-Schlage konkrete, priorisierte Verbesserungen vor.
+/review @PRD.md: Führe ein Review des PRD durch. Prüfe auf Verständlichkeit, Lücken, widersprüchliche Anforderungen und unklare Akzeptanzkriterien. Schlage konkrete Änderungen vor.
 ```
 
-**→ TodoWrite Update:** `"PRD Review" → in_progress` → nach Completion: `completed`
+**Claude erstellt automatisch:**
+- Strukturierten Review-Report mit Findings
+- Konkrete, priorisierte Verbesserungsvorschläge
+- TodoWrite Update: `"PRD Review" → completed`
 
 ### 5. Feedback einarbeiten
 
+**User gibt Feedback oder Anweisung:**
 ```text
-Arbeite folgende Punkte aus dem Review in PRD.md ein:
-
-⚠️ PLATZHALTER: [Review-Feedback aus Schritt 4 hier einfügen]
-
-Beispiel:
-- [HIGH] Zeile 45: OAuth Scopes unvollständig → ergänze 'offline_access' und 'User.Read'
-- [MEDIUM] Zeile 78: Refresh Token Rotation nicht dokumentiert → Security-Section erweitern
-- [LOW] Zeile 120: Akzeptanzkriterium "funktioniert" zu vage → konkretisieren
+Arbeite die Verbesserungen aus dem Review in PRD.md ein
 ```
 
-**→ TodoWrite Update:** `"Feedback einarbeiten" → in_progress`
+**Claude arbeitet die Änderungen ein und updated TodoWrite automatisch**
 
-**Bei Bedarf Schritt 4-5 wiederholen, bis PRD stabil**
-
-**→ TodoWrite Update:** `"Feedback einarbeiten" → completed`
+**Bei Bedarf Schritt 4-5 wiederholen:**
+```text
+/review @PRD.md
+```
+Bis PRD stabil ist.
 
 ### 6. PRD finalisieren
 
