@@ -999,6 +999,280 @@ Status: Ready for PR
 
 ---
 
+## 📏 Feature Sizing & Scope Guidelines
+
+### Optimale Feature-Größe (Sweet Spot)
+
+**Empfohlene Größe:** 40-120 Story Points (~3-8 Sprints)
+
+**Warum dieser Bereich?**
+- PRD bleibt überschaubar (3-6 Seiten)
+- User Stories: 10-25 Stories
+- Tasks: 20-50 Tasks
+- Context-Management mit `/compact` funktioniert gut
+- Dependencies bleiben handhabbar
+- Validierung bleibt durchführbar
+
+**Beispiele für passende Features:**
+- ✅ "OAuth-Integration für Microsoft Accounts mit Refresh Token und Remote-MCP Support" (~5 Sprints)
+- ✅ "File Upload System mit S3, Preview-Generation, Virus-Scan und Versionierung" (~4 Sprints)
+- ✅ "Reporting Dashboard mit 5 Chart-Typen, Filterung, Export (PDF/CSV/Excel)" (~6 Sprints)
+- ✅ "Payment-Integration mit Stripe (Setup, Checkout, Webhooks, Refunds)" (~5 Sprints)
+- ✅ "Notification-System (Email, Push, In-App, Preferences, Templates)" (~4 Sprints)
+
+---
+
+### Warnsignale: Feature zu groß
+
+**Erkennungsmerkmale:**
+- ❌ PRD >8 Seiten
+- ❌ >30 User Stories
+- ❌ >60 Development Tasks
+- ❌ >10 Sprints geplant
+- ❌ Validierungsbericht wird unlesbar
+- ❌ Dependency-Graph unübersichtlich
+- ❌ Context trotz `/compact` schwer handhabbar
+
+**Beispiele für zu große Features:**
+- ⚠️ "Komplettes Ticketing-System (Users, Tickets, Comments, Assignments, SLA, Reporting, Analytics)"
+- ⚠️ "E-Commerce Platform komplett (Catalog, Cart, Checkout, Payment, Orders, Shipping, Returns)"
+- ⚠️ "Social Media Feed (Posts, Comments, Likes, Shares, Notifications, Friends, Messages)"
+
+**Lösung:** Feature in 2-3 unabhängige Sub-Features aufteilen, jeweils Workflow anwenden
+
+---
+
+### Grenzwertige Features (10-15 Sprints)
+
+**Feature-Größe:** 200-300 Story Points
+
+**Beispiele:**
+- ⚠️ "Multi-Tenant System mit Isolation, Billing, Admin Panel" (~12 Sprints)
+- ⚠️ "Real-time Collaboration System (WebSockets, State Sync, Conflict Resolution)" (~13 Sprints)
+- ⚠️ "Advanced Search mit Elasticsearch (Indexing, Facets, Suggestions, Analytics)" (~11 Sprints)
+
+**Herausforderungen:**
+- PRD wird sehr lang (>8 Seiten)
+- 50+ User Stories → Validierung komplex
+- 100+ Tasks → Dependency-Tracking schwierig
+- Context-Management trotz `/compact` herausfordernd
+- Sprint-Planung: Schwer alle Dependencies zu erfassen
+
+**Empfehlung:** Wenn möglich, in kleinere Features aufteilen. Falls nicht möglich, Feature-Batching verwenden (siehe unten).
+
+---
+
+### Strategien für große Projekte
+
+#### **Strategie 1: Feature-Batching** (Empfohlen)
+
+Zerlege komplettes Produkt in **unabhängige Feature-Batches**:
+
+**Beispiel: CRM-System**
+
+```
+Produkt: CRM-System (komplett)
+
+→ Batch 1: Lead-Management
+   PRD: Lead CRUD, Import (CSV/API), Status Tracking, Assignment
+   Workflow anwenden → 4-6 Sprints
+
+→ Batch 2: Contact-Management
+   PRD: Contact CRUD, Company Relations, Deduplication
+   Workflow anwenden → 3-5 Sprints
+
+→ Batch 3: Deal-Pipeline
+   PRD: Deal Stages, Forecasting, Win/Loss Tracking
+   Workflow anwenden → 5-7 Sprints
+
+→ Batch 4: Reporting & Analytics
+   PRD: Dashboards, Charts, Custom Reports, Export
+   Workflow anwenden → 4-6 Sprints
+
+→ Batch 5: Email-Integration
+   PRD: Email Sync, Templates, Tracking, Automation
+   Workflow anwenden → 4-5 Sprints
+```
+
+**Vorteile:**
+- ✅ Jeder Batch bleibt in Sweet Spot (3-8 Sprints)
+- ✅ Klare, fokussierte PRDs
+- ✅ Überschaubare Dependencies pro Batch
+- ✅ Iteratives User-Feedback möglich
+- ✅ Frühe Deliverables (Lead-Mgmt nach 6 Wochen statt nach 6 Monaten)
+- ✅ Weniger Risiko (kleinere Einheiten)
+
+**Ablauf:**
+1. High-Level Produkt-Roadmap erstellen (manuell, ~2 Seiten)
+2. Priorisierung der Feature-Batches (MoSCoW)
+3. Für jeden Batch: Kompletter Workflow (Phase 1-5)
+4. Nach jedem Batch: Review, Deploy, Feedback
+5. Nächster Batch basierend auf Learnings
+
+---
+
+#### **Strategie 2: MVP-First Approach**
+
+**Phase 1: Core MVP** (Workflow anwenden)
+- Minimale Features für Launch
+- 8-12 Sprints
+- Beispiel: "User Auth + Basic CRUD + Core Feature #1"
+
+**Phase 2-N: Feature-Increments** (Workflow jeweils anwenden)
+- Jede neue Feature-Gruppe als separater Workflow
+- 3-6 Sprints pro Increment
+- Beispiel: "Advanced Search" → Workflow
+- Beispiel: "Reporting" → Workflow
+- Beispiel: "API v2" → Workflow
+
+**Vorteile:**
+- ✅ Schnelles Time-to-Market
+- ✅ Frühes User-Feedback
+- ✅ Inkrementelles Wachstum
+- ✅ Jede Phase = verwertbares Produkt
+
+---
+
+#### **Strategie 3: Architektur-PRD + Feature-PRDs** (Hybrid)
+
+**Schritt 1: High-Level Architektur-PRD** (mit Claude Review, aber **nicht** kompletter Workflow)
+- System-Architektur & Tech Stack
+- Core-Module & Schnittstellen
+- Datenmodell & Entities
+- Security & Performance Requirements
+- 1-2 Wochen, nur PRD-Phase (kein Sprint Planning)
+
+**Schritt 2: Für jedes Core-Modul → Workflow anwenden**
+```
+→ Auth-Modul
+   PRD → Stories → Tasks → Sprints (4-5 Sprints)
+
+→ Data-Access-Layer
+   PRD → Stories → Tasks → Sprints (3-4 Sprints)
+
+→ API-Layer
+   PRD → Stories → Tasks → Sprints (5-6 Sprints)
+
+→ Frontend-Core
+   PRD → Stories → Tasks → Sprints (6-8 Sprints)
+```
+
+**Vorteile:**
+- ✅ Architektur-Konsistenz durch initiales Design
+- ✅ Modules bleiben im Sweet Spot
+- ✅ Parallele Entwicklung möglich (Teams)
+
+---
+
+### Praktische Entscheidungshilfe
+
+**Frage:** Wie groß sollte mein Feature sein?
+
+```
+START
+  │
+  ├─ PRD passt auf <6 Seiten?
+  │   ├─ JA → ✅ Workflow direkt anwenden
+  │   └─ NEIN → Feature zu groß, weitermachen
+  │
+  ├─ <25 User Stories schätzbar?
+  │   ├─ JA → ✅ Workflow direkt anwenden
+  │   └─ NEIN → Feature zu groß, weitermachen
+  │
+  ├─ <50 Development Tasks?
+  │   ├─ JA → ✅ Workflow direkt anwenden
+  │   └─ NEIN → Feature zu groß, weitermachen
+  │
+  ├─ <8 Sprints schätzbar?
+  │   ├─ JA → ⚠️  Grenzwertig, evtl. splitten
+  │   └─ NEIN → Feature zu groß, weitermachen
+  │
+  └─ Feature splitten:
+      ├─ Vertikal (nach User Journey): z.B. "Checkout" → "Cart" + "Payment" + "Order Processing"
+      ├─ Horizontal (nach Layer): z.B. "API" + "Frontend" + "Admin Panel"
+      └─ Nach Priorität (MVP): z.B. "Core Features" + "Nice-to-Have Features"
+```
+
+---
+
+### Konkrete Größen-Beispiele
+
+#### ✅ **Optimal (Sweet Spot)**
+
+**Example 1: OAuth Microsoft Integration**
+- PRD: 4 Seiten
+- User Stories: 12 Stories, 48 SP
+- Tasks: 28 Tasks
+- Sprints: 5 Sprints
+- ✅ Passt perfekt
+
+**Example 2: File Management System**
+- PRD: 5 Seiten (Upload, Storage, Preview, Versioning, Sharing)
+- User Stories: 18 Stories, 62 SP
+- Tasks: 35 Tasks
+- Sprints: 6 Sprints
+- ✅ Passt perfekt
+
+---
+
+#### ⚠️ **Grenzwertig → Besser splitten**
+
+**Example: E-Commerce Checkout Flow**
+- PRD: 9 Seiten (Cart, Addresses, Shipping, Payment, Tax, Order, Email, Tracking)
+- User Stories: 35 Stories, 120 SP
+- Tasks: 68 Tasks
+- Sprints: 10 Sprints
+- ⚠️ Zu groß!
+
+**Lösung - Split in 3 Features:**
+1. "Shopping Cart & Wishlist" → 3 Sprints (12 Stories, 35 SP)
+2. "Checkout & Payment Integration" → 4 Sprints (15 Stories, 52 SP)
+3. "Order Processing & Notifications" → 3 Sprints (8 Stories, 33 SP)
+- ✅ Jedes Feature im Sweet Spot!
+
+---
+
+#### ❌ **Zu groß → Feature-Batching nötig**
+
+**Example: Social Media Platform**
+- PRD: 25+ Seiten (Users, Posts, Comments, Likes, Shares, Messages, Friends, Notifications, Feed Algorithm, Search, etc.)
+- User Stories: 120+ Stories
+- Tasks: 250+ Tasks
+- Sprints: 30+ Sprints
+- ❌ NICHT als ein Feature machbar!
+
+**Lösung - Feature-Batching:**
+```
+Batch 1: User Management & Profiles (5 Sprints)
+Batch 2: Posts & Basic Feed (4 Sprints)
+Batch 3: Social Interactions (Comments, Likes, Shares) (5 Sprints)
+Batch 4: Messaging System (6 Sprints)
+Batch 5: Friend System & Discovery (4 Sprints)
+Batch 6: Notifications (3 Sprints)
+Batch 7: Advanced Feed Algorithm (5 Sprints)
+Batch 8: Search & Explore (4 Sprints)
+```
+- ✅ Jeder Batch im Sweet Spot!
+- ✅ Inkrementelle Releases möglich
+
+---
+
+### Zusammenfassung
+
+| Kriterium | Sweet Spot | Grenzwertig | Zu groß |
+|-----------|-----------|-------------|---------|
+| **Story Points** | 40-120 SP | 120-200 SP | >200 SP |
+| **Sprints** | 3-8 Sprints | 8-15 Sprints | >15 Sprints |
+| **PRD Länge** | 3-6 Seiten | 6-10 Seiten | >10 Seiten |
+| **User Stories** | 10-25 | 25-40 | >40 |
+| **Tasks** | 20-50 | 50-80 | >80 |
+| **Empfehlung** | ✅ Workflow direkt | ⚠️ Evtl. splitten | ❌ Feature-Batching |
+
+**Faustregel:**
+Wenn du beim Schreiben des PRD merkst, dass du >6 Seiten brauchst → Feature ist zu groß → Splitten!
+
+---
+
 ## 🔧 Hooks (Optional but Recommended)
 
 **Hooks** ermöglichen deterministische Automation (z.B. Auto-Format, Pre-Commit-Checks).
