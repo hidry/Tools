@@ -4,6 +4,34 @@ Sammlung von Workflow-Dokumentationen und Best Practices für die Entwicklung mi
 
 ## Inhalt
 
+### warema-wms-homeassistant.md
+
+Vollständige Installationsanleitung zur Integration von Warema WMS-Geräten (Verdunklungen, Markisen, Raffstores) in Home Assistant über den WMS USB-Stick.
+
+#### Inhalt
+
+- **Hardware-Setup**: USB-Passthrough in Proxmox, Reichweiten-Optimierung
+- **MQTT-Konfiguration**: Mosquitto Broker Installation und Einrichtung
+- **Addon-Installation**: Warema WMS Addon Setup und Netzwerkparameter-Auslese
+- **Automatisierungen**: Beispiele für wetterbasierte und zeitgesteuerte Automatisierungen
+- **Troubleshooting**: Lösungen für häufige Probleme
+
+#### Voraussetzungen
+
+- Home Assistant (auf Proxmox, Raspberry Pi, etc.)
+- Warema WMS USB-Stick (Standard-Version)
+- Warema WMS-Geräte (Verdunklungen, Markisen, etc.)
+- USB-Verlängerungskabel (3-5m, USB 2.0 empfohlen)
+
+#### Highlights
+
+- **Schritt-für-Schritt**: Komplette Installation von Null bis fertiges System
+- **Proxmox-Integration**: Spezielle Anweisungen für USB-Passthrough
+- **Automatisierungsbeispiele**: Regen-, Wind-, Sonnen- und Zeitsteuerung
+- **Reichweiten-Optimierung**: Best Practices für optimale Funkabdeckung
+
+---
+
 ### prd-to-code-workflow.md
 
 Detaillierte Anleitung für einen strukturierten Entwicklungsworkflow mit Claude Code, der von einem Product Requirements Document (PRD) bis zur fertigen Implementierung führt.
