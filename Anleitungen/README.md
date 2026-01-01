@@ -8,6 +8,10 @@ Sammlung von Workflow-Dokumentationen und Best Practices für die Entwicklung mi
 
 Detaillierte Anleitung für einen strukturierten Entwicklungsworkflow mit Claude Code, der von einem Product Requirements Document (PRD) bis zur fertigen Implementierung führt.
 
+### server-rack-setup.md
+
+Umfassender Leitfaden zur Organisation von Home-Lab-Infrastruktur. Vergleicht verschiedene Rack-Lösungen (fertige Racks, Holz-Eigenbau, Aluminium-Profile, IKEA-Hacks) und gibt konkrete Empfehlungen für kleine Server-Setups.
+
 #### Phasen des Workflows
 
 | Phase | Modell | Beschreibung |

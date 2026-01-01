@@ -76,4 +76,7 @@ Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstü
 
 ### Anleitungen
 
-Enthält den **PRD-to-Code Workflow** - eine strukturierte Anleitung für die Entwicklung mit Claude Code, die von Product Requirements Documents bis zur fertigen Implementierung führt.
+Workflow-Dokumentationen und Best Practices:
+
+- **PRD-to-Code Workflow**: Strukturierte Entwicklung mit Claude Code von Product Requirements bis zur Implementierung
+- **Server Rack Setup**: Leitfaden zur Organisation von Home-Lab-Infrastruktur mit Vergleich verschiedener Rack-Lösungen
