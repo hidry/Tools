@@ -9,6 +9,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 | Verzeichnis | Beschreibung |
 |-------------|--------------|
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
+| [HomeLab](./HomeLab/) | Dokumentation und Konfiguration für das persönliche Home Lab Setup (Proxmox, Home Assistant, Netzwerk) |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
 | [PowerShell-Android-Sync](./PowerShell-Android-Sync/) | PowerShell-Tool zum Übertragen von Fotos/Videos auf Android-Geräte via ADB mit Timestamp-Erhaltung und Validierung |
