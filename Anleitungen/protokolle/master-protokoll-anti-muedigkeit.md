@@ -37,3 +37,12 @@
 - **So:** Active Recovery (Spaziergang, NSDR)
 
 ## Shopping-Liste (Woche)
+🔘 Eier (18)
+🔘 Skyr/Griech. Joghurt (1kg)
+🔘 Whey Protein (500g)
+🔘 Thunfisch (5 Dosen)
+🔘 Mandeln/Walnüsse (500g)
+🔘 Avocado (5)
+🔘 Feta/Mozzarella (400g)
+🔘 Spinat/Paprika/Gurke
+🔘 Pute (500g)
