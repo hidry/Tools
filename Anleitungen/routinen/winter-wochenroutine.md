@@ -38,7 +38,7 @@
 1. **LH Bankdrücken** (Bank: Flach)
 2. **KH Fliegende** (Bank: Flach, KH leicht)
 3. **KH Schulterdrücken** (Bank: 80°, KH schwer) ← *Bank verstellen*
-4. **KH Trizeps über Kopf** (Bank: 80°, KH schwer)
+4. **KH Trizeps über Kopf** (Stehend, KH schwer)
 5. **KH Seitliches Heben** (Stehend, KH leicht)
 
 ### Dienstag (Pull A)
