@@ -17,7 +17,7 @@
 | **08:15** | **Kaffee + Deep Work 1** | **200mg** (90min nach Wake). Black Coffee. Max 400mg/Tag | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **12:00** | **Mittagspause** | Low-GI: Protein + Gemüse (Hähnchen + Salat). **+10min Walk** | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **13:00** | **Low-Cog Tasks** | Meetings/Admin. Post-Lunch-Dip managen. | ☑ | ☑ | ☑ | ☑ | ☑ |
-| **14:00** | **NSDR Reset** | 10-20min Yoga Nidra (App: Reveri). Dopamin-Reload | ☑ | ☑ | ☑ | ☑ | ☑ |
+| **14:00** | **Energie-Reset** | **10min Spaziergang** (draußen, Stille).<br>**Großraumbüro-Alt:** Box Breathing (2min) oder Mikro-Meditation am Schreibtisch | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **15:00** | **Deep Work 2** | Code/Architektur/Testing. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **17:30** | **Shutdown** | Work off. Spaziergang/Familie. | ☑ | ☑ | ☑ | ☑ | ☑ |
 
