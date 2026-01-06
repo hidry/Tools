@@ -10,7 +10,7 @@
 |---------|-----------|---------------------|--------|--------|--------|--------|--------|
 | **06:30** | **Wake + Hydrate** | 500ml Wasser + 1/4 TL Salz. Sofort auf. Kein Snooze. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **06:35** | **Photon-Trigger** | **Mo/Mi/Fr:** Red Light Solarium (10min, 10-15cm)<br>**Di/Do:** IR-Strahler (10min, 30-50cm) | **RLT** | **IR** | **RLT** | **IR** | **RLT** |
-| **06:45** | **Workout (15min)** | 3 Circuits (8-12 Reps, 20-30s Pause). RPE 8-9. Progressive Overload. Details siehe unten. | **Push A**<br>1. **LH Bankdrücken**<br>2. **KH Fliegende**<br>3. **KH Schulterdrücken**<br>4. **KH Trizeps über Kopf**<br>5. **KH Seitliches Heben** | **Pull A**<br>1. **LH Rudern gebückt**<br>2. **LH Bizeps Curls**<br>3. **KH Face Pulls**<br>4. **KH Hammer Curls**<br>5. **KH Reverse Flys** | **Legs A**<br>1. **LH Goblet Squats**<br>2. **LH Rumänisches DL**<br>3. **KH Ausfallschritte**<br>4. **KH Wadenheben**<br>5. **Planks (45s)** | **Push B**<br>1. **KH Schrägbankdrücken**<br>2. **KH Arnold Press**<br>3. **LH Skull Crushers**<br>4. **Bank Dips**<br>5. **KH Front Raises** | **Pull B**<br>1. **KH Einarm-Rudern**<br>2. **KH Conc. Curls**<br>3. **LH Upright Rows**<br>4. **LH Shrugs**<br>5. **KH Lat Pullover** |
+| **06:45** | **Workout (16-17min)** | 3 Circuits (8-12 Reps, 20-30s Pause) + Core-Finisher (45-60s). RPE 8-9. Progressive Overload. Details siehe unten. | **Push A**<br>1. **LH Bankdrücken**<br>2. **KH Fliegende**<br>3. **KH Schulterdrücken**<br>4. **KH Trizeps über Kopf**<br>5. **KH Seitliches Heben** | **Pull A**<br>1. **LH Rudern gebückt**<br>2. **LH Bizeps Curls**<br>3. **KH Face Pulls**<br>4. **KH Hammer Curls**<br>5. **KH Reverse Flys** | **Legs A**<br>1. **LH Goblet Squats**<br>2. **LH Rumänisches DL**<br>3. **KH Ausfallschritte**<br>4. **KH Wadenheben**<br>5. **Planks (45s)** | **Push B**<br>1. **KH Schrägbankdrücken**<br>2. **KH Arnold Press**<br>3. **LH Skull Crushers**<br>4. **Bank Dips**<br>5. **KH Front Raises** | **Pull B**<br>1. **KH Einarm-Rudern**<br>2. **KH Conc. Curls**<br>3. **LH Upright Rows**<br>4. **LH Shrugs**<br>5. **KH Lat Pullover** |
 | **07:05** | **Cold Shower** | 1-2min progressiv kalt. Dopamin-Surge. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **07:15** | **Frühstück** | Low-Carb/High-Protein (~30g Prot, 400kcal). **Kein Brot/Toast!** | **Rührei Classic**<br>3 Eier + Spinat + 50g Feta<br>1/2 Avocado | **Omelett Power**<br>3 Eier + 100g Pute + Paprika<br>Handvoll Mandeln | **Skyr Bowl**<br>200g Skyr + 30g Whey + 50g Beeren<br>1 EL Chiasamen | **Thunfisch Mix**<br>1 Dose Thunfisch + Gurke + Olivenöl<br>50g Mozzarella | **Greek Yogurt**<br>200g Griech. Joghurt + 30g Proteinpulver<br>Nüsse + Zimt |
 | **07:30** | **Fahrt zur Arbeit (45min)** | **07:30-07:45:** Silence (Fenster auf).<br>**07:45-08:15:** Podcast (.NET/Cloud, z.B. "Software Engineering Daily") | Auto | Auto | Auto | Auto | Auto |
@@ -92,6 +92,16 @@
    - **Trifft:** Seitliche Schulter (Isolation)
    </details>
 
+6. **Core-Finisher: Side Planks** (60s total)
+   <details>
+   <summary>📖 Ausführung</summary>
+
+   - Seitlicher Unterarmstütz: Ellbogen unter Schulter
+   - Körper gerade, Hüfte hoch (keine Hüfte durchhängen!)
+   - 30 Sekunden pro Seite
+   - **Trifft:** Seitliche Bauchmuskulatur (Obliques), Core-Stabilität
+   </details>
+
 ### Dienstag (Pull A)
 
 1. **LH Rudern gebückt** (Stehend)
@@ -147,6 +157,17 @@
    - KH seitlich nach oben führen (wie Vogel-Flügel)
    - Schulterblätter zusammenziehen, kontrolliert senken
    - **Trifft:** Hintere Schulter, oberer Rücken
+   </details>
+
+6. **Core-Finisher: Dead Bugs** (45s)
+   <details>
+   <summary>📖 Ausführung</summary>
+
+   - Auf dem Rücken liegen, Arme gerade nach oben
+   - Beine 90° angewinkelt (Knie über Hüfte)
+   - Gegenläufig: Rechtes Bein strecken + linker Arm nach hinten
+   - Wechseln, kontrolliert, unterer Rücken bleibt am Boden!
+   - **Trifft:** Tiefer Core, Anti-Extension, Koordination
    </details>
 
 ### Mittwoch (Legs A)
@@ -207,6 +228,15 @@
    - Bauch anspannen, Po anspannen
    - 45 Sekunden halten, gleichmäßig atmen
    - **Trifft:** Core (Bauch, Rücken), Stabilität
+   </details>
+
+6. **Core-Finisher: Planks** (bereits integriert ✓)
+   <details>
+   <summary>📖 Hinweis</summary>
+
+   - Mittwoch hat bereits Planks als Haupt-Core-Übung
+   - Kein zusätzlicher Finisher nötig
+   - **Optional:** +30s Side Plank für Obliques
    </details>
 
 ### Donnerstag (Push B) - Optimierte Reihenfolge
@@ -271,6 +301,17 @@
    - **Trifft:** Vordere Schulter (Isolation)
    </details>
 
+6. **Core-Finisher: Bicycle Crunches** (45s)
+   <details>
+   <summary>📖 Ausführung</summary>
+
+   - Auf dem Rücken, Hände hinter Kopf (nicht ziehen!)
+   - Beine angewinkelt, Schultern vom Boden
+   - Gegenläufig: Rechter Ellbogen zu linkem Knie, Bein strecken
+   - Wechseln, kontrolliert, Rotation aus dem Rumpf
+   - **Trifft:** Obliques (seitlicher Bauch), Rotation
+   </details>
+
 ### Freitag (Pull B)
 
 1. **KH Einarm-Rudern** (Bank: 30° oder stehend, KH schwer)
@@ -331,6 +372,17 @@
    - KH hinter Kopf absenken (großer Bogen)
    - Bis Dehnung in Lat/Brust, dann zurück über Brust
    - **Trifft:** Latissimus, Brust, Serratus
+   </details>
+
+6. **Core-Finisher: Mountain Climbers** (45s)
+   <details>
+   <summary>📖 Ausführung</summary>
+
+   - Liegestütz-Position, Arme gestreckt
+   - Knie abwechselnd zur Brust ziehen (wie Bergsteigen)
+   - Schnell aber kontrolliert, Hüfte stabil
+   - Core angespannt, kein Wippen
+   - **Trifft:** Core, Cardio, Schulter-Stabilität
    </details>
 
 ## Escalation-Ladder: Tagsüber schlapp?
