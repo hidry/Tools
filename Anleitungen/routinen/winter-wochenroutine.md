@@ -13,14 +13,14 @@
 | **06:45** | **Workout (15min)** | 3 Circuits (8-12 Reps, 20-30s Pause). RPE 8-9. Progressive Overload. Details siehe unten. | **Push A**<br>1. **LH Bankdrücken**<br>2. **KH Fliegende**<br>3. **KH Schulterdrücken**<br>4. **KH Trizeps über Kopf**<br>5. **KH Seitliches Heben** | **Pull A**<br>1. **LH Rudern gebückt**<br>2. **LH Bizeps Curls**<br>3. **KH Face Pulls**<br>4. **KH Hammer Curls**<br>5. **KH Reverse Flys** | **Legs A**<br>1. **LH Goblet Squats**<br>2. **LH Rumänisches DL**<br>3. **KH Ausfallschritte**<br>4. **KH Wadenheben**<br>5. **Planks (45s)** | **Push B**<br>1. **KH Schrägbankdrücken**<br>2. **KH Arnold Press**<br>3. **LH Skull Crushers**<br>4. **Bank Dips**<br>5. **KH Front Raises** | **Pull B**<br>1. **KH Einarm-Rudern**<br>2. **KH Conc. Curls**<br>3. **LH Upright Rows**<br>4. **LH Shrugs**<br>5. **KH Lat Pullover** |
 | **07:05** | **Cold Shower** | 1-2min progressiv kalt. Dopamin-Surge. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **07:15** | **Frühstück** | Low-Carb/High-Protein (~30g Prot, 400kcal). **Kein Brot/Toast!** | **Rührei Classic**<br>3 Eier + Spinat + 50g Feta<br>1/2 Avocado | **Omelett Power**<br>3 Eier + 100g Pute + Paprika<br>Handvoll Mandeln | **Skyr Bowl**<br>200g Skyr + 30g Whey + 50g Beeren<br>1 EL Chiasamen | **Thunfisch Mix**<br>1 Dose Thunfisch + Gurke + Olivenöl<br>50g Mozzarella | **Greek Yogurt**<br>200g Griech. Joghurt + 30g Proteinpulver<br>Nüsse + Zimt |
-| **07:30** | **Commute (45min)** | **07:30-07:45:** Silence (Fenster auf).<br>**07:45-08:15:** Podcast (.NET/Cloud, z.B. "Software Engineering Daily") | Silence<br>Podcast | Silence<br>Podcast | Silence<br>Podcast | Silence<br>Podcast | Silence<br>Podcast |
+| **07:30** | **Fahrt zur Arbeit (45min)** | **07:30-07:45:** Silence (Fenster auf).<br>**07:45-08:15:** Podcast (.NET/Cloud, z.B. "Software Engineering Daily") | Auto | Auto | Auto | Auto | Auto |
 | **08:15** | **Kaffee + Deep Work 1** | **200mg** (90min nach Wake). Black Coffee. Max 400mg/Tag | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **12:00** | **Mittagspause** | Low-GI: Protein + Gemüse (Hähnchen + Salat). **+10min Walk** | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **13:00** | **Low-Cog Tasks** | Meetings/Admin. Post-Lunch-Dip managen. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **14:00** | **Energie-Reset** | **10min Spaziergang** (draußen, Stille).<br>**Großraumbüro-Alt:** Box Breathing (2min) oder Mikro-Meditation am Schreibtisch | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **15:00** | **Deep Work 2** | Code/Architektur/Testing. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **17:30** | **Shutdown** | Work off. Spaziergang/Familie. | ☑ | ☑ | ☑ | ☑ | ☑ |
-| **17:30** | **Heimweg (45min)** | **17:30-17:50:** Stille/ruhige Musik (Mental Detach, Arbeit loslassen).<br>**17:50-18:15:** Upbeat Musik (Energie für Familie/Abend) | Auto | Auto | Auto | Auto | Auto |
+| **17:30** | **Fahrt nach Hause (45min)** | **17:30-17:50:** Stille/ruhige Musik (Mental Detach, Arbeit loslassen).<br>**17:50-18:15:** Upbeat Musik (Energie für Familie/Abend) | Auto | Auto | Auto | Auto | Auto |
 
 ## Workout-Details & Optimierung
 
