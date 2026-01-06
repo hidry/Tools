@@ -42,47 +42,129 @@
 
 ### **Woche 1: Ankommen & Orientierung (VERKÜRZT: Mi-Fr)**
 
-#### **Tag 1: Mittwoch - Erster Tag**
+> 🎯 **BESONDERES EVENT:** Freitag = Firmen-/Teamziele-Präsentation vor allen ~40 MA!
+> - Erste Woche ist auf Vorbereitung für diese Präsentation ausgerichtet
+> - Du wirst dich mit GL und PM abstimmen müssen
+> - Evtl. kannst du eigene Ideen einbringen
+> - **Weniger Einzelgespräche in Woche 1** - Fokus auf Präsentation!
+
+#### **Tag 1: Mittwoch - Erster Tag & Präsentations-Vorbereitung**
 - ⏰ 09:00 - Onboarding mit HR (Admin, Verträge, IT-Setup)
-- ⏰ 10:30 - Gespräch mit Geschäftsführung (1h)
+  - **Fragen:** Freitag-Präsentation - Format? Wer präsentiert? Meine Rolle?
+- ⏰ 10:30 - **WICHTIGES Gespräch mit Geschäftsführung (1,5h)**
   - Erwartungen klären
+  - **FOKUS: Freitag-Präsentation**
+    - Was wird präsentiert? (Firmenziele, Team-Ziele?)
+    - Was ist meine Rolle? Zuhören oder auch präsentieren?
+    - Entwicklungs-Team: Welche Ziele sollen vorgestellt werden?
+    - Darf/soll ich eigene Ideen einbringen? Wie viel?
+    - Was sollte ich bis Freitag vorbereiten?
   - Ziele für 3/6/12 Monate besprechen
-  - Firmen-Vision & Strategie verstehen
-- ⏰ 12:00 - Mittagessen mit dem Team (alle 6 Entwickler)
+  - Firmen-Vision & Strategie 2026 verstehen
+- ⏰ 12:00 - Mittagessen mit dem gesamten Team (alle 6 Entwickler)
+  - Informell über Team-Situation sprechen
+  - **Fragen:** Was sind eure Wünsche/Ziele für 2026?
+  - Erste Eindrücke sammeln
 - ⏰ 14:00 - Arbeitsplatz einrichten, Accounts anlegen
-- ⏰ 15:00 - Entwicklungsumgebung aufsetzen beginnen
+- ⏰ 15:00 - **Vorbereitung für Freitag-Präsentation**
+  - Vorjahres-Ziele/Präsentation anschauen (falls verfügbar)
+  - Aktuelle Team-Ziele Draft verstehen
+  - Entwicklungsumgebung aufsetzen beginnen
 - ⏰ 16:00 - Teilnahme am Daily Standup (beobachten)
-- **Abends:** Notizen machen - erste Eindrücke festhalten
+- **Abends:**
+  - Notizen machen - erste Eindrücke
+  - **Erste Gedanken für Freitag sammeln** (aber zurückhaltend!)
 
-#### **Tag 2: Donnerstag - Erste Einzelgespräche**
-- 🎯 **3 Einzelgespräche à 1,5h** mit Entwicklern (prioritär: Seniors/Tech Leads)
-- Fokus pro Gespräch:
-  - Persönlicher Hintergrund, Werdegang
-  - Aktuelle Rolle & Verantwortlichkeiten
-  - Was läuft gut im Team/Firma?
-  - Was könnte besser sein?
-  - Erwartungen an dich als neuen Lead
-- ⏰ Daily Standup teilnehmen
-- ⏰ Entwicklungsumgebung fertig einrichten
-- ⏰ Code Repository klonen, ersten Überblick verschaffen
+#### **Tag 2: Donnerstag - PM-Abstimmung + Erste Einzelgespräche**
+- ⏰ 09:00 - **Gespräch Product Owner/Manager (1,5h) - VORGEZOGEN!**
+  - **FOKUS: Freitag-Präsentation abstimmen**
+    - Produkt-Roadmap & Ziele 2026
+    - Team-Ziele für Entwicklung
+    - Deine Ideen/Input erwünscht?
+    - Abstimmung mit GL: Sind wir aligned?
+  - Produkt-Vision verstehen
+  - Requirements-Prozess & Prioritäten
+- ⏰ 11:00 - **1. Einzelgespräch: Senior Developer / Tech Lead (1,5h)**
+  - Technische Team-Situation
+  - Was läuft gut/schlecht?
+  - **Wichtig:** Welche Ziele würde das Team sich wünschen?
+  - Tech Debt & Herausforderungen
+- ⏰ 13:00 - Daily Standup + Mittagspause
+- ⏰ 14:00 - **2. Einzelgespräch: Senior Developer (1,5h)**
+  - Team-Dynamik verstehen
+  - Entwickler-Perspektive auf Ziele
+- ⏰ 16:00 - **Vorbereitung Freitag-Präsentation**
+  - Input von GL + PM + Devs konsolidieren
+  - Eigene Ideen formulieren (zurückhaltend!)
+  - Mit GL/PM finaler Abgleich (Mail/kurzes Gespräch)
+- ⏰ 17:00 - Entwicklungsumgebung fertig einrichten
+- **Abends:**
+  - **Präsentation vorbereiten** (falls du aktiv beteiligt bist)
+  - Notizen strukturieren
 
-#### **Tag 3: Freitag - Mehr Einzelgespräche + Sprint-Ende**
-- 🎯 **2-3 weitere Einzelgespräche** (restliche Entwickler)
-- ⏰ Daily Standup
-- ⏰ **Falls Sprint-Ende:** Sprint Review/Demo beobachten
-- ⏰ **Falls Sprint-Ende:** Sprint Retro beobachten (nur zuhören!)
-- ⏰ Pair Programming Session mit Senior Dev (1-2h) - falls Zeit
-- ⏰ Informeller Team-Ausklang (Freitag-Kaffee/Bier falls üblich)
-- **Wochenende:** Notizen konsolidieren, erste Woche verdauen
+#### **Tag 3: Freitag - 🎯 FIRMEN-/TEAMZIELE-PRÄSENTATION**
 
-> **⚠️ Sprint-Timing:** Falls der Sprint nicht Freitag endet, verschiebe Sprint Review/Retro auf den entsprechenden Tag. Du kommst wahrscheinlich mitten im Sprint an - das ist okay!
+> 🎉 **HAUPTEVENT DES TAGES:** Präsentation der Firmen- und Teamziele vor allen ~40 Mitarbeitern!
+
+- ⏰ 09:00 - Daily Standup
+- ⏰ 09:30 - **Letzte Abstimmung mit GL/PM** (30min)
+  - Finale Absprache: Wer sagt was?
+  - Deine Rolle klären
+  - Falls du präsentierst: Kurzer Durchlauf
+- ⏰ 10:00 - **Optional: 1 Einzelgespräch** mit einem Entwickler (1h)
+  - Nur falls Zeit und nötig
+  - Sonst: Präsentation finalisieren
+- ⏰ 11:00 - **Vorbereitung & Durchatmen**
+  - Notizen sortieren
+  - Mental vorbereiten
+  - Räumlichkeiten checken
+
+- ⏰ **[Zeit variabel]** - **🎤 FIRMEN-/TEAMZIELE-PRÄSENTATION**
+  - Vor allen ~40 Mitarbeitern
+  - Firmenziele 2026
+  - Team-Ziele Entwicklung
+  - **Deine Rolle:**
+    - Minimum: Dich vorstellen als neuer Teamleiter
+    - Maximum: Team-Ziele mit präsentieren + eigene Ideen einbringen
+  - **WICHTIG:**
+    - Authentisch bleiben - du bist erst 3 Tage da!
+    - Bescheidenheit zeigen: "Ich lerne noch, freue mich auf..."
+    - Optimismus: "Ich sehe großes Potenzial in..."
+    - Team wertschätzen: "Beeindruckt von der Expertise..."
+
+- **Nach der Präsentation:**
+  - Networking mit allen Abteilungen
+  - Feedback einholen (informell)
+  - Fragen beantworten
+  - Gesichter zu Namen zuordnen
+
+- ⏰ **Falls Sprint-Ende:** Sprint Review/Retro beobachten (falls noch geplant)
+- ⏰ Informeller Team-Ausklang (Freitag-Kaffee/Bier)
+  - **Perfekte Gelegenheit:** Alle sind entspannt nach Präsentation
+  - Mit allen Abteilungen ins Gespräch kommen
+  - Erste Woche "feiern"
+
+- **Wochenende:**
+  - Notizen konsolidieren - intensive erste Woche verdauen
+  - Präsentation reflektieren: Was lief gut? Was habe ich gelernt?
+  - Mental vorbereiten für Woche 2
+
+> **💡 TIPP für die Präsentation:**
+> - **Wenn du präsentierst:** Kurz, authentisch, bescheiden. "Ich bin neu, beeindruckt vom Team, freue mich auf gemeinsame Ziele"
+> - **Eigene Ideen:** Nur wenn explizit gewünscht! Formuliere als Fragen/Vorschläge, nicht als Vorgaben
+> - **Beispiel:** "Ich könnte mir vorstellen, dass wir X verbessern - aber ich lerne erst noch, wie ihr das seht"
 
 **Woche 1 Meilenstein (nach 3 Tagen!):**
-- ✅ Mindestens 4-5 Entwickler kennengelernt (alle 6 falls gut gelaufen)
+- ✅ **Firmen-/Teamziele-Präsentation erfolgreich** - großer Erfolg!
+- ✅ Dich vor allen ~40 MA vorgestellt
+- ✅ GL und PM gesprochen + abgestimmt
+- ✅ 2-3 Entwickler intensiv kennengelernt (Seniors)
+- ✅ Alle 6 Entwickler beim Team-Lunch getroffen
 - ✅ Dev-Umgebung läuft oder fast fertig
-- ✅ Erste Sprint-Events beobachtet (falls timing passte)
-- ✅ Team-Dynamik erste Eindrücke
-- ⏩ **Falls nicht alle 6 Gespräche:** Rest in Woche 2 nachholen!
+- ✅ Erste Eindrücke von Firmenkultur & Dynamik
+- ✅ Viele Gesichter zu Namen zugeordnet
+- ⏩ **Restliche Einzelgespräche:** In Woche 2 nachholen (entspannter!)
+- 🎉 **Bonus:** Große Sichtbarkeit durch Präsentation - alle kennen dich jetzt!
 
 ---
 
@@ -635,78 +717,108 @@
 
 ### Herausforderungen & Lösungen:
 
-**Challenge 1: Nur 3 Tage in Woche 1**
-- ✅ **Lösung:** Fokus auf Essentials: Team-Lunch, wichtigste Gespräche, Setup
+**Challenge 1: Nur 3 Tage in Woche 1 + Freitag-Präsentation!**
+- ✅ **Lösung:** Fokus auf Präsentations-Vorbereitung
+- ✅ Wichtigste Gespräche: GL, PM, 2 Senior Devs
 - ✅ Nicht alle 6 Einzelgespräche erzwingen - Rest in Woche 2
-- ✅ Entspannt angehen - du hast 90 Tage, nicht 3!
+- ✅ Freitag ist Hauptevent - darauf ausrichten!
 
-**Challenge 2: Du kommst mitten in einen Sprint**
+**Challenge 2: Präsentation nach nur 3 Tagen**
+- ⚠️ **Herausforderung:** Du sollst evtl. Ideen einbringen nach 2 Tagen!
+- ✅ **Lösung:** Bescheidenheit + Optimismus kombinieren
+- ✅ Als Fragen/Vorschläge formulieren, nicht als Vorgaben
+- ✅ Team-Perspektive einbringen (aus Gesprächen)
+- ✅ Authentisch bleiben: "Ich bin neu, aber ich sehe Potenzial in..."
+
+**Challenge 3: Du kommst mitten in einen Sprint**
 - ✅ **Lösung:** Beobachte den aktuellen Sprint ohne Druck
 - ✅ Nächster Sprint-Start (vermutlich Montag Woche 2) ist dein "echter" Start
-- ✅ Nutze die Tage zum Lernen, nicht zum Gestalten
+- ✅ Erste Woche = Präsentation + Orientierung
 
-**Challenge 3: Sprint-Events fallen vielleicht auf verschiedene Tage**
-- ✅ **Lösung:** Sei flexibel! Wenn Retro/Planning am Montag ist, nutze das
-- ✅ Erste Woche: Sprint-Ende? Beobachte Review/Retro
-- ✅ Zweite Woche: Sprint-Start? Beobachte Planning sehr genau!
+**Challenge 4: Große Sichtbarkeit sehr früh**
+- ⚠️ **Herausforderung:** Alle 40 MA sehen dich am Tag 3!
+- ✅ **Vorteil:** Perfektes Networking - alle kennen dich sofort
+- ✅ **Tipp:** Nutze den Freitag-Ausklang für informelle Gespräche
 
 ### Angepasster Fokus pro Woche:
 
-**Woche 1 (Mi-Fr - 3 Tage):**
-- Tag 1: Ankommen, Setup, Team-Lunch, erste Eindrücke
-- Tag 2: 3 wichtigste Einzelgespräche (Seniors/Tech Leads priorisieren)
-- Tag 3: 2-3 weitere Gespräche, Sprint-Events falls vorhanden, Team-Ausklang
+**Woche 1 (Mi-Fr - 3 Tage): 🎯 PRÄSENTATIONS-WOCHE**
+- **Tag 1 (Mi):** GL-Gespräch (Fokus: Freitag-Präsentation), Team-Lunch, Setup
+- **Tag 2 (Do):** PM-Gespräch + 2 Senior-Dev-Gespräche, Präsentation vorbereiten
+- **Tag 3 (Fr):** 🎤 **FIRMEN-/TEAMZIELE-PRÄSENTATION** vor 40 MA + Networking
 
-**Woche 2 (Mo-Fr - 5 Tage):**
-- Montag: **Sprint Planning beobachten** (wichtig!) + letzte Einzelgespräche
-- Di-Do: Stakeholder-Gespräche
+**Woche 2 (Mo-Fr - 5 Tage): Entspannung + Vertiefung**
+- Montag: **Sprint Planning beobachten** + restliche Einzelgespräche
+- Di-Do: Stakeholder-Gespräche (Sales, Support, etc.)
 - Freitag: Produkt nutzen, Code-Arbeit
+- **Vorteil:** Nach der Präsentation kennen dich alle - Gespräche sind einfacher!
 
-**Woche 3 (Mo-Fr - 5 Tage):**
+**Woche 3 (Mo-Fr - 5 Tage): Regulärer Rhythmus**
 - Jetzt im regulären Rhythmus
 - Technisches Deep Dive
 - Erster vollständiger Sprint als Beobachter
 
 ### Optimaler Gesprächsplan (Woche 1-2):
 
-**Mittwoch:**
-- Geschäftsführung (direkt am ersten Tag!)
-- Team-Lunch (informell, alle 6 kennenlernen)
+**Mittwoch (Tag 1):**
+- ⏰ 10:30 - Geschäftsführung (1,5h) - **Fokus: Freitag-Präsentation!**
+- ⏰ 12:00 - Team-Lunch (informell, alle 6 kennenlernen)
+- ⏰ 15:00 - Präsentation vorbereiten + Setup
 
-**Donnerstag:**
-- Senior Developer #1 (1,5h)
-- Senior Developer #2 / Tech Lead (1,5h)
-- Lead Developer / Architekt (1,5h)
+**Donnerstag (Tag 2):**
+- ⏰ 09:00 - Product Owner/Manager (1,5h) - **Abstimmung für Freitag!**
+- ⏰ 11:00 - Senior Developer #1 / Tech Lead (1,5h)
+- ⏰ 14:00 - Senior Developer #2 (1,5h)
+- ⏰ 16:00 - Präsentation finalisieren
 
-**Freitag:**
-- Developer #4 (1,5h)
-- Developer #5 (1,5h)
-- Falls Zeit: Developer #6 (1,5h) - sonst Montag
+**Freitag (Tag 3):**
+- ⏰ 09:30 - Finale Abstimmung GL/PM (30min)
+- ⏰ [variabel] - 🎤 **PRÄSENTATION** + Networking
+- ⏰ Nachmittags - Team-Ausklang, alle kennenlernen
 
 **Montag (Woche 2):**
-- Falls nötig: Developer #6 (1h)
-- Product Owner (1,5h)
+- Developer #3 (1h)
+- Developer #4 (1h)
+- Sprint Planning beobachten
+
+**Dienstag-Freitag (Woche 2):**
+- Developer #5 & #6 (je 1h)
+- Sales, Support, andere Stakeholder
+- Entspannter - die Hektik der ersten Woche ist vorbei!
 
 ### Vorbereitung vor dem ersten Tag:
 
-**1 Woche vorher:**
+**1 Woche vorher - WICHTIG:**
+- [ ] **KRITISCH:** Freitag-Präsentation klären!
+  - Wann genau? (Uhrzeit, Dauer)
+  - Wer präsentiert? (GL, PM, du?)
+  - Welche Ziele werden präsentiert?
+  - Soll ich Input geben? Wie viel?
+  - Gibt es einen Draft der Präsentation?
 - [ ] HR fragen: Wann ist der nächste Sprint Planning/Review?
-- [ ] Kalender-Zugriff anfragen, um Team-Meetings zu sehen
+- [ ] Kalender-Zugriff anfragen, um Meetings zu sehen
 - [ ] Laptop/Hardware schon vorher zuschicken lassen (falls möglich)
 - [ ] Liste der 6 Entwickler mit Rollen bekommen
+- [ ] Vorjahres-Ziele/Präsentation anfragen (zur Vorbereitung)
 
 **1-2 Tage vorher:**
-- [ ] Einzelgespräche für Do/Fr vorbuchen (mit HR-Hilfe)
+- [ ] **Präsentation:** Agenda/Format mit GL abstimmen
+- [ ] Einzelgespräche für Do vorbuchen (GL, PM, 2 Seniors)
 - [ ] Notizen-System vorbereiten (Notion, Obsidian, etc.)
-- [ ] Mental einstellen: Erste Woche = Beobachten, nicht Gestalten!
+- [ ] **Mental einstellen:**
+  - Erste Woche = Präsentation vorbereiten!
+  - Freitag wird intensiv - aber auch großartige Chance
+  - Authentisch bleiben, Bescheidenheit zeigen
 
 ### Wichtige Fragen vor Tag 1:
 
 An HR/Geschäftsführung vorher klären:
+- **KRITISCH: Freitag-Präsentation im Detail!** (siehe Checkliste oben)
+- Meine Rolle in der Präsentation? (Vorstellen? Mitpräsentieren? Input?)
+- Gibt es einen Ziele-Draft den ich vorher sehen kann?
+- Welcher Entwickler ist der Senior/Lead? (zuerst sprechen - Donnerstag!)
 - Wann ist Sprint Planning? (vermutlich Montag Woche 2)
-- Wann ist Sprint Review/Retro? (evtl. Freitag Woche 1)
-- Welcher Entwickler ist der Senior/Lead? (zuerst sprechen!)
-- Gibt es Homeoffice-Tage? (Wann sind alle im Office?)
+- Gibt es Homeoffice-Tage? (Wann sind alle im Office? - wichtig für Freitag!)
 - Team-Lunch am Mittwoch möglich organisieren?
 
 ### Sprint-Zyklus verstehen (wichtig!):
@@ -729,33 +841,62 @@ An HR/Geschäftsführung vorher klären:
 ### Mentale Einstellung für Mittwoch-Start:
 
 **Tag 1 (Mittwoch):**
-- "Ich komme an, lerne die Menschen kennen, verstehe die Basics"
+- "Ich verstehe die Freitag-Präsentation und bereite mich vor"
+- "Ich lerne die Menschen kennen, sammle erste Eindrücke"
 - NICHT: "Ich muss direkt durchstarten"
+- NICHT: "Ich muss am Freitag perfekt sein"
 
-**Tag 2-3 (Do-Fr):**
-- "Ich vertiefe Beziehungen, lerne das System kennen"
+**Tag 2 (Donnerstag):**
+- "Ich hole Input von PM und Seniors für die Präsentation"
+- "Ich bin authentisch - 2 Tage im Job bedeutet: Ich lerne noch"
 - NICHT: "Ich muss alles verstehen"
+- NICHT: "Meine Ideen müssen ausgereift sein"
+
+**Tag 3 (Freitag):**
+- "Ich stelle mich vor, zeige Optimismus und Bescheidenheit"
+- "Ich nutze die Präsentation für Networking mit allen 40 MA"
+- NICHT: "Ich muss perfekt präsentieren"
+- NICHT: "Ich muss Lösungen für alles haben"
 
 **Wochenende:**
-- "Ich verarbeite die Eindrücke, sortiere Gedanken"
+- "Ich verarbeite eine intensive erste Woche"
+- "Die Präsentation war ein Erfolg - jetzt kenne ich alle!"
 - NICHT: "Ich muss einen Masterplan entwickeln"
 
 **Woche 2:**
-- "Jetzt kenne ich das Team, jetzt lerne ich das Business"
-- Sprint Planning am Montag ist dein "echter" Start!
+- "Jetzt kenne ich alle, Gespräche sind einfacher"
+- "Sprint Planning am Montag ist mein echter operativer Start"
 
 ### Erfolgs-Checkliste für erste Woche (Mi-Fr):
 
-- [ ] Alle administrativen Dinge erledigt (Vertrag, IT-Zugang)
-- [ ] Dev-Umgebung läuft oder fast fertig
-- [ ] Mindestens 4 von 6 Entwicklern kennengelernt
-- [ ] Geschäftsführung gesprochen
+**Mittwoch:**
+- [ ] HR-Onboarding abgeschlossen (Admin, Verträge, IT)
+- [ ] GL-Gespräch: Freitag-Präsentation verstanden
+- [ ] Team-Lunch: Alle 6 Entwickler getroffen
+- [ ] Setup begonnen
+
+**Donnerstag:**
+- [ ] PM-Gespräch: Ziele abgestimmt
+- [ ] 2 Senior-Entwickler gesprochen
+- [ ] Input für Präsentation gesammelt
+- [ ] Eigene Gedanken formuliert (bescheiden!)
+- [ ] Dev-Umgebung läuft
+
+**Freitag:**
+- [ ] 🎤 **Präsentation erfolgreich gemeistert!**
+- [ ] Dich authentisch vorgestellt
+- [ ] Viele/alle 40 MA kennengelernt (zumindest gesehen)
+- [ ] Networking genutzt
+- [ ] Team-Ausklang genossen
+
+**Gesamt (3 Tage):**
 - [ ] Daily Standup teilgenommen (3x)
-- [ ] Code Repository gesehen
 - [ ] Erste Notizen gemacht
-- [ ] Gefühl für Team-Dynamik bekommen
-- [ ] Sprint-Events beobachtet (falls vorhanden)
-- [ ] **Wichtig:** Nicht überarbeiten! 3 Tage sind intensiv genug
+- [ ] GL + PM + 2 Seniors kennengelernt
+- [ ] Alle anderen im Team-Lunch + Präsentation getroffen
+- [ ] Gefühl für Firmenkultur bekommen
+- [ ] **Wichtig:** Nicht überarbeiten! 3 intensive Tage sind genug
+- [ ] **Erfolg:** Nach 3 Tagen kennen dich alle - perfekter Start!
 
 ---
 
