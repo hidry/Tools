@@ -20,6 +20,7 @@
 | **14:00** | **Energie-Reset** | **10min Spaziergang** (draußen, Stille).<br>**Großraumbüro-Alt:** Box Breathing (2min) oder Mikro-Meditation am Schreibtisch | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **15:00** | **Deep Work 2** | Code/Architektur/Testing. | ☑ | ☑ | ☑ | ☑ | ☑ |
 | **17:30** | **Shutdown** | Work off. Spaziergang/Familie. | ☑ | ☑ | ☑ | ☑ | ☑ |
+| **17:30** | **Heimweg (45min)** | **17:30-17:50:** Stille/ruhige Musik (Mental Detach, Arbeit loslassen).<br>**17:50-18:15:** Upbeat Musik (Energie für Familie/Abend) | Auto | Auto | Auto | Auto | Auto |
 
 ## Workout-Details & Optimierung
 
