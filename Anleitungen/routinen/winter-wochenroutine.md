@@ -37,6 +37,9 @@
 
 ### Montag (Push A) - Optimierte Reihenfolge
 
+<details>
+<summary>📋 Übungen anzeigen</summary>
+
 1. **LH Bankdrücken** (Bank: Flach)
    <details>
    <summary>📖 Ausführung</summary>
@@ -102,7 +105,12 @@
    - **Trifft:** Seitliche Bauchmuskulatur (Obliques), Core-Stabilität
    </details>
 
+</details>
+
 ### Dienstag (Pull A)
+
+<details>
+<summary>📋 Übungen anzeigen</summary>
 
 1. **LH Rudern gebückt** (Stehend)
    <details>
@@ -170,7 +178,12 @@
    - **Trifft:** Tiefer Core, Anti-Extension, Koordination
    </details>
 
+</details>
+
 ### Mittwoch (Legs A)
+
+<details>
+<summary>📋 Übungen anzeigen</summary>
 
 1. **LH Goblet Squats** (Stehend)
    <details>
@@ -239,7 +252,12 @@
    - **Optional:** +30s Side Plank für Obliques
    </details>
 
+</details>
+
 ### Donnerstag (Push B) - Optimierte Reihenfolge
+
+<details>
+<summary>📋 Übungen anzeigen</summary>
 
 1. **KH Schrägbankdrücken** (Bank: 30-45°, KH schwer)
    <details>
@@ -312,7 +330,12 @@
    - **Trifft:** Obliques (seitlicher Bauch), Rotation
    </details>
 
+</details>
+
 ### Freitag (Pull B)
+
+<details>
+<summary>📋 Übungen anzeigen</summary>
 
 1. **KH Einarm-Rudern** (Bank: 30° oder stehend, KH schwer)
    <details>
@@ -384,6 +407,8 @@
    - Core angespannt, kein Wippen
    - **Trifft:** Core, Cardio, Schulter-Stabilität
    </details>
+
+</details>
 
 ## Escalation-Ladder: Tagsüber schlapp?
 
