@@ -31,13 +31,18 @@
 
 ## 📅 Detaillierte Wochenplanung
 
+> **💡 HINWEIS:** Diese Timeline ist für einen **Mittwoch-Start** optimiert!
+> - **Woche 1 ist verkürzt** (Mi-Fr = 3 Tage)
+> - Du kommst wahrscheinlich **mitten in einen Sprint**
+> - Anpassungen siehe unten
+
 ---
 
 ## 🔵 PHASE 1: Tage 1-30 (Lernen & Verstehen)
 
-### **Woche 1: Ankommen & Orientierung**
+### **Woche 1: Ankommen & Orientierung (VERKÜRZT: Mi-Fr)**
 
-#### **Tag 1: Erster Tag**
+#### **Tag 1: Mittwoch - Erster Tag**
 - ⏰ 09:00 - Onboarding mit HR (Admin, Verträge, IT-Setup)
 - ⏰ 10:30 - Gespräch mit Geschäftsführung (1h)
   - Erwartungen klären
@@ -49,8 +54,8 @@
 - ⏰ 16:00 - Teilnahme am Daily Standup (beobachten)
 - **Abends:** Notizen machen - erste Eindrücke festhalten
 
-#### **Tag 2-3: Team-Einzelgespräche (Runde 1)**
-- 🎯 **3 Einzelgespräche à 1,5h** mit Entwicklern
+#### **Tag 2: Donnerstag - Erste Einzelgespräche**
+- 🎯 **3 Einzelgespräche à 1,5h** mit Entwicklern (prioritär: Seniors/Tech Leads)
 - Fokus pro Gespräch:
   - Persönlicher Hintergrund, Werdegang
   - Aktuelle Rolle & Verantwortlichkeiten
@@ -61,26 +66,41 @@
 - ⏰ Entwicklungsumgebung fertig einrichten
 - ⏰ Code Repository klonen, ersten Überblick verschaffen
 
-#### **Tag 4-5: Team-Einzelgespräche (Runde 1 abschließen)**
-- 🎯 **3 weitere Einzelgespräche** mit restlichen Entwicklern
-- ⏰ Erstes Team-Meeting beobachten (Sprint Planning/Retro)
-- ⏰ Pair Programming Session mit einem Senior Dev (2h)
-  - Codebase-Tour
-  - Development Workflow
-- ⏰ Erste kleine Code-Änderung machen (z.B. Bug Fix)
-- **Wochenende:** Notizen konsolidieren, Muster erkennen
+#### **Tag 3: Freitag - Mehr Einzelgespräche + Sprint-Ende**
+- 🎯 **2-3 weitere Einzelgespräche** (restliche Entwickler)
+- ⏰ Daily Standup
+- ⏰ **Falls Sprint-Ende:** Sprint Review/Demo beobachten
+- ⏰ **Falls Sprint-Ende:** Sprint Retro beobachten (nur zuhören!)
+- ⏰ Pair Programming Session mit Senior Dev (1-2h) - falls Zeit
+- ⏰ Informeller Team-Ausklang (Freitag-Kaffee/Bier falls üblich)
+- **Wochenende:** Notizen konsolidieren, erste Woche verdauen
 
-**Woche 1 Meilenstein:**
-- ✅ Alle 6 Entwickler persönlich kennengelernt
-- ✅ Dev-Umgebung läuft
-- ✅ Erste Code-Änderung gemacht
+> **⚠️ Sprint-Timing:** Falls der Sprint nicht Freitag endet, verschiebe Sprint Review/Retro auf den entsprechenden Tag. Du kommst wahrscheinlich mitten im Sprint an - das ist okay!
+
+**Woche 1 Meilenstein (nach 3 Tagen!):**
+- ✅ Mindestens 4-5 Entwickler kennengelernt (alle 6 falls gut gelaufen)
+- ✅ Dev-Umgebung läuft oder fast fertig
+- ✅ Erste Sprint-Events beobachtet (falls timing passte)
 - ✅ Team-Dynamik erste Eindrücke
+- ⏩ **Falls nicht alle 6 Gespräche:** Rest in Woche 2 nachholen!
 
 ---
 
-### **Woche 2: Firma & Stakeholder**
+### **Woche 2: Firma & Stakeholder (Mo-Fr)**
 
-#### **Tag 6-7: Stakeholder-Gespräche**
+> **Flexibel:** Falls noch 1-2 Entwickler-Gespräche fehlen, diese am Montag/Dienstag nachholen!
+
+#### **Tag 4 (Montag): Sprint Planning + ggf. letzte Einzelgespräche**
+- ⏰ **Falls Sprint-Start:** Sprint Planning beobachten (wichtig!)
+  - Wie werden Stories geschätzt?
+  - Wer entscheidet Prioritäten?
+  - Wie ist die Team-Dynamik?
+- ⏰ **Falls nötig:** Letzte(s) Entwickler-Einzelgespräch(e)
+- ⏰ Daily Standup
+- ⏰ Code Repository weiter erkunden
+- ⏰ Erste kleine Code-Änderung angehen (falls noch nicht geschehen)
+
+#### **Tag 5-7 (Di-Do): Stakeholder-Gespräche**
 - ⏰ Gespräch Product Owner/Manager (1,5h)
   - Produkt-Vision & Roadmap
   - Requirements-Prozess
@@ -96,7 +116,26 @@
 - ⏰ Daily mit Team, an aktuellen Entwicklungen teilnehmen
 - ⏰ Produkt selbst intensiv nutzen (2-3h)
 
-#### **Tag 8-9: Technisches Deep Dive**
+#### **Tag 8 (Freitag): Produkt & erste Code-Arbeit**
+- ⏰ Produkt selbst intensiv nutzen (Vormittag)
+- ⏰ Erste Code-Änderung abschließen oder neue starten
+- ⏰ Daily Standup
+- ⏰ **Falls Sprint-Ende:** Review/Retro beobachten
+- ⏰ Team-Ausklang nutzen für informelle Gespräche
+- **Wochenende:** Woche 2 reflektieren
+
+**Woche 2 Meilenstein:**
+- ✅ **ALLE 6 Entwickler** definitiv kennengelernt
+- ✅ Wichtigste Stakeholder gesprochen
+- ✅ Produkt verstanden (User-Perspektive)
+- ✅ Ersten kompletten Sprint-Zyklus beobachtet
+- ✅ Erste Code-Änderung committed
+
+---
+
+### **Woche 3: Technisches Deep Dive (Mo-Fr)**
+
+#### **Tag 9-10 (Mo-Di): Technisches Deep Dive**
 - ⏰ Architektur-Session mit Senior Dev (2h)
   - System-Architektur Diagramme
   - Tech Stack im Detail
@@ -583,6 +622,140 @@
 - Mehr Zeit für technische Arbeit
 - Refactoring priorisieren
 - Mit Product Owner Zeit verhandeln
+
+---
+
+## 📅 Besonderheiten: Mittwoch-Start
+
+### Warum Mittwoch ein guter Starttag ist:
+- ✅ Kurze erste Woche (3 Tage) - nicht überwältigend
+- ✅ Team ist "warm" (mitten in der Woche)
+- ✅ Freitag: informeller Ausklang mit Team nutzen
+- ✅ Wochenende direkt nach erster Woche zum Verarbeiten
+
+### Herausforderungen & Lösungen:
+
+**Challenge 1: Nur 3 Tage in Woche 1**
+- ✅ **Lösung:** Fokus auf Essentials: Team-Lunch, wichtigste Gespräche, Setup
+- ✅ Nicht alle 6 Einzelgespräche erzwingen - Rest in Woche 2
+- ✅ Entspannt angehen - du hast 90 Tage, nicht 3!
+
+**Challenge 2: Du kommst mitten in einen Sprint**
+- ✅ **Lösung:** Beobachte den aktuellen Sprint ohne Druck
+- ✅ Nächster Sprint-Start (vermutlich Montag Woche 2) ist dein "echter" Start
+- ✅ Nutze die Tage zum Lernen, nicht zum Gestalten
+
+**Challenge 3: Sprint-Events fallen vielleicht auf verschiedene Tage**
+- ✅ **Lösung:** Sei flexibel! Wenn Retro/Planning am Montag ist, nutze das
+- ✅ Erste Woche: Sprint-Ende? Beobachte Review/Retro
+- ✅ Zweite Woche: Sprint-Start? Beobachte Planning sehr genau!
+
+### Angepasster Fokus pro Woche:
+
+**Woche 1 (Mi-Fr - 3 Tage):**
+- Tag 1: Ankommen, Setup, Team-Lunch, erste Eindrücke
+- Tag 2: 3 wichtigste Einzelgespräche (Seniors/Tech Leads priorisieren)
+- Tag 3: 2-3 weitere Gespräche, Sprint-Events falls vorhanden, Team-Ausklang
+
+**Woche 2 (Mo-Fr - 5 Tage):**
+- Montag: **Sprint Planning beobachten** (wichtig!) + letzte Einzelgespräche
+- Di-Do: Stakeholder-Gespräche
+- Freitag: Produkt nutzen, Code-Arbeit
+
+**Woche 3 (Mo-Fr - 5 Tage):**
+- Jetzt im regulären Rhythmus
+- Technisches Deep Dive
+- Erster vollständiger Sprint als Beobachter
+
+### Optimaler Gesprächsplan (Woche 1-2):
+
+**Mittwoch:**
+- Geschäftsführung (direkt am ersten Tag!)
+- Team-Lunch (informell, alle 6 kennenlernen)
+
+**Donnerstag:**
+- Senior Developer #1 (1,5h)
+- Senior Developer #2 / Tech Lead (1,5h)
+- Lead Developer / Architekt (1,5h)
+
+**Freitag:**
+- Developer #4 (1,5h)
+- Developer #5 (1,5h)
+- Falls Zeit: Developer #6 (1,5h) - sonst Montag
+
+**Montag (Woche 2):**
+- Falls nötig: Developer #6 (1h)
+- Product Owner (1,5h)
+
+### Vorbereitung vor dem ersten Tag:
+
+**1 Woche vorher:**
+- [ ] HR fragen: Wann ist der nächste Sprint Planning/Review?
+- [ ] Kalender-Zugriff anfragen, um Team-Meetings zu sehen
+- [ ] Laptop/Hardware schon vorher zuschicken lassen (falls möglich)
+- [ ] Liste der 6 Entwickler mit Rollen bekommen
+
+**1-2 Tage vorher:**
+- [ ] Einzelgespräche für Do/Fr vorbuchen (mit HR-Hilfe)
+- [ ] Notizen-System vorbereiten (Notion, Obsidian, etc.)
+- [ ] Mental einstellen: Erste Woche = Beobachten, nicht Gestalten!
+
+### Wichtige Fragen vor Tag 1:
+
+An HR/Geschäftsführung vorher klären:
+- Wann ist Sprint Planning? (vermutlich Montag Woche 2)
+- Wann ist Sprint Review/Retro? (evtl. Freitag Woche 1)
+- Welcher Entwickler ist der Senior/Lead? (zuerst sprechen!)
+- Gibt es Homeoffice-Tage? (Wann sind alle im Office?)
+- Team-Lunch am Mittwoch möglich organisieren?
+
+### Sprint-Zyklus verstehen (wichtig!):
+
+**Szenario A: Sprint endet Freitag (Woche 1)**
+- ✅ Perfekt! Du siehst Review/Retro direkt
+- ✅ Montag Woche 2: Sprint Planning ist dein "offizieller Start"
+- ✅ Du bist in Sprint 1 als voller Teilnehmer
+
+**Szenario B: Sprint endet Donnerstag (Woche 1)**
+- ✅ Noch besser! Du siehst Review/Retro am Tag 2
+- ✅ Freitag: Neuer Sprint startet, du bist von Anfang an dabei
+- ✅ Erste Woche schon produktiv
+
+**Szenario C: Sprint läuft noch (endet nächste Woche)**
+- ✅ Auch ok! Du hast mehr Zeit zum Lernen
+- ✅ Erste Woche: Beobachten, Setup, Gespräche
+- ✅ Zweite Woche: Sprint-Ende miterleben, dann Start in neuen Sprint
+
+### Mentale Einstellung für Mittwoch-Start:
+
+**Tag 1 (Mittwoch):**
+- "Ich komme an, lerne die Menschen kennen, verstehe die Basics"
+- NICHT: "Ich muss direkt durchstarten"
+
+**Tag 2-3 (Do-Fr):**
+- "Ich vertiefe Beziehungen, lerne das System kennen"
+- NICHT: "Ich muss alles verstehen"
+
+**Wochenende:**
+- "Ich verarbeite die Eindrücke, sortiere Gedanken"
+- NICHT: "Ich muss einen Masterplan entwickeln"
+
+**Woche 2:**
+- "Jetzt kenne ich das Team, jetzt lerne ich das Business"
+- Sprint Planning am Montag ist dein "echter" Start!
+
+### Erfolgs-Checkliste für erste Woche (Mi-Fr):
+
+- [ ] Alle administrativen Dinge erledigt (Vertrag, IT-Zugang)
+- [ ] Dev-Umgebung läuft oder fast fertig
+- [ ] Mindestens 4 von 6 Entwicklern kennengelernt
+- [ ] Geschäftsführung gesprochen
+- [ ] Daily Standup teilgenommen (3x)
+- [ ] Code Repository gesehen
+- [ ] Erste Notizen gemacht
+- [ ] Gefühl für Team-Dynamik bekommen
+- [ ] Sprint-Events beobachtet (falls vorhanden)
+- [ ] **Wichtig:** Nicht überarbeiten! 3 Tage sind intensiv genug
 
 ---
 
