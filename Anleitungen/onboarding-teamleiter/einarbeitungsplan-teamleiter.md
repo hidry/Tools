@@ -20,17 +20,23 @@
   </details>
 
 - **Team-Dynamik verstehen**
+  <details>
+  <summary>Details</summary>
   - Wer sind die Senior-Entwickler / Wissensträger?
   - Wer sind die Juniors - brauchen sie mehr Mentoring?
   - Gibt es informelle Leader?
   - Welche Tech-Präferenzen gibt es?
   - Pair Programming / Code Review Kultur?
   - Wie ist die Arbeitsteilung (Frontend/Backend/Fullstack)?
+  </details>
 
 - **Team als Ganzes**
+  <details>
+  <summary>Details</summary>
   - Team-Mittagessen / Kaffee organisieren
   - An bestehenden Team-Ritualen teilnehmen
   - Team-Retrospektive: Was wünscht sich das Team?
+  </details>
 
 ### Rest der Firma
 - Alle ~34 anderen Mitarbeiter kennenlernen möglich!
