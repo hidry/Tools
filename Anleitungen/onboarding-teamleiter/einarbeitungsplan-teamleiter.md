@@ -7,15 +7,16 @@
 ## 1. Team & Menschen (HÖCHSTE PRIORITÄT!)
 
 ### Die 6 Entwickler
-- **Einzelgespräche mit jedem Entwickler** (1-2h pro Person)
-  <details>
+
+<details>
+<summary>- **Einzelgespräche mit jedem Entwickler** (1-2h pro Person)</summary>
   - Werdegang, Stärken, Interessen
   - Aktuelle Aufgaben & Verantwortlichkeiten
   - Was läuft gut, was könnte besser sein?
   - Erwartungen an dich als neuen Lead
   - Karriereziele & Entwicklungswünsche
   - Wie war die Zusammenarbeit mit dem Vorgänger?
-  </details>
+</details>
 
 
 - **Team-Dynamik verstehen**
