@@ -8,12 +8,15 @@
 
 ### Die 6 Entwickler
 - **Einzelgespräche mit jedem Entwickler** (1-2h pro Person)
-  - Werdegang, Stärken, Interessen
-  - Aktuelle Aufgaben & Verantwortlichkeiten
-  - Was läuft gut, was könnte besser sein?
-  - Erwartungen an dich als neuen Lead
-  - Karriereziele & Entwicklungswünsche
-  - Wie war die Zusammenarbeit mit dem Vorgänger?
+  <details>
+    - Werdegang, Stärken, Interessen
+    - Aktuelle Aufgaben & Verantwortlichkeiten
+    - Was läuft gut, was könnte besser sein?
+    - Erwartungen an dich als neuen Lead
+    - Karriereziele & Entwicklungswünsche
+    - Wie war die Zusammenarbeit mit dem Vorgänger?
+  </details>
+
 
 - **Team-Dynamik verstehen**
   - Wer sind die Senior-Entwickler / Wissensträger?
