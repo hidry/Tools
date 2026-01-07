@@ -6,7 +6,7 @@
 
 ## 1. Team & Menschen (HÖCHSTE PRIORITÄT!)
 
-### Deine 6 Entwickler
+### Die 6 Entwickler
 - **Einzelgespräche mit jedem Entwickler** (1-2h pro Person)
   - Werdegang, Stärken, Interessen
   - Aktuelle Aufgaben & Verantwortlichkeiten
@@ -35,7 +35,7 @@
   - Product Owner / Product Manager
   - Sales / Vertrieb (Kundenfeedback)
   - Support (User-Probleme)
-  - QA / Testing (falls vorhanden)
+  - QA / Testing
 
 ---
 
@@ -60,7 +60,7 @@
 ## 3. Produkte & Fachdomäne
 
 - **Produkt-Verständnis**
-  - Welche Produkte gibt es? (vermutlich 1-3 Hauptprodukte)
+  - Welche Produkte gibt es?
   - Kernfunktionalitäten & USPs
   - Zielgruppen & typische Use Cases
   - Produkt selbst intensiv nutzen!
@@ -96,7 +96,7 @@
   - Build & Deployment durchführen
 
 - **Architektur-Entscheidungen**
-  - Wer trifft Tech-Entscheidungen? (wahrscheinlich jetzt du!)
+  - Wer trifft Tech-Entscheidungen?
   - Warum wurden bestimmte Technologien gewählt?
   - Gibt es Architecture Decision Records (ADRs)?
 
@@ -108,7 +108,7 @@
   - Welche Methodik? (Scrum, Kanban, etc.)
   - Wie sind die Sprints/Iterationen organisiert?
   - Planning, Dailies, Retros - wie laufen die ab?
-  - Wer priorisiert die Arbeit?
+  - Wer priorisiert die Arbeit? PM?
 
 - **Code-Qualität**
   - Code Review-Prozess
@@ -118,14 +118,14 @@
   - Linting, Formatting, Pre-Commit Hooks?
 
 - **Release & Deployment**
-  - Wie oft wird deployed?
+  - Wie oft wird deployed? Wohin?
   - CI/CD Pipeline vorhanden?
   - Branching-Strategie (Git Flow, Trunk-based?)
   - Wer darf deployen?
   - Rollback-Strategie?
 
 - **Operations**
-  - Wer macht DevOps? (oft beim Dev-Team)
+  - Wer macht DevOps?
   - Monitoring & Logging
   - Incident Management
   - On-Call Rotation?
@@ -140,7 +140,7 @@
 ## 6. Tools & Systeme
 
 - **Entwicklung**
-  - Code Repository (GitHub, GitLab, Bitbucket?)
+  - Code Repository (Azure DevOps Git)
   - IDE-Präferenzen im Team
   - Package Management
   - CI/CD Tools
@@ -180,7 +180,7 @@
   - Product Decisions - wie viel Einfluss?
 
 - **Führungsstil etablieren**
-  - Welchen Führungsstil bringst du mit?
+  - Welchen Führungsstil?
   - Was passt zur Firma & zum Team?
   - 1:1 Rhythmus etablieren
   - Feedback-Kultur aufbauen
@@ -215,8 +215,6 @@
 - **Quick Wins identifizieren**
   - Was kann schnell verbessert werden?
   - Low-hanging fruits für das Team
-  - Sichtbare Erfolge in den ersten Wochen
-  - Glaubwürdigkeit aufbauen
 
 - **Probleme & Pain Points**
   - Was sind die größten Frustrationen?
