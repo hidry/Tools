@@ -6,37 +6,27 @@
 
 ## 1. Team & Menschen (HÖCHSTE PRIORITÄT!)
 
-### Die 6 Entwickler
-
+### Deine 6 Entwickler
 - **Einzelgespräche mit jedem Entwickler** (1-2h pro Person)
-  <details>
-  <summary>Details</summary>
   - Werdegang, Stärken, Interessen
   - Aktuelle Aufgaben & Verantwortlichkeiten
   - Was läuft gut, was könnte besser sein?
   - Erwartungen an dich als neuen Lead
   - Karriereziele & Entwicklungswünsche
   - Wie war die Zusammenarbeit mit dem Vorgänger?
-  </details>
 
 - **Team-Dynamik verstehen**
-  <details>
-  <summary>Details</summary>
   - Wer sind die Senior-Entwickler / Wissensträger?
   - Wer sind die Juniors - brauchen sie mehr Mentoring?
   - Gibt es informelle Leader?
   - Welche Tech-Präferenzen gibt es?
   - Pair Programming / Code Review Kultur?
   - Wie ist die Arbeitsteilung (Frontend/Backend/Fullstack)?
-  </details>
 
 - **Team als Ganzes**
-  <details>
-  <summary>Details</summary>
   - Team-Mittagessen / Kaffee organisieren
   - An bestehenden Team-Ritualen teilnehmen
   - Team-Retrospektive: Was wünscht sich das Team?
-  </details>
 
 ### Rest der Firma
 - Alle ~34 anderen Mitarbeiter kennenlernen möglich!
@@ -45,7 +35,7 @@
   - Product Owner / Product Manager
   - Sales / Vertrieb (Kundenfeedback)
   - Support (User-Probleme)
-  - QA / Testing
+  - QA / Testing (falls vorhanden)
 
 ---
 
@@ -70,7 +60,7 @@
 ## 3. Produkte & Fachdomäne
 
 - **Produkt-Verständnis**
-  - Welche Produkte gibt es?
+  - Welche Produkte gibt es? (vermutlich 1-3 Hauptprodukte)
   - Kernfunktionalitäten & USPs
   - Zielgruppen & typische Use Cases
   - Produkt selbst intensiv nutzen!
@@ -106,7 +96,7 @@
   - Build & Deployment durchführen
 
 - **Architektur-Entscheidungen**
-  - Wer trifft Tech-Entscheidungen?
+  - Wer trifft Tech-Entscheidungen? (wahrscheinlich jetzt du!)
   - Warum wurden bestimmte Technologien gewählt?
   - Gibt es Architecture Decision Records (ADRs)?
 
@@ -118,7 +108,7 @@
   - Welche Methodik? (Scrum, Kanban, etc.)
   - Wie sind die Sprints/Iterationen organisiert?
   - Planning, Dailies, Retros - wie laufen die ab?
-  - Wer priorisiert die Arbeit? PM?
+  - Wer priorisiert die Arbeit?
 
 - **Code-Qualität**
   - Code Review-Prozess
@@ -128,14 +118,14 @@
   - Linting, Formatting, Pre-Commit Hooks?
 
 - **Release & Deployment**
-  - Wie oft wird deployed? Wohin?
+  - Wie oft wird deployed?
   - CI/CD Pipeline vorhanden?
   - Branching-Strategie (Git Flow, Trunk-based?)
   - Wer darf deployen?
   - Rollback-Strategie?
 
 - **Operations**
-  - Wer macht DevOps?
+  - Wer macht DevOps? (oft beim Dev-Team)
   - Monitoring & Logging
   - Incident Management
   - On-Call Rotation?
@@ -150,7 +140,7 @@
 ## 6. Tools & Systeme
 
 - **Entwicklung**
-  - Code Repository (Azure DevOps Git)
+  - Code Repository (GitHub, GitLab, Bitbucket?)
   - IDE-Präferenzen im Team
   - Package Management
   - CI/CD Tools
@@ -190,7 +180,7 @@
   - Product Decisions - wie viel Einfluss?
 
 - **Führungsstil etablieren**
-  - Welchen Führungsstil?
+  - Welchen Führungsstil bringst du mit?
   - Was passt zur Firma & zum Team?
   - 1:1 Rhythmus etablieren
   - Feedback-Kultur aufbauen
@@ -225,6 +215,8 @@
 - **Quick Wins identifizieren**
   - Was kann schnell verbessert werden?
   - Low-hanging fruits für das Team
+  - Sichtbare Erfolge in den ersten Wochen
+  - Glaubwürdigkeit aufbauen
 
 - **Probleme & Pain Points**
   - Was sind die größten Frustrationen?
