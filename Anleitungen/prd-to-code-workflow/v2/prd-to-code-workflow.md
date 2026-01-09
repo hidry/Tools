@@ -1,5 +1,8 @@
-# Claude Code PRD-to-Code Workflow v2.0
+# Claude Code PRD-to-Code Workflow v2.1
 ## Spec-Driven Development mit Claude Code Best Practices (2025)
+
+**Neu in v2.1 (2026-01-09):** Sprint-Releasebarkeit - Jeder Sprint liefert ein nutzbares, deployable Inkrement! 🚀
+- Detaillierte Anleitung: `sprint-release-enhancements.md`
 
 ---
 
@@ -420,18 +423,72 @@ Sprint 3 (optional):
 MoSCoW-Priorisierung (Must-Have zuerst).
 Gesamtbudget: ~13-21 Story Points pro Sprint.
 Output: sprint-plan.md
+
+WICHTIG (v2.1): Vertikales Slicing & Sprint-Releasebarkeit
+- Jeder Sprint MUSS End-to-End funktionieren (Backend + Frontend + Tests + Docs + Deployment)
+- Jeder Sprint bekommt ein konkretes Sprint-Goal ("Als [User] kann ich [Aktion], um [Nutzen] zu erzielen")
+- Jeder Sprint ist potentiell releasebar (siehe sprint-release-enhancements.md für Details)
 ```
 
 ### Workflow
 
 1. Claude sortiert Tasks nach MoSCoW-Priorisierung
 2. Claude erstellt Dependency-Graph
-3. Claude gruppiert in Sprints (13-21 SP pro Sprint)
-4. Claude definiert Milestones
-5. Claude speichert sprint-plan.md
-6. Claude updated claude-progress.txt automatisch
-7. User reviewt Sprint-Plan, gibt Feedback bei Bedarf
-8. User: "Committe den Sprint-Plan"
+3. **Claude gruppiert in Sprints (13-21 SP pro Sprint) - VERTIKAL!**
+   - **Neu (v2.1):** Jeder Sprint enthält ALLE Layer:
+     - Backend-Komponente (API, DB, Business Logic)
+     - Frontend-Komponente (UI, State Management)
+     - Tests (Unit + Integration + E2E)
+     - Dokumentation (API Docs + User Docs)
+     - Deployment-Tasks (Migrations, Scripts)
+4. **Claude definiert Sprint-Goals**
+   - **Neu (v2.1):** Pro Sprint ein nutzbares, testbares Ziel formulieren
+5. Claude definiert Milestones
+6. Claude speichert sprint-plan.md
+7. Claude updated claude-progress.txt automatisch
+8. User reviewt Sprint-Plan, gibt Feedback bei Bedarf
+9. User: "Committe den Sprint-Plan"
+
+### 🆕 v2.1: Vertikales Slicing (Releasebarkeit pro Sprint)
+
+**Warum vertikale Slices?**
+- Jeder Sprint liefert ein nutzbares Feature (nicht "alle Backend-Tasks zuerst")
+- Sprint kann am Ende tatsächlich deployed werden
+- Stakeholder sehen schneller Fortschritt
+- Risiko wird früher sichtbar
+
+**Sprint-Zusammenstellung (v2.1-Methode):**
+
+```markdown
+Sprint 1: [Feature-Name] (End-to-End)
+  Backend:
+  - T-001: User Model + Migration (3 SP)
+  - T-002: POST /users Endpoint (3 SP)
+
+  Frontend:
+  - T-003: Registration Form Component (4 SP)
+
+  Tests:
+  - T-004: Unit Tests (Backend + Frontend) (2 SP)
+  - T-005: E2E Test: User Registration Flow (2 SP)
+
+  Docs:
+  - T-006: API Docs + User Guide (1 SP)
+
+  Deployment:
+  - T-007: Migration Script + Deploy Script (1 SP)
+
+  Total: 16 SP
+
+  Sprint-Goal: "Als neuer Nutzer kann ich mich registrieren, um ein Konto zu erstellen."
+
+  Definition of Done: ✅ Alle Tasks ✅ Tests grün ✅ Deployed auf Staging ✅ Demo funktioniert
+```
+
+**Weitere Informationen:**
+- Detaillierte Anleitung: `v2/sprint-release-enhancements.md`
+- Template: `v2/templates/sprint-release-plan-template.md`
+- DoD-Checklist: `v2/templates/definition-of-done-checklist.md`
 
 ### Commit-Message
 
@@ -504,10 +561,16 @@ Alt + M                          # Start Execution (auto-Sonnet)
 
 6. Claude erstellt Tests (>80% Coverage)
    - Unit Tests, Integration Tests
+   - **Neu (v2.1):** Mindestens 1 E2E-Test pro User Story (Happy Path)
 
-7. Claude updated claude-progress.txt automatisch
+7. **Neu (v2.1): Definition of Done durchgehen**
+   - Nutze `v2/templates/definition-of-done-checklist.md`
+   - ALLE Punkte müssen abgehakt sein, bevor Sprint releasebar ist
+   - Siehe `v2/sprint-release-enhancements.md` für Details
 
-8. User: "Committe Sprint 1"
+8. Claude updated claude-progress.txt automatisch
+
+9. User: "Committe Sprint 1"
 
 #### Commit-Message
 
