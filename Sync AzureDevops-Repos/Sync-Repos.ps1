@@ -5,6 +5,7 @@ param(
     [string]$BasePath = "C:\myBasePath"
 )
 
+
 $ErrorActionPreference = 'Continue'
 
 function Write-Log {
