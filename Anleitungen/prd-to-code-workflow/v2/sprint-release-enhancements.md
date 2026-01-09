@@ -1058,6 +1058,182 @@ User kann Account erstellen und sich danach einloggen.
 
 ---
 
+## 🔀 Multi-Feature-Sprints
+
+**Neu hinzugefügt:** 2026-01-09
+
+### Problem: Was, wenn ein Sprint mehrere Features umsetzen soll?
+
+Die obigen Prinzipien fokussieren auf **1 Feature pro Sprint**. Aber was ist, wenn:
+- Mehrere kleine Features (jeweils <5 SP) in einen Sprint passen?
+- Features logisch zusammengehören (z.B. Login + Logout + Session-Management)?
+- Ein großes Feature + mehrere Bug-Fixes geplant sind?
+- Team-Entwicklung mit parallelen Features?
+
+### Lösung: 4 Multi-Feature-Strategien
+
+**Detaillierte Dokumentation:**
+→ Siehe `multi-feature-sprint-strategies.md` (ausführliche 50+ Seiten Anleitung)
+
+**Template:**
+→ Siehe `templates/multi-feature-sprint-template.md`
+
+#### Kurz-Übersicht der Strategien:
+
+**1. Primary/Secondary-Klassifizierung**
+```
+Primary Feature (MUST): Payment Integration (12 SP)
+Secondary Features (SHOULD):
+  - Loading Spinner (2 SP)
+  - Error Messages (2 SP)
+
+Release-Kriterium: Primary MUSS fertig sein.
+                   Secondary sind optional.
+```
+
+**Wann nutzen?**
+- 1 großes Feature + mehrere kleine Features
+- Unsicherheit, ob alles fertig wird
+
+---
+
+**2. Feature-Set (Thematisches Bundling)**
+```
+Feature-Set: Session-Management (15 SP)
+  - Login (5 SP)
+  - Logout (2 SP)
+  - Remember-Me (3 SP)
+  - Session-Timeout (5 SP)
+
+Release-Kriterium: ALLE Features MÜSSEN fertig sein.
+                   (Feature-Set nur komplett sinnvoll)
+```
+
+**Wann nutzen?**
+- Features gehören logisch zusammen
+- Features ergeben erst gemeinsam Sinn
+
+---
+
+**3. Mini-Milestones (Sequenziell)**
+```
+Milestone 1 (Tag 1-2): Export-Funktion (5 SP)
+Milestone 2 (Tag 3-4): Dark-Mode (7 SP)
+Milestone 3 (Tag 5): Keyboard-Shortcuts (3 SP)
+
+Release-Strategie: Nach jedem Milestone Staging-Deploy.
+                   Am Sprint-Ende: Alle in Production.
+```
+
+**Wann nutzen?**
+- Features sind unabhängig
+- Klare zeitliche Abfolge möglich
+- Kontinuierliches Feedback gewünscht
+
+---
+
+**4. Parallele Tracks (Team-Setting)**
+```
+Track A (Developer Alice): Notifications (8 SP)
+Track B (Developer Bob): Search (7 SP)
+Track C (Developer Charlie): API-Docs (5 SP)
+
+Integration-Point: Tag 5 - Merge & Integration-Tests
+```
+
+**Wann nutzen?**
+- Team mit mehreren Entwicklern
+- Features komplett unabhängig
+- Keine geteilten Komponenten
+
+---
+
+### Sprint-Goal bei Multi-Feature
+
+**❌ Schlecht:**
+```
+"Als User kann ich Feature A, Feature B und Feature C nutzen."
+→ Zu vage, kein Fokus
+```
+
+**✅ Gut (Primary/Secondary):**
+```
+"Als Nutzer kann ich Zahlungen durchführen (Primary).
+Optional: Ladebalken sehen & bessere Fehlermeldungen (Secondary)."
+→ Klare Priorisierung
+```
+
+**✅ Gut (Feature-Set):**
+```
+"Als Nutzer kann ich Session-Management nutzen (Login, Logout, Remember-Me, Timeout),
+um sicher und bequem auf die Plattform zuzugreifen."
+→ Übergeordnetes Ziel + enthaltene Features
+```
+
+**✅ Gut (Mini-Milestones):**
+```
+"Als Nutzer erlebe ich eine verbesserte User-Experience durch:
+- Export-Funktion (Daten portabel)
+- Dark-Mode (Augen schonen)
+- Keyboard-Shortcuts (schneller arbeiten)"
+→ Gemeinsames Thema: UX-Verbesserungen
+```
+
+---
+
+### Definition of Done bei Multi-Feature
+
+**Option A: Globale DoD** (alle Features müssen erfüllen)
+- Jedes Feature hat gleiche DoD-Kriterien
+- Sprint releasebar, wenn ALLE Features DoD erfüllen
+
+**Option B: Feature-spezifische DoD** (unterschiedlich je Feature)
+- Feature A: 100% DoD
+- Feature B: 80% DoD (nicht fertig)
+- → Entscheidung: Feature B verschieben oder Sprint verlängern
+
+**Option C: Gewichtete DoD** (Primary/Secondary)
+- Primary: 100% DoD → Sprint releasebar!
+- Secondary: Best-Effort (können verschoben werden)
+
+---
+
+### Entscheidungsbaum
+
+```
+Sind die Features logisch zusammengehörig?
+├─ JA → Feature-Set
+└─ NEIN
+   │
+   Ist ein Feature deutlich wichtiger?
+   ├─ JA → Primary/Secondary
+   └─ NEIN
+      │
+      Mehrere Entwickler parallel?
+      ├─ JA → Parallele Tracks
+      └─ NEIN → Mini-Milestones
+```
+
+---
+
+### Weitere Informationen
+
+**Vollständige Anleitung:**
+- `multi-feature-sprint-strategies.md` - 50+ Seiten mit:
+  - Detaillierte Strategie-Beschreibungen
+  - Praktische Beispiele (E-Commerce, SaaS, Bug-Fixes)
+  - Demo-Szenarien
+  - Anti-Patterns vermeiden
+  - Risiko-Management
+
+**Templates:**
+- `templates/multi-feature-sprint-template.md` - Ready-to-use Template
+  - Alle 4 Strategien enthalten
+  - Feature-spezifische DoD-Checklists
+  - Demo-Szenarien für verschiedene Strategien
+
+---
+
 ## 🔄 Aktualisierter Workflow (v2.0 → v2.1)
 
 ### Was ändert sich?
