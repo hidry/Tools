@@ -11,6 +11,7 @@ Dieses Script verbindet sich mit einem Azure DevOps Server, listet alle Reposito
 - PowerShell 5.0 oder höher
 - Git installiert und im PATH verfügbar
 - Azure DevOps Personal Access Token (PAT) mit Repository-Leserechten
+- Das Skript muss Kodierung UTF-8 mit BOM verwenden
 
 ## Verwendung
 
