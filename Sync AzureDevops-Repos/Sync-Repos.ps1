@@ -25,6 +25,24 @@ function Write-Log {
     }
 }
 
+function ConvertTo-UrlEncoded {
+    param(
+        [string]$Url
+    )
+    
+    # URL-Encode spezieller Zeichen für Git
+    $encoded = $Url -replace ' ', '%20'
+    $encoded = $encoded -replace 'ö', '%C3%B6'
+    $encoded = $encoded -replace 'Ö', '%C3%96'
+    $encoded = $encoded -replace 'ä', '%C3%A4'
+    $encoded = $encoded -replace 'Ä', '%C3%84'
+    $encoded = $encoded -replace 'ü', '%C3%BC'
+    $encoded = $encoded -replace 'Ü', '%C3%9C'
+    $encoded = $encoded -replace 'ß', '%C3%9F'
+    
+    return $encoded
+}
+
 function Get-RepositoriesFromAzureDevOps {
     Write-Log "Abrufen von Repositories aus Projekt: $Project"
     
@@ -38,7 +56,7 @@ function Get-RepositoriesFromAzureDevOps {
             'Content-Type' = 'application/json'
         }
         
-        $url = "${Organization}/_apis/git/repositories?api-version=7.0"
+        $url = "${Organization}/_apis/git/repositories?api-version=5.1"
         $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get -ErrorAction Stop
         
         $repos = $response.value | Where-Object { $_.project.name -eq $Project }
@@ -83,9 +101,10 @@ function Sync-Repository {
     
     $repoName = $Repository.name
     $cloneUrl = $Repository.remoteUrl
+    $cloneUrlEncoded = ConvertTo-UrlEncoded -Url $cloneUrl
     $defaultBranch = Get-DefaultBranch -Repository $Repository
     
-    Write-Log "Verarbeite: $repoName (Branch: $defaultBranch, URL: $cloneUrl)"
+    Write-Log "Verarbeite: $repoName (Branch: $defaultBranch)"
     
     # Pruefen ob bereits ein Git-Repository existiert
     if ((Test-Path $LocalPath) -and (Test-IsGitRepository -Path $LocalPath)) {
@@ -93,6 +112,10 @@ function Sync-Repository {
         
         try {
             Push-Location $LocalPath
+            
+            # Stelle sicher, dass die Remote-URL korrekt kodiert ist
+            Write-Log "  -> Aktualisiere Remote-URL"
+            git remote set-url origin $cloneUrlEncoded 2>&1 | Out-Null
             
             # Fetch vom origin
             Write-Log "  -> git fetch origin $defaultBranch"
@@ -145,8 +168,8 @@ function Sync-Repository {
                 Remove-Item -Path $LocalPath -Recurse -Force | Out-Null
             }
             
-            Write-Log "  -> git clone --branch $defaultBranch --single-branch $cloneUrl $LocalPath"
-            $output = git clone --branch $defaultBranch --single-branch $cloneUrl $LocalPath 2>&1
+            Write-Log "  -> git clone --branch $defaultBranch --single-branch"
+            $output = git clone --branch $defaultBranch --single-branch $cloneUrlEncoded $LocalPath 2>&1
             
             if ($LASTEXITCODE -ne 0) {
                 Write-Log "  -> Clone Fehler: $output" -Level Error
