@@ -4,7 +4,7 @@ param(
     [switch]$DryRun,
     [switch]$IncludeRemote,
     [switch]$Force,
-    [string[]]$ProtectedBranches = @('master', 'main', 'develop', 'development', 'staging', 'production')
+    [string[]]$ProtectedBranches = @('master', 'main', 'develop', 'development', 'staging', 'production', 'current')
 )
 
 $ErrorActionPreference = 'Continue'
