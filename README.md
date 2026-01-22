@@ -10,6 +10,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 |-------------|--------------|
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
+| [Git-Branch-Cleanup](./Git-Branch-Cleanup/) | PowerShell-Tool zum automatischen Aufräumen von gemergten und leeren Git-Branches |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
 | [PowerShell-Android-Sync](./PowerShell-Android-Sync/) | PowerShell-Tool zum Übertragen von Fotos/Videos auf Android-Geräte via ADB mit Timestamp-Erhaltung und Validierung |
 | [Sage100-Mandant](./Sage100-Mandant/) | C#-Code-Snippet zur Erstellung eines Sage 100 Mandantenobjekts mit Session-Authentifizierung |
@@ -72,6 +73,21 @@ Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstü
 
 ```powershell
 .\iPhone-FileCopy\Copy-iPhoneFiles.ps1 -SourceFolder "DCIM" -DestinationPath "D:\Fotos" -SkipExisting
+```
+
+### Git-Branch-Cleanup
+
+Identifiziert und löscht automatisch nicht mehr benötigte Git-Branches (gemergte und leere Branches). Mit Sicherheitsfeatures wie geschützten Branches, Dry-Run Modus und Bestätigungsabfragen.
+
+```powershell
+# Dry-Run: Zeigt nur was gelöscht würde
+.\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -DryRun
+
+# Lokale Branches löschen
+.\Git-Branch-Cleanup\Remove-MergedBranches.ps1
+
+# Inkl. Remote-Branches
+.\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -IncludeRemote -Force
 ```
 
 ### Anleitungen
