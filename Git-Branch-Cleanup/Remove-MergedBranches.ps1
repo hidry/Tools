@@ -310,7 +310,7 @@ Write-Log "  Force: $Force"
 Write-Host ""
 
 # Prüfe ob Main-Branch existiert
-$branchExists = git show-ref --verify --quiet "refs/heads/$MainBranch"
+git show-ref --verify --quiet "refs/heads/$MainBranch" | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Log "Main-Branch '$MainBranch' existiert nicht!" -Level Error
     Pop-Location
