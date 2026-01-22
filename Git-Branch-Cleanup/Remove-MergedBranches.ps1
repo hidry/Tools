@@ -7,7 +7,8 @@ param(
     [string[]]$ProtectedBranches = @('master', 'main', 'develop', 'development', 'staging', 'production', 'current'),
     [int]$InactiveDays = 365,
     [int]$InactiveMonths = 0,
-    [switch]$IncludeStale
+    [switch]$IncludeStale,
+    [switch]$IncludeUnpushed
 )
 
 $ErrorActionPreference = 'Continue'
@@ -215,6 +216,42 @@ function Get-StaleBranches {
     }
 }
 
+function Get-BranchesWithUnpushedCommits {
+    param(
+        [string[]]$BranchList
+    )
+
+    Write-Log "Prüfe auf Branches mit nicht gepushten Commits..."
+
+    try {
+        $branchesWithUnpushed = @()
+
+        foreach ($branchName in $BranchList) {
+            # Prüfe ob Branch ein Remote-Tracking hat
+            $upstream = git rev-parse --abbrev-ref "$branchName@{upstream}" 2>$null
+
+            if ($LASTEXITCODE -eq 0 -and $upstream) {
+                # Branch hat einen Upstream - prüfe auf unpushed commits
+                $unpushedCount = git rev-list --count "$upstream..$branchName" 2>$null
+
+                if ($LASTEXITCODE -eq 0 -and $unpushedCount -gt 0) {
+                    $branchesWithUnpushed += [PSCustomObject]@{
+                        Name = $branchName
+                        UnpushedCount = $unpushedCount
+                    }
+                }
+            }
+            # Wenn kein Upstream existiert, hat der Branch keine Remote-Gegenstück
+            # Das ist auch eine Form von "unpushed", aber wir behandeln das separat
+        }
+
+        return $branchesWithUnpushed
+    } catch {
+        Write-Log "Fehler beim Prüfen auf unpushed commits: $($_.Exception.Message)" -Level Error
+        return @()
+    }
+}
+
 function Remove-LocalBranch {
     param(
         [string]$BranchName,
@@ -311,6 +348,7 @@ Write-Log "  Main-Branch: $MainBranch"
 Write-Log "  Protected Branches: $($ProtectedBranches -join ', ')"
 Write-Log "  Inaktivitäts-Schwellenwert: $inactivityThreshold Tage"
 Write-Log "  Include Stale: $IncludeStale"
+Write-Log "  Include Unpushed: $IncludeUnpushed"
 Write-Log "  Dry-Run: $DryRun"
 Write-Log "  Include Remote: $IncludeRemote"
 Write-Log "  Force: $Force"
@@ -392,6 +430,40 @@ if ($IncludeRemote) {
         Write-Log "Keine gemergten Remote-Branches gefunden"
     }
     Write-Host ""
+}
+
+# 5. Prüfe auf Branches mit unpushed commits (Sicherheitscheck)
+$branchesWithUnpushed = @()
+if ($branchesToDelete.Count -gt 0) {
+    $branchesWithUnpushed = Get-BranchesWithUnpushedCommits -BranchList $branchesToDelete
+
+    if ($branchesWithUnpushed) {
+        Write-Host "================================================================" -ForegroundColor Red
+        Write-Log "WARNUNG: Branches mit nicht gepushten Commits gefunden!" -Level Error
+        Write-Host "================================================================" -ForegroundColor Red
+        foreach ($unpushedBranch in $branchesWithUnpushed) {
+            Write-Log "  - $($unpushedBranch.Name) ($($unpushedBranch.UnpushedCount) commits nicht gepusht)" -Level Error
+        }
+        Write-Host ""
+
+        if (-not $IncludeUnpushed) {
+            Write-Log "  -> Diese Branches enthalten nicht gesicherte Arbeit und werden NICHT gelöscht!" -Level Warning
+            Write-Log "  -> Verwenden Sie -IncludeUnpushed um sie trotzdem zu löschen (GEFÄHRLICH!)" -Level Warning
+
+            # Entferne Branches mit unpushed commits aus der Löschliste
+            $originalCount = $branchesToDelete.Count
+            $branchesToDelete = $branchesToDelete | Where-Object {
+                $branch = $_
+                -not ($branchesWithUnpushed | Where-Object { $_.Name -eq $branch })
+            }
+            $protectedCount = $originalCount - $branchesToDelete.Count
+            Write-Log "  -> $protectedCount Branch(es) wurden geschützt" -Level Success
+        } else {
+            Write-Log "  -> IncludeUnpushed ist aktiv - diese Branches werden trotzdem gelöscht!" -Level Error
+            Write-Log "  -> ACHTUNG: Nicht gepushte Arbeit geht verloren!" -Level Error
+        }
+        Write-Host ""
+    }
 }
 
 # Zusammenfassung

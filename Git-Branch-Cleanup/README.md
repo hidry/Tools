@@ -9,7 +9,7 @@ Dieses Script identifiziert und löscht Git-Branches, die nicht mehr benötigt w
 - **Leere Branches**: Branches ohne eigene Commits (nie etwas geändert wurde)
 - **Inaktive Branches (Stale)**: Branches die seit langer Zeit (z.B. >365 Tage) nicht mehr geändert wurden
 
-Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dry-Run Modus und Bestätigungsabfragen.
+Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Schutz vor Datenverlust durch unpushed commits, Dry-Run Modus und Bestätigungsabfragen.
 
 ## Voraussetzungen
 
@@ -54,6 +54,22 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 .\Remove-MergedBranches.ps1 -DryRun -InactiveDays 365
 ```
 
+### Unpushed Commits (Sicherheit)
+
+```powershell
+# Branches mit unpushed commits werden automatisch geschützt
+.\Remove-MergedBranches.ps1
+
+# Zeigt Warnung:
+# WARNUNG: Branches mit nicht gepushten Commits gefunden!
+#   - feature/work-in-progress (5 commits nicht gepusht)
+#   -> Diese Branches werden NICHT gelöscht!
+
+# GEFÄHRLICH: Auch Branches mit unpushed commits löschen
+.\Remove-MergedBranches.ps1 -IncludeUnpushed
+# ⚠ ACHTUNG: Nicht gesicherte Arbeit geht verloren!
+```
+
 ### Erweiterte Verwendung
 
 ```powershell
@@ -79,6 +95,7 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 | `-DryRun` | Nur anzeigen, nichts löschen | `$false` |
 | `-IncludeRemote` | Auch Remote-Branches löschen | `$false` |
 | `-IncludeStale` | Inaktive Branches auch löschen | `$false` |
+| `-IncludeUnpushed` | ⚠ GEFÄHRLICH: Auch Branches mit unpushed commits löschen | `$false` |
 | `-InactiveDays` | Schwellenwert für inaktive Branches (in Tagen) | `365` |
 | `-InactiveMonths` | Schwellenwert für inaktive Branches (in Monaten, überschreibt InactiveDays) | `0` |
 | `-Force` | Ohne Bestätigung löschen | `$false` |
@@ -94,9 +111,12 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
    - Findet inaktive Branches: `git for-each-ref` mit Commit-Datum, Autor und Anzahl
    - Optional: Remote-Branches analysieren
 4. **Sicherheitsprüfung**: Schließt geschützte Branches aus
-5. **Stale-Branch-Warnung**: Zeigt inaktive Branches immer an, löscht sie nur mit `-IncludeStale`
-6. **Bestätigung**: Fragt nach (außer `-Force` oder `-DryRun`)
-7. **Löschung**:
+5. **Unpushed-Commits-Check**: Prüft ob zu löschende Branches unpushed commits haben
+   - Zeigt deutliche Warnung in ROT
+   - Schützt diese Branches standardmäßig (außer mit `-IncludeUnpushed`)
+6. **Stale-Branch-Warnung**: Zeigt inaktive Branches immer an, löscht sie nur mit `-IncludeStale`
+7. **Bestätigung**: Fragt nach (außer `-Force` oder `-DryRun`)
+8. **Löschung**:
    - Lokale Branches: `git branch -d/-D`
    - Remote-Branches: `git push origin --delete`
 
@@ -139,8 +159,17 @@ Das Script gibt farbcodierte Statusmeldungen aus:
 [12:34:56] [WARN]   - experiment/old-test (12 Commits, letzter von Anna Schmidt am 2024-11-08, 410 Tage inaktiv)
 [12:34:56] [INFO]   -> Inaktive Branches werden NICHT gelöscht (verwenden Sie -IncludeStale zum Löschen)
 
+[12:34:56] [INFO] Prüfe auf Branches mit nicht gepushten Commits...
 ================================================================
-[12:34:56] [WARN] Es werden 4 Branch(es) gelöscht:
+WARNUNG: Branches mit nicht gepushten Commits gefunden!
+================================================================
+[12:34:56] [ERROR]   - feature/work-in-progress (5 commits nicht gepusht)
+[12:34:56] [WARN]   -> Diese Branches enthalten nicht gesicherte Arbeit und werden NICHT gelöscht!
+[12:34:56] [WARN]   -> Verwenden Sie -IncludeUnpushed um sie trotzdem zu löschen (GEFÄHRLICH!)
+[12:34:56] [OK]   -> 1 Branch(es) wurden geschützt
+
+================================================================
+[12:34:56] [WARN] Es werden 3 Branch(es) gelöscht:
 [12:34:56] [WARN]   Lokale Branches: 4
 ================================================================
 
@@ -171,6 +200,34 @@ Folgende Branches werden **niemals** gelöscht:
 - current
 
 Diese Liste kann über den Parameter `-ProtectedBranches` angepasst werden.
+
+### Schutz vor Datenverlust: Unpushed Commits
+
+**Automatischer Schutz:** Branches mit nicht gepushten Commits werden **automatisch erkannt und geschützt**!
+
+Das Script prüft für jeden zu löschenden Branch, ob er Commits enthält, die noch nicht zum Remote gepusht wurden. Falls ja:
+- 🔴 **Rote Warnung** wird angezeigt
+- 🛡️ **Branch wird automatisch geschützt** und nicht gelöscht
+- ℹ️ Anzahl der unpushed commits wird angezeigt
+
+```powershell
+# Automatischer Schutz
+.\Remove-MergedBranches.ps1
+
+# Ausgabe zeigt:
+# ================================================================
+# WARNUNG: Branches mit nicht gepushten Commits gefunden!
+# ================================================================
+#   - feature/work (5 commits nicht gepusht)
+#   -> Diese Branches werden NICHT gelöscht!
+```
+
+**Override (GEFÄHRLICH):**
+```powershell
+# Löscht auch Branches mit unpushed commits
+.\Remove-MergedBranches.ps1 -IncludeUnpushed
+# ⚠ WARNUNG: Nicht gesicherte Arbeit geht verloren!
+```
 
 ### Stale Branch Warnung
 
@@ -210,6 +267,7 @@ Möchten Sie fortfahren? (J/N):
 
 - Das Script löscht standardmäßig **nur lokale gemergte und leere** Branches
 - **Inaktive Branches** werden nur angezeigt, nicht gelöscht (außer mit `-IncludeStale`)
+- **Branches mit unpushed commits** werden automatisch geschützt (außer mit `-IncludeUnpushed`)
 - Bei inaktiven Branches wird angezeigt: Anzahl Commits, letzter Committer, Datum und Tage inaktiv
 - Mit `-IncludeRemote` werden auch Remote-Branches auf origin gelöscht
 - Remote-Branches werden mit `git push origin --delete` gelöscht (benötigt Schreibrechte)
@@ -218,3 +276,4 @@ Möchten Sie fortfahren? (J/N):
 - Das Script führt vor Remote-Operationen ein `git fetch --prune` aus
 - `-InactiveMonths` überschreibt `-InactiveDays` (1 Monat = 30 Tage)
 - Die Inaktivität wird anhand des letzten Commits im Branch ermittelt
+- **Wichtig:** `-IncludeUnpushed` sollte nur mit äußerster Vorsicht verwendet werden!

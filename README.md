@@ -77,13 +77,14 @@ Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstü
 
 ### Git-Branch-Cleanup
 
-Identifiziert und löscht automatisch nicht mehr benötigte Git-Branches (gemergte, leere und inaktive Branches). Zeigt immer eine Warnung bei Branches die seit über einem Jahr nicht geändert wurden. Mit Sicherheitsfeatures wie geschützten Branches, Dry-Run Modus und Bestätigungsabfragen.
+Identifiziert und löscht automatisch nicht mehr benötigte Git-Branches (gemergte, leere und inaktive Branches). Zeigt immer eine Warnung bei Branches die seit über einem Jahr nicht geändert wurden. **Schützt automatisch Branches mit unpushed commits vor Datenverlust!** Mit Sicherheitsfeatures wie geschützten Branches, Dry-Run Modus und Bestätigungsabfragen.
 
 ```powershell
 # Dry-Run: Zeigt nur was gelöscht würde
 .\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -DryRun
 
 # Lokale gemergte/leere Branches löschen (zeigt inaktive nur an)
+# Branches mit unpushed commits werden automatisch geschützt!
 .\Git-Branch-Cleanup\Remove-MergedBranches.ps1
 
 # Auch inaktive Branches (>365 Tage) löschen
