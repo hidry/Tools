@@ -167,17 +167,18 @@ function Get-StaleBranches {
         $currentDate = Get-Date
         $staleBranches = @()
 
-        # Hole alle Branches mit letztem Commit-Datum
-        $branchData = git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)|%(committerdate:iso)' 2>$null
+        # Hole alle Branches mit letztem Commit-Datum und Committer
+        $branchData = git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)|%(committerdate:iso)|%(committername)' 2>$null
 
         foreach ($line in $branchData) {
             if (-not $line) { continue }
 
             $parts = $line -split '\|'
-            if ($parts.Count -lt 2) { continue }
+            if ($parts.Count -lt 3) { continue }
 
             $branchName = $parts[0]
             $lastCommitDateStr = $parts[1]
+            $lastCommitter = $parts[2]
 
             # Überspringe geschützte und Main-Branch
             if ($Protected -contains $branchName -or $branchName -eq $BaseBranch) {
@@ -189,10 +190,16 @@ function Get-StaleBranches {
                 $daysSinceLastCommit = ($currentDate - $lastCommitDate).Days
 
                 if ($daysSinceLastCommit -gt $DaysThreshold) {
+                    # Ermittle Anzahl der Commits im Branch
+                    $commitCount = git rev-list --count $branchName 2>$null
+                    if (-not $commitCount) { $commitCount = 0 }
+
                     $staleBranches += [PSCustomObject]@{
                         Name = $branchName
                         DaysInactive = $daysSinceLastCommit
                         LastCommit = $lastCommitDate.ToString("yyyy-MM-dd")
+                        LastCommitter = $lastCommitter
+                        CommitCount = $commitCount
                     }
                 }
             } catch {
@@ -359,7 +366,7 @@ $staleBranches = $staleBranches | Where-Object { $branchesToDelete -notcontains 
 if ($staleBranches) {
     Write-Log "Gefundene inaktive Branches: $($staleBranches.Count)" -Level Warning
     foreach ($staleBranch in $staleBranches) {
-        Write-Log "  - $($staleBranch.Name) (inaktiv seit $($staleBranch.DaysInactive) Tagen, letzter Commit: $($staleBranch.LastCommit))"
+        Write-Log "  - $($staleBranch.Name) ($($staleBranch.CommitCount) Commits, letzter von $($staleBranch.LastCommitter) am $($staleBranch.LastCommit), $($staleBranch.DaysInactive) Tage inaktiv)"
     }
 
     if ($IncludeStale) {

@@ -91,7 +91,7 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 3. **Branch-Analyse**:
    - Identifiziert gemergte Branches: `git branch --merged`
    - Ermittelt leere Branches: `git rev-list --count`
-   - Findet inaktive Branches: `git for-each-ref` mit Commit-Datum
+   - Findet inaktive Branches: `git for-each-ref` mit Commit-Datum, Autor und Anzahl
    - Optional: Remote-Branches analysieren
 4. **Sicherheitsprüfung**: Schließt geschützte Branches aus
 5. **Stale-Branch-Warnung**: Zeigt inaktive Branches immer an, löscht sie nur mit `-IncludeStale`
@@ -135,8 +135,8 @@ Das Script gibt farbcodierte Statusmeldungen aus:
 
 [12:34:56] [INFO] Suche nach inaktiven Branches (>365 Tage)...
 [12:34:56] [WARN] Gefundene inaktive Branches: 2
-[12:34:56] [WARN]   - feature/ancient-project (inaktiv seit 520 Tagen, letzter Commit: 2024-08-20)
-[12:34:56] [WARN]   - experiment/old-test (inaktiv seit 410 Tagen, letzter Commit: 2024-11-08)
+[12:34:56] [WARN]   - feature/ancient-project (245 Commits, letzter von Max Mustermann am 2024-08-20, 520 Tage inaktiv)
+[12:34:56] [WARN]   - experiment/old-test (12 Commits, letzter von Anna Schmidt am 2024-11-08, 410 Tage inaktiv)
 [12:34:56] [INFO]   -> Inaktive Branches werden NICHT gelöscht (verwenden Sie -IncludeStale zum Löschen)
 
 ================================================================
@@ -210,6 +210,7 @@ Möchten Sie fortfahren? (J/N):
 
 - Das Script löscht standardmäßig **nur lokale gemergte und leere** Branches
 - **Inaktive Branches** werden nur angezeigt, nicht gelöscht (außer mit `-IncludeStale`)
+- Bei inaktiven Branches wird angezeigt: Anzahl Commits, letzter Committer, Datum und Tage inaktiv
 - Mit `-IncludeRemote` werden auch Remote-Branches auf origin gelöscht
 - Remote-Branches werden mit `git push origin --delete` gelöscht (benötigt Schreibrechte)
 - Der aktuell ausgecheckte Branch wird automatisch geschützt
