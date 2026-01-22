@@ -10,7 +10,7 @@ Sammlung von PowerShell-Tools, Code-Snippets und Entwicklungs-Anleitungen.
 |-------------|--------------|
 | [Anleitungen](./Anleitungen/) | Workflow-Dokumentationen und Best Practices für die Entwicklung mit Claude Code |
 | [ClaudeMD-Manager](./ClaudeMD-Manager/) | PowerShell-Tool zur automatischen Generierung und Aktualisierung von CLAUDE.md Dateien in Git-Repositories |
-| [Git-Branch-Cleanup](./Git-Branch-Cleanup/) | PowerShell-Tool zum automatischen Aufräumen von gemergten und leeren Git-Branches |
+| [Git-Branch-Cleanup](./Git-Branch-Cleanup/) | PowerShell-Tool zum automatischen Aufräumen von gemergten, leeren und inaktiven Git-Branches |
 | [iPhone-To-Samsung-Photos](./iPhone-To-Samsung-Photos/) | PowerShell-Tool zur Konvertierung von iPhone DCIM-Backups für Samsung Galaxy Geräte |
 | [PowerShell-Android-Sync](./PowerShell-Android-Sync/) | PowerShell-Tool zum Übertragen von Fotos/Videos auf Android-Geräte via ADB mit Timestamp-Erhaltung und Validierung |
 | [Sage100-Mandant](./Sage100-Mandant/) | C#-Code-Snippet zur Erstellung eines Sage 100 Mandantenobjekts mit Session-Authentifizierung |
@@ -77,17 +77,20 @@ Kopiert Dateien vom iPhone (per USB/MTP verbunden) auf den lokalen PC. Unterstü
 
 ### Git-Branch-Cleanup
 
-Identifiziert und löscht automatisch nicht mehr benötigte Git-Branches (gemergte und leere Branches). Mit Sicherheitsfeatures wie geschützten Branches, Dry-Run Modus und Bestätigungsabfragen.
+Identifiziert und löscht automatisch nicht mehr benötigte Git-Branches (gemergte, leere und inaktive Branches). Zeigt immer eine Warnung bei Branches die seit über einem Jahr nicht geändert wurden. Mit Sicherheitsfeatures wie geschützten Branches, Dry-Run Modus und Bestätigungsabfragen.
 
 ```powershell
 # Dry-Run: Zeigt nur was gelöscht würde
 .\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -DryRun
 
-# Lokale Branches löschen
+# Lokale gemergte/leere Branches löschen (zeigt inaktive nur an)
 .\Git-Branch-Cleanup\Remove-MergedBranches.ps1
 
-# Inkl. Remote-Branches
-.\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -IncludeRemote -Force
+# Auch inaktive Branches (>365 Tage) löschen
+.\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -IncludeStale
+
+# Inkl. Remote-Branches und inaktiven >6 Monaten
+.\Git-Branch-Cleanup\Remove-MergedBranches.ps1 -IncludeRemote -IncludeStale -InactiveMonths 6 -Force
 ```
 
 ### Anleitungen

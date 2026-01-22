@@ -4,7 +4,10 @@ param(
     [switch]$DryRun,
     [switch]$IncludeRemote,
     [switch]$Force,
-    [string[]]$ProtectedBranches = @('master', 'main', 'develop', 'development', 'staging', 'production', 'current')
+    [string[]]$ProtectedBranches = @('master', 'main', 'develop', 'development', 'staging', 'production', 'current'),
+    [int]$InactiveDays = 365,
+    [int]$InactiveMonths = 0,
+    [switch]$IncludeStale
 )
 
 $ErrorActionPreference = 'Continue'
@@ -151,6 +154,60 @@ function Get-RemoteMergedBranches {
     }
 }
 
+function Get-StaleBranches {
+    param(
+        [string]$BaseBranch,
+        [string[]]$Protected,
+        [int]$DaysThreshold
+    )
+
+    Write-Log "Suche nach inaktiven Branches (>$DaysThreshold Tage)..."
+
+    try {
+        $currentDate = Get-Date
+        $staleBranches = @()
+
+        # Hole alle Branches mit letztem Commit-Datum
+        $branchData = git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)|%(committerdate:iso)' 2>$null
+
+        foreach ($line in $branchData) {
+            if (-not $line) { continue }
+
+            $parts = $line -split '\|'
+            if ($parts.Count -lt 2) { continue }
+
+            $branchName = $parts[0]
+            $lastCommitDateStr = $parts[1]
+
+            # Überspringe geschützte und Main-Branch
+            if ($Protected -contains $branchName -or $branchName -eq $BaseBranch) {
+                continue
+            }
+
+            try {
+                $lastCommitDate = [DateTime]::Parse($lastCommitDateStr)
+                $daysSinceLastCommit = ($currentDate - $lastCommitDate).Days
+
+                if ($daysSinceLastCommit -gt $DaysThreshold) {
+                    $staleBranches += [PSCustomObject]@{
+                        Name = $branchName
+                        DaysInactive = $daysSinceLastCommit
+                        LastCommit = $lastCommitDate.ToString("yyyy-MM-dd")
+                    }
+                }
+            } catch {
+                # Fehler beim Parsen des Datums - Branch überspringen
+                continue
+            }
+        }
+
+        return $staleBranches
+    } catch {
+        Write-Log "Fehler beim Ermitteln inaktiver Branches: $($_.Exception.Message)" -Level Error
+        return @()
+    }
+}
+
 function Remove-LocalBranch {
     param(
         [string]$BranchName,
@@ -233,11 +290,20 @@ if (-not $MainBranch) {
     Write-Log "Verwende automatisch erkannten Main-Branch: $MainBranch"
 }
 
+# Berechne Inaktivitäts-Schwellenwert in Tagen
+$inactivityThreshold = $InactiveDays
+if ($InactiveMonths -gt 0) {
+    $inactivityThreshold = $InactiveMonths * 30
+    Write-Log "Verwende InactiveMonths: $InactiveMonths Monat(e) = $inactivityThreshold Tage"
+}
+
 # Konfiguration anzeigen
 Write-Log "Konfiguration:"
 Write-Log "  Repository: $RepositoryPath"
 Write-Log "  Main-Branch: $MainBranch"
 Write-Log "  Protected Branches: $($ProtectedBranches -join ', ')"
+Write-Log "  Inaktivitäts-Schwellenwert: $inactivityThreshold Tage"
+Write-Log "  Include Stale: $IncludeStale"
 Write-Log "  Dry-Run: $DryRun"
 Write-Log "  Include Remote: $IncludeRemote"
 Write-Log "  Force: $Force"
@@ -284,7 +350,30 @@ if ($emptyBranches) {
 }
 Write-Host ""
 
-# 3. Remote Branches (wenn gewünscht)
+# 3. Inaktive Branches (Stale)
+$staleBranches = Get-StaleBranches -BaseBranch $MainBranch -Protected $ProtectedBranches -DaysThreshold $inactivityThreshold
+
+# Entferne bereits gemergte/leere Branches aus der Stale-Liste
+$staleBranches = $staleBranches | Where-Object { $branchesToDelete -notcontains $_.Name }
+
+if ($staleBranches) {
+    Write-Log "Gefundene inaktive Branches: $($staleBranches.Count)" -Level Warning
+    foreach ($staleBranch in $staleBranches) {
+        Write-Log "  - $($staleBranch.Name) (inaktiv seit $($staleBranch.DaysInactive) Tagen, letzter Commit: $($staleBranch.LastCommit))"
+    }
+
+    if ($IncludeStale) {
+        Write-Log "  -> Inaktive Branches werden zum Löschen markiert (IncludeStale ist aktiv)" -Level Warning
+        $branchesToDelete += $staleBranches.Name
+    } else {
+        Write-Log "  -> Inaktive Branches werden NICHT gelöscht (verwenden Sie -IncludeStale zum Löschen)" -Level Info
+    }
+} else {
+    Write-Log "Keine inaktiven Branches gefunden"
+}
+Write-Host ""
+
+# 4. Remote Branches (wenn gewünscht)
 if ($IncludeRemote) {
     $remoteBranchesToDelete = Get-RemoteMergedBranches -BaseBranch $MainBranch -Protected $ProtectedBranches
     if ($remoteBranchesToDelete) {

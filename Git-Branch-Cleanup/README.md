@@ -7,6 +7,7 @@ PowerShell-Tool zum automatischen Aufräumen von nicht mehr benötigten Git-Bran
 Dieses Script identifiziert und löscht Git-Branches, die nicht mehr benötigt werden:
 - **Gemergte Branches**: Branches die bereits vollständig in den Main-Branch gemerged wurden
 - **Leere Branches**: Branches ohne eigene Commits (nie etwas geändert wurde)
+- **Inaktive Branches (Stale)**: Branches die seit langer Zeit (z.B. >365 Tage) nicht mehr geändert wurden
 
 Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dry-Run Modus und Bestätigungsabfragen.
 
@@ -34,6 +35,25 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 .\Remove-MergedBranches.ps1 -Force
 ```
 
+### Inaktive Branches (Stale)
+
+```powershell
+# Zeigt inaktive Branches (>365 Tage) an, löscht sie aber NICHT
+.\Remove-MergedBranches.ps1
+
+# Inaktive Branches (>1 Jahr) auch löschen
+.\Remove-MergedBranches.ps1 -IncludeStale
+
+# Schwellenwert anpassen: Branches älter als 180 Tage
+.\Remove-MergedBranches.ps1 -IncludeStale -InactiveDays 180
+
+# Schwellenwert in Monaten: Branches älter als 6 Monate
+.\Remove-MergedBranches.ps1 -IncludeStale -InactiveMonths 6
+
+# Nur stale Branches anzeigen (Dry-Run)
+.\Remove-MergedBranches.ps1 -DryRun -InactiveDays 365
+```
+
 ### Erweiterte Verwendung
 
 ```powershell
@@ -43,8 +63,11 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 # Eigene Protected Branches definieren
 .\Remove-MergedBranches.ps1 -ProtectedBranches @('master', 'main', 'release')
 
-# Kompletter Cleanup: Remote + Lokal ohne Bestätigung
-.\Remove-MergedBranches.ps1 -IncludeRemote -Force
+# Kompletter Cleanup: Remote + Lokal + Stale ohne Bestätigung
+.\Remove-MergedBranches.ps1 -IncludeRemote -IncludeStale -Force
+
+# Aggressiver Cleanup: Alle >90 Tage inaktiven Branches
+.\Remove-MergedBranches.ps1 -IncludeStale -InactiveDays 90 -DryRun
 ```
 
 ## Parameter
@@ -55,6 +78,9 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 | `-MainBranch` | Name des Haupt-Branches | Auto-Erkennung (master/main) |
 | `-DryRun` | Nur anzeigen, nichts löschen | `$false` |
 | `-IncludeRemote` | Auch Remote-Branches löschen | `$false` |
+| `-IncludeStale` | Inaktive Branches auch löschen | `$false` |
+| `-InactiveDays` | Schwellenwert für inaktive Branches (in Tagen) | `365` |
+| `-InactiveMonths` | Schwellenwert für inaktive Branches (in Monaten, überschreibt InactiveDays) | `0` |
 | `-Force` | Ohne Bestätigung löschen | `$false` |
 | `-ProtectedBranches` | Array geschützter Branch-Namen | `@('master', 'main', 'develop', 'development', 'staging', 'production', 'current')` |
 
@@ -65,10 +91,12 @@ Das Tool bietet umfangreiche Sicherheitsmechanismen wie geschützte Branches, Dr
 3. **Branch-Analyse**:
    - Identifiziert gemergte Branches: `git branch --merged`
    - Ermittelt leere Branches: `git rev-list --count`
+   - Findet inaktive Branches: `git for-each-ref` mit Commit-Datum
    - Optional: Remote-Branches analysieren
 4. **Sicherheitsprüfung**: Schließt geschützte Branches aus
-5. **Bestätigung**: Fragt nach (außer `-Force` oder `-DryRun`)
-6. **Löschung**:
+5. **Stale-Branch-Warnung**: Zeigt inaktive Branches immer an, löscht sie nur mit `-IncludeStale`
+6. **Bestätigung**: Fragt nach (außer `-Force` oder `-DryRun`)
+7. **Löschung**:
    - Lokale Branches: `git branch -d/-D`
    - Remote-Branches: `git push origin --delete`
 
@@ -91,6 +119,8 @@ Das Script gibt farbcodierte Statusmeldungen aus:
 [12:34:56] [INFO]   Repository: .
 [12:34:56] [INFO]   Main-Branch: main
 [12:34:56] [INFO]   Protected Branches: master, main, develop, ...
+[12:34:56] [INFO]   Inaktivitäts-Schwellenwert: 365 Tage
+[12:34:56] [INFO]   Include Stale: False
 [12:34:56] [INFO]   Dry-Run: False
 
 [12:34:56] [INFO] Suche nach Branches die in 'main' gemerged wurden...
@@ -102,6 +132,12 @@ Das Script gibt farbcodierte Statusmeldungen aus:
 [12:34:56] [INFO] Suche nach leeren Branches (ohne eigene Commits)...
 [12:34:56] [OK] Gefundene leere Branches: 1
 [12:34:56] [INFO]   - feature/never-used (empty)
+
+[12:34:56] [INFO] Suche nach inaktiven Branches (>365 Tage)...
+[12:34:56] [WARN] Gefundene inaktive Branches: 2
+[12:34:56] [WARN]   - feature/ancient-project (inaktiv seit 520 Tagen, letzter Commit: 2024-08-20)
+[12:34:56] [WARN]   - experiment/old-test (inaktiv seit 410 Tagen, letzter Commit: 2024-11-08)
+[12:34:56] [INFO]   -> Inaktive Branches werden NICHT gelöscht (verwenden Sie -IncludeStale zum Löschen)
 
 ================================================================
 [12:34:56] [WARN] Es werden 4 Branch(es) gelöscht:
@@ -136,6 +172,22 @@ Folgende Branches werden **niemals** gelöscht:
 
 Diese Liste kann über den Parameter `-ProtectedBranches` angepasst werden.
 
+### Stale Branch Warnung
+
+Inaktive Branches werden **immer angezeigt** als Warnung, aber **standardmäßig NICHT gelöscht**.
+
+Dies gibt Ihnen die Möglichkeit, alte Branches zu sichten, bevor Sie entscheiden, sie zu löschen:
+
+```powershell
+# Zeigt inaktive Branches an, löscht sie aber nicht
+.\Remove-MergedBranches.ps1
+
+# Löscht inaktive Branches (explizit angefordert)
+.\Remove-MergedBranches.ps1 -IncludeStale
+```
+
+**Wichtig:** Ein Branch kann wichtige experimentelle Arbeit enthalten, auch wenn er seit einem Jahr nicht mehr geändert wurde. Daher die separate Kontrolle via `-IncludeStale`.
+
 ### Dry-Run Modus
 
 Mit `-DryRun` kann man sicher testen, welche Branches gelöscht würden:
@@ -156,9 +208,12 @@ Möchten Sie fortfahren? (J/N):
 
 ## Hinweise
 
-- Das Script löscht standardmäßig **nur lokale** Branches
+- Das Script löscht standardmäßig **nur lokale gemergte und leere** Branches
+- **Inaktive Branches** werden nur angezeigt, nicht gelöscht (außer mit `-IncludeStale`)
 - Mit `-IncludeRemote` werden auch Remote-Branches auf origin gelöscht
 - Remote-Branches werden mit `git push origin --delete` gelöscht (benötigt Schreibrechte)
 - Der aktuell ausgecheckte Branch wird automatisch geschützt
 - Bei Fehlern wird zunächst `-d` (safe delete) versucht, dann `-D` (force delete)
 - Das Script führt vor Remote-Operationen ein `git fetch --prune` aus
+- `-InactiveMonths` überschreibt `-InactiveDays` (1 Monat = 30 Tage)
+- Die Inaktivität wird anhand des letzten Commits im Branch ermittelt
