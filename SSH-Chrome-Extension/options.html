@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSH Manager – Einstellungen</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e1e4e8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #58a6ff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 span.icon { font-size: 1.2rem; }
+
+    .subtitle {
+      color: #8b949e;
+      font-size: 0.85rem;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #c9d1d9;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #8b949e;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #c9d1d9;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #58a6ff;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: #6e7681;
+      margin-top: 8px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    button:hover { opacity: 0.85; }
+
+    .btn-primary {
+      background: #238636;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+    }
+
+    .status {
+      font-size: 0.82rem;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status.success {
+      background: #0d1f0d;
+      color: #3fb950;
+      border: 1px solid #238636;
+      display: block;
+    }
+
+    .status.error {
+      background: #1f0d0d;
+      color: #f85149;
+      border: 1px solid #6e2b2b;
+      display: block;
+    }
+
+    .info-box {
+      background: #0d1926;
+      border: 1px solid #1f4060;
+      border-radius: 6px;
+      padding: 14px;
+      font-size: 0.82rem;
+      color: #79c0ff;
+      line-height: 1.6;
+    }
+
+    .info-box code {
+      background: #0d1117;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span class="icon">⚙️</span> SSH Manager – Einstellungen</h1>
+    <p class="subtitle">Konfiguriere die Verbindung zur lokalen SSH-Bridge.</p>
+
+    <div class="card">
+      <h2>Bridge-Verbindung</h2>
+      <label for="bridgeUrl">WebSocket-URL der SSH-Bridge</label>
+      <input type="text" id="bridgeUrl" placeholder="ws://localhost:2222" />
+      <p class="hint">Standard: <code style="font-family:monospace; background:#0d1117; padding:1px 4px; border-radius:3px;">ws://localhost:2222</code> — der Docker-Container muss laufen.</p>
+
+      <div class="btn-row">
+        <button class="btn-primary" id="btnSave">Einstellungen speichern</button>
+        <button class="btn-secondary" id="btnTest">Verbindung testen</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <div class="card">
+      <h2>SSH-Bridge starten</h2>
+      <div class="info-box">
+        Die SSH-Bridge läuft als Docker-Container. Einmalig starten mit:<br><br>
+        <code>cd ssh-bridge && docker compose up -d</code><br><br>
+        Danach ist die Bridge unter <code>ws://localhost:2222</code> erreichbar
+        und bleibt beim Systemstart aktiv (<code>restart: unless-stopped</code>).
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

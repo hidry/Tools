@@ -1,0 +1,12 @@
+services:
+  ssh-bridge:
+    build: .
+    container_name: ssh-manager-bridge
+    ports:
+      - "127.0.0.1:2222:2222"   # Nur lokal erreichbar (kein externes Netz)
+    restart: unless-stopped
+    environment:
+      - PORT=2222
+    # Netzwerk-Modus für Zugriff auf Hosts im lokalen Netz:
+    # Unter Linux: network_mode: host  (dann Port-Mapping oben entfernen)
+    # Unter Windows/Mac (Docker Desktop): Standard-Networking reicht für externe Hosts

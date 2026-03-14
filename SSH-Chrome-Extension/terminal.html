@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>SSH Terminal</title>
+  <link rel="stylesheet" href="lib/xterm.css" />
+  <link rel="stylesheet" href="terminal.css" />
+</head>
+<body>
+  <!-- Status-Banner -->
+  <div id="statusBar" class="status-bar status-connecting">
+    <span id="statusIcon">⟳</span>
+    <span id="statusText">Verbinde…</span>
+    <span id="connInfo" class="conn-info"></span>
+    <div class="status-spacer"></div>
+    <button id="btnReconnect" class="btn-reconnect" style="display:none;">Erneut verbinden</button>
+    <button id="btnClose" class="btn-close">✕ Schließen</button>
+  </div>
+
+  <!-- Terminal -->
+  <div id="terminal"></div>
+
+  <script src="lib/xterm.js"></script>
+  <script src="lib/xterm-addon-fit.js"></script>
+  <script src="terminal.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Status Bar ── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  min-height: 30px;
+  transition: background 0.3s;
+}
+
+.status-connecting {
+  background: #1f2634;
+  color: #79c0ff;
+  border-bottom: 1px solid #1f4060;
+}
+
+.status-connected {
+  background: #0d1f0d;
+  color: #3fb950;
+  border-bottom: 1px solid #238636;
+}
+
+.status-disconnected {
+  background: #1a1410;
+  color: #d29922;
+  border-bottom: 1px solid #5a4009;
+}
+
+.status-error {
+  background: #1f0d0d;
+  color: #f85149;
+  border-bottom: 1px solid #6e2b2b;
+}
+
+#statusIcon {
+  font-size: 14px;
+}
+
+.status-connecting #statusIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.conn-info {
+  color: inherit;
+  opacity: 0.65;
+  font-size: 11px;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+.status-spacer {
+  flex: 1;
+}
+
+.btn-reconnect {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #c9d1d9;
+  font-size: 11px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-reconnect:hover { background: #30363d; }
+
+.btn-close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.55;
+  font-size: 11px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  padding: 2px 4px;
+}
+
+.btn-close:hover { opacity: 1; }
+
+/* ── Terminal Container ── */
+#terminal {
+  flex: 1;
+  padding: 6px;
+  overflow: hidden;
+}
+
+/* xterm.js overrides */
+.xterm {
+  height: 100%;
+}
+
+.xterm-viewport {
+  border-radius: 0;
+}

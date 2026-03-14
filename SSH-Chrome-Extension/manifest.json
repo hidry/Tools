@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "SSH Manager",
+  "version": "1.0.0",
+  "description": "SSH-Client mit Host-Verwaltung – verbinde dich direkt aus Chrome mit entfernten Systemen.",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SSH Manager",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["terminal.html", "lib/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* wss://localhost:*; img-src 'self' data:;"
+  }
+}

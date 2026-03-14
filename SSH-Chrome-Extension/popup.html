@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>SSH Manager</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="header">
+    <span class="header-title">SSH Manager</span>
+    <button class="icon-btn" id="btnSettings" title="Einstellungen">⚙</button>
+  </div>
+
+  <div id="viewList">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Host suchen…" />
+      <button class="btn-add" id="btnAdd" title="Neuen Host hinzufügen">＋</button>
+    </div>
+
+    <div id="hostList" class="host-list">
+      <!-- Host-Karten werden per JS gerendert -->
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <div class="empty-icon">🖥</div>
+      <p>Noch keine Hosts gespeichert.</p>
+      <p>Klicke auf <strong>＋</strong> um einen Host hinzuzufügen.</p>
+    </div>
+  </div>
+
+  <!-- Formular: Host hinzufügen / bearbeiten -->
+  <div id="viewForm" style="display:none;">
+    <div class="form-header">
+      <button class="back-btn" id="btnBack">← Zurück</button>
+      <span id="formTitle">Neuer Host</span>
+    </div>
+    <div class="form-body">
+      <div class="form-group">
+        <label>Bezeichnung</label>
+        <input type="text" id="fLabel" placeholder="z.B. Produktions-Server" />
+      </div>
+      <div class="form-group">
+        <label>Hostname / IP</label>
+        <input type="text" id="fHost" placeholder="192.168.1.10 oder server.example.com" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Port</label>
+          <input type="number" id="fPort" value="22" min="1" max="65535" />
+        </div>
+        <div class="form-group" style="flex:2">
+          <label>Benutzername</label>
+          <input type="text" id="fUser" placeholder="root" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Passwort</label>
+        <input type="password" id="fPass" placeholder="(leer lassen falls nicht benötigt)" />
+      </div>
+      <div class="form-group">
+        <label>Notizen</label>
+        <textarea id="fNotes" rows="2" placeholder="Optional…"></textarea>
+      </div>
+
+      <div id="formError" class="form-error" style="display:none;"></div>
+
+      <div class="form-actions">
+        <button class="btn-secondary" id="btnCancel">Abbrechen</button>
+        <button class="btn-primary" id="btnSave">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
